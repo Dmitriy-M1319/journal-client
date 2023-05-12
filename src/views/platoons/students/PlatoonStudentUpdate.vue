@@ -6,7 +6,7 @@
             {{ student.patronymic }}</td>
         <td>{{ student.military_post }}</td>
         <td>
-            <a class="mark_edit_btn" href="">Обновить</a>
+            <router-link class="mark_edit_btn" :to="'/students/' + student.id">Обновить</router-link>
             <form action="" method="post">
                 <button class="delete_btn btn-no-margin" type="submit">
                     Отчислить

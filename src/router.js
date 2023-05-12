@@ -22,6 +22,7 @@ export default new VueRouter({
       path: "/platoons/:number/students",
       component: () => import("@/views/students/Students"),
     },
+
     {
       path: "/classes",
       component: () => import("@/views/classes/ClassesList"),
@@ -65,6 +66,14 @@ export default new VueRouter({
     {
       path: "/timetable",
       component: () => import("@/views/timetable/Timetable"),
-    }
+    },
+    {
+      path: "/students/:id",
+      component: () => import("@/views/students/StudentUpdate"),
+    },
+    {
+      path: "/platoons/:number/students/create",
+      component: () => import("@/views/students/StudentCreate"),
+    },
   ],
 });

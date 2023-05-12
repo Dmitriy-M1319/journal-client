@@ -12,7 +12,6 @@
             v-bind:index="index"
             v-bind:student="student" />
         </table>
-        <a class="mark-edit-btn mark-edit-btn-long" href="">Добавить нового студента</a>
     </div>
 </template>
 

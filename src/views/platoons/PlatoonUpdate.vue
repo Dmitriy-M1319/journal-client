@@ -7,7 +7,7 @@
             <div class="platoon_box_item">
                 <form action="" method="post">
                     <label for="number">1. Введите номер взвода: </label>
-                    <input type="text" name="number" id="number" :value=" $route.params.number" />
+                    <input type="text" name="number" id="number" :value="$route.params.number" />
                     <br />
                     <label for="tutors">2. Выберите куратора взвода: </label>
                     <select name="tutors" id="tutor">
@@ -22,7 +22,11 @@
                     <button class="exit_btn" type="submit">Обновить</button>
                 </form>
             </div>
-            <PlatoonStudentsUpdate/>
+            <PlatoonStudentsUpdate />
+            <router-link class="mark-edit-btn mark-edit-btn-long"
+                :to="'/platoons/' + $route.params.number + '/students/create'">
+                Добавить нового студента
+            </router-link>
         </div>
     </div>
 </template>
@@ -74,23 +78,48 @@ export default {
 }
 
 .exit_btn {
-  background-color: #4d8bc3;
-  border: 1px solid #cccccc;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-  border-radius: 4px;
-  color: white;
-  display: block;
-  width: 100px;
-  margin: 20px auto;
-  font-size: 14px;
-  text-align: center;
-  font-weight: 600;
-  height: 25px;
-  line-height: 20px;
-  margin-bottom: 10px;
-  padding: 1px 6px;
-  vertical-align: middle;
-  text-decoration: none;
+    background-color: #4d8bc3;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    border-radius: 4px;
+    color: white;
+    display: block;
+    width: 100px;
+    margin: 20px auto;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    height: 25px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    padding: 1px 6px;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+.mark-edit-btn {
+    background-color: #26a269;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    border-radius: 4px;
+    color: white;
+    display: block;
+    width: 100px;
+    margin: 20px auto;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    height: 25px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    padding: 1px 6px;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
+.mark-edit-btn-long {
+    width: auto;
 }
 </style>

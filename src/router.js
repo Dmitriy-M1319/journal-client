@@ -22,5 +22,17 @@ export default new VueRouter({
       path: "/platoons/:number/students",
       component: () => import("@/views/students/Students"),
     },
+    {
+      path: "/classes",
+      component: () => import("@/views/classes/ClassesList"),
+    },
+    {
+      path: "/classes/create",
+      component: () => import("@/views/classes/ClassCreate"),
+    },
+    {
+      path: "/classes/:id",
+      component: () => import("@/views/classes/ClassUpdate"),
+    },
   ],
 });

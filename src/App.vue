@@ -12,7 +12,7 @@
         <li><router-link to="/">МОЙ ПРОФИЛЬ</router-link></li>
         <li><router-link to="/platoons">СПИСОК ВЗВОДОВ</router-link></li>
         <li><router-link to="/classes">МОИ ЗАНЯТИЯ</router-link></li>
-        <li><a href="">СПИСОК ПРЕДМЕТОВ</a></li>
+        <li><router-link to="/subjects">СПИСОК ПРЕДМЕТОВ</router-link></li>
         <li><a href="">ОЦЕНКИ</a></li>
         <li><a href="">ПРЕПОДАВАТЕЛИ</a></li>
       </ul>

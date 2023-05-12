@@ -34,5 +34,17 @@ export default new VueRouter({
       path: "/classes/:id",
       component: () => import("@/views/classes/ClassUpdate"),
     },
+    {
+      path: "/subjects",
+      component: () => import("@/views/subjects/SubjectsList"),
+    },
+    {
+      path: "/subjects/create",
+      component: () => import("@/views/subjects/SubjectCreate"),
+    },
+    {
+      path: "/subjects/:id",
+      component: () => import("@/views/subjects/SubjectUpdate"),
+    },
   ],
 });

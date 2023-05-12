@@ -46,5 +46,21 @@ export default new VueRouter({
       path: "/subjects/:id",
       component: () => import("@/views/subjects/SubjectUpdate"),
     },
+    {
+      path: "/teachers",
+      component: () => import("@/views/teachers/TeachersList"),
+    },
+    {
+      path: "/teachers/create",
+      component: () => import("@/views/teachers/TeacherCreate"),
+    },
+    {
+      path: "/teachers/:id",
+      component: () => import("@/views/teachers/TeacherUpdate"),
+    },
+    {
+      path: "/teachers/:id/subjects",
+      component: () => import("@/views/subjects/SubjectsList"),
+    },
   ],
 });

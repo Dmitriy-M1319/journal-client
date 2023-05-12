@@ -14,7 +14,7 @@
         <li><router-link to="/classes">МОИ ЗАНЯТИЯ</router-link></li>
         <li><router-link to="/subjects">СПИСОК ПРЕДМЕТОВ</router-link></li>
         <li><a href="">ОЦЕНКИ</a></li>
-        <li><a href="">ПРЕПОДАВАТЕЛИ</a></li>
+        <li><router-link to="/teachers">ПРЕПОДАВАТЕЛИ</router-link></li>
       </ul>
     </div>
     <router-view />

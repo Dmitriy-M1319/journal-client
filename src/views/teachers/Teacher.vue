@@ -7,7 +7,7 @@
             <p>Цикл: {{ teacher.cycle }} </p>
             <div style="display: flex">
                 <router-link class="exit_btn"
-                :to="'/teacher/' + teacher.id + '/subjects'">Предметы</router-link>
+                :to="'/teachers/' + teacher.id + '/subjects'">Предметы</router-link>
                 <router-link class="mark_edit_btn" :to="'/teachers/' + teacher.id">Редактировать</router-link>
             </div>
         </div>

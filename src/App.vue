@@ -14,7 +14,7 @@
         <li  v-if="is_student"><router-link to="/timetable">РАСПИСАНИЕ</router-link></li>
         <li v-else><router-link to="/classes">МОИ ЗАНЯТИЯ</router-link></li>
         <li><router-link to="/subjects">СПИСОК ПРЕДМЕТОВ</router-link></li>
-        <li><a href="">ОЦЕНКИ</a></li>
+        <li><router-link to="/journal">ОЦЕНКИ</router-link></li>
         <li><router-link to="/teachers">ПРЕПОДАВАТЕЛИ</router-link></li>
       </ul>
     </div>

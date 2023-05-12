@@ -75,5 +75,13 @@ export default new VueRouter({
       path: "/platoons/:number/students/create",
       component: () => import("@/views/students/StudentCreate"),
     },
+    {
+      path: "/journal",
+      component: () => import("@/views/journal/JournalPreview"),
+    },
+    {
+      path: "/journal/subject/:id/platoon/:number",
+      component: () => import("@/views/journal/Journal"),
+    }
   ],
 });

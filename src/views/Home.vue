@@ -1,14 +1,36 @@
 <template>
-    <div class="profile">
-        <h3>Личная информация:</h3>
-        <p>Фамилия Имя Отчество</p>
-        <p>Воинское звание, воинская должность</p>
-        <p>Цикл на кафедре:</p>
-    </div>
+   <StudentProfile v-if="local_profile.type==='student'" 
+   v-bind:profile="local_profile.profile"/>
+   <TeacherProfile v-else v-bind:profile="local_profile.profile"/>
 </template>
 
 <script>
+import TeacherProfile from './teachers/TeacherProfile.vue';
+import StudentProfile from './students/StudentProfile.vue';
 
+const local_profile = {
+    type: 'student',
+    profile : {
+        surname: 'Фамилия',
+        name: 'Имя',
+        patronymic: 'Отчество',
+        platoon: '451',
+        military_post: 'студент'
+    }
+}
+
+export default {
+    name: 'Home',
+    components: {
+        TeacherProfile,
+        StudentProfile
+    },
+    data() {
+        return {
+            local_profile
+        }
+    },
+}
 </script>
 
 <style>

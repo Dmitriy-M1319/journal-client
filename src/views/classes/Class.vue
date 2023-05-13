@@ -3,7 +3,9 @@
         <p class="class_date">Дата занятия: {{ classes.date }}</p>
         <ul>
         <SubClass v-for="sub_class in classes.classes"
-        v-bind:sub_class="sub_class"/>
+        v-bind:sub_class="sub_class"
+        v-bind:token="token"
+        v-bind:profile="profile"/>
         </ul>
     </li>
 </template>
@@ -16,7 +18,8 @@ export default {
     components: {
         SubClass
     },
-    props: ['classes']
+    props: ['classes', 'profile', 'token'],
+    
 }
 </script>
 

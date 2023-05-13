@@ -2,14 +2,15 @@
     <li>
         <div class="platoon_box_item">
             <h4>Аудитория {{ sub_class.classroom }}</h4>
-            <p>Предмет: {{ sub_class.subject }}</p>
+            <p>Предмет: {{ subject.name }}</p>
             <p>Взвод, у которого занятие: {{ sub_class.platoon }}</p>
-            <p>Время: {{ sub_class.time }}</p>
+            <p>Время: {{ getTime(sub_class.class_date) }}</p>
             <p>Тема (номер, название): № {{ sub_class.theme_number }}. {{ sub_class.theme_name }}</p>
             <p>Занятие (номер, название): № {{ sub_class.class_number }}. {{ sub_class.class_name }} </p>
             <p>Тип занятия: {{ sub_class.class_type }}</p>
             <div style="display: flex">
-                <router-link class="exit_btn" :to="'/classes/' + sub_class.id">Редактировать</router-link>
+                <router-link class="exit_btn" :to="'/classes/' + sub_class.id" v-bind:token="token"
+                    v-bind:profile="profile">Редактировать</router-link>
             </div>
         </div>
     </li>
@@ -17,9 +18,32 @@
 
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'Class',
-    props: ['sub_class']
+    props: ['sub_class', 'token', 'profile'],
+    data() {
+        return {
+            subject: {}
+        }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/subjects/' + this.sub_class.subject + '/', { headers })
+            .then(response => this.subject = response.data);
+    },
+    methods: {
+        getTime(time) {
+            let date_and_time = time.split('T');
+            return date_and_time[1].substring(0, 5);
+        }
+    }
 }
 </script>
 

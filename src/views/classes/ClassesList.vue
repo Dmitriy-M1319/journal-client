@@ -4,81 +4,38 @@
             <h3 style="text-align: center">МОИ ЗАНЯТИЯ</h3>
         </div>
         <ul>
-            <Class v-for="classes in all_classes" v-bind:classes="classes" />
+            <Class v-for="classes in all_classes" v-bind:classes="classes" v-bind:token="token" v-bind:profile="profile"/>
         </ul>
-        <router-link class="mark_edit_btn" to="/classes/create">Создать новое</router-link>
+        <router-link class="mark_edit_btn" to="/classes/create" v-bind:token="token"
+        v-bind:profile="profile">Создать новое</router-link>
     </div>
 </template>
 
 
 <script>
 import Class from './Class.vue';
+import axios from 'axios';
+
 export default {
     name: 'ClassesList',
+    props: ['profile', 'token'],
     components: {
         Class
     },
     data() {
         return {
-            all_classes: [
-                {
-                    date: '13.05.2022', classes: [
-                        {
-                            id: 1,
-                            subject: "Предмет 1",
-                            platoon: "451",
-                            time: "8.35",
-                            theme_number: 1,
-                            theme_name: "Название темы",
-                            class_number: 1,
-                            class_name: "Название занятия",
-                            class_type: "лекция",
-                            classroom: 304
-                        },
-                        {
-                            id: 2,
-                            subject: "Предмет 1",
-                            platoon: "451",
-                            time: "8.35",
-                            theme_number: 1,
-                            theme_name: "Название темы",
-                            class_number: 1,
-                            class_name: "Название занятия",
-                            class_type: "лекция",
-                            classroom: 304
-                        },
-                    ]
-                },
-                {
-                    date: '16.05.2022', classes: [
-                        {
-                            id: 3,
-                            subject: "Предмет 1",
-                            platoon: "451",
-                            time: "8.35",
-                            theme_number: 1,
-                            theme_name: "Название темы",
-                            class_number: 1,
-                            class_name: "Название занятия",
-                            class_type: "лекция",
-                            classroom: 304
-                        },
-                        {
-                            id: 4,
-                            subject: "Предмет 1",
-                            platoon: "451",
-                            time: "8.35",
-                            theme_number: 1,
-                            theme_name: "Название темы",
-                            class_number: 1,
-                            class_name: "Название занятия",
-                            class_type: "лекция",
-                            classroom: 304
-                        },
-                    ]
-                }
-            ]
+            all_classes: []
         }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        await axios('http://127.0.0.1:8000/api/v1/teachers/' + this.profile.id + '/timetable/', { headers })
+            .then(response => this.all_classes = response.data);
     }
 }
 

@@ -11,12 +11,16 @@ export default new VueRouter({
       component: () => import("@/views/Home"),
     },
     {
-      path: '/login',
-      component: () => import('@/views/Login')
+      path: "/login",
+      component: () => import("@/views/Login"),
     },
     {
       path: "/platoons",
       component: () => import("@/views/platoons/PlatoonList"),
+    },
+    {
+      path: "/platoons/create",
+      component: () => import("@/views/platoons/PlatoonCreate"),
     },
     {
       path: "/platoons/:number",
@@ -86,6 +90,6 @@ export default new VueRouter({
     {
       path: "/journal/subject/:id/platoon/:number",
       component: () => import("@/views/journal/Journal"),
-    }
+    },
   ],
 });

@@ -4,58 +4,58 @@
             <h4>Редактировать занятие</h4>
         </div>
         <div class="platoon_box_item">
-            <form action="" method="post">
+            <form @submit.prevent="onClassUpdateSubmit">
                 <label for="platoon">1. Взвод, у которого занятие: </label>
-                <select name="platoons" id="platoons">
-                    <option v-for="pl in platoons" :value="'platoon ' + pl.platoon_number">
+                <select v-model="platoon">
+                    <option v-for="pl in platoons" :value="pl.platoon_number">
                         {{ pl.platoon_number }} взвод
                     </option>
                 </select>
                 <br />
                 <label for="subjects">2. Предмет: </label>
-                <select name="subjects" id="subjects">
+                <select v-model="subject">
                     <option v-for="sub in subjects" :value="sub.id">{{ sub.name }}</option>
                 </select>
                 <br />
                 <label for="theme_number">3. Номер темы занятия: </label>
-                <input type="text" id="theme_number" :value="sub_class.theme_number" />
+                <input type="text" v-model="theme_number" />
 
                 <br />
                 <label for="theme_name">4. Название темы занятия: </label>
-                <input type="text" id="theme_name" :value="sub_class.theme_name" />
+                <input type="text" v-model="theme_name" />
 
                 <br />
                 <label for="class_number">5. Номер занятия: </label>
-                <input type="text" id="class_number" :value="sub_class.class_number" />
+                <input type="text" v-model="class_number" />
 
                 <br />
                 <label for="class_name">6. Название занятия: </label>
-                <input type="text" id="class_name" :value="sub_class.class_name" />
+                <input type="text" v-model="class_name" />
 
                 <br />
                 <label for="class_date">7. Дата и время занятия: </label>
-                <input type="datetime-local" id="class_date" :value="sub_class.class_date" />
+                <input type="datetime-local" v-bind:value="class_date" v-on:input="changeDate($event.target.value)" />
 
                 <br />
                 <label for="class_type">8. Тип занятия: </label>
                 <p>
-                    <input type="radio" name="class_type" checked id="лекция" />Лекция
+                    <input type="radio" v-model="class_type" value="лекция" />Лекция
                 </p>
-                <p><input type="radio" name="class_type" id="семинар" />Семинар</p>
+                <p><input type="radio" v-model="class_type" value="семинар" />Семинар</p>
                 <p>
-                    <input type="radio" name="class_type" id="экзамен" />Контрольное
+                    <input type="radio" v-model="class_type" value="экзамен" />Контрольное
                     занятие
                 </p>
 
                 <br />
                 <label for="class_date">9. Номер аудитории, в которой проводится занятие:
                 </label>
-                <input type="text" id="class_room" :value="sub_class.classroom" />
+                <input type="text" v-model="classroom" />
                 <div>
                     <input class="exit_btn" type="submit" value="Обновить" />
                 </div>
             </form>
-            <form action="" method="post">
+            <form @submit.prevent="onClassDeleteSubmit">
                 <button class="delete_btn" type="submit">Удалить</button>
             </form>
         </div>
@@ -64,46 +64,98 @@
 
 
 <script>
-
-// Здесь сделать получение всех предметов для преподавателя
-const subjects = [
-    { id: 1, name: 'Предмет 1' },
-    { id: 2, name: 'Предмет 2' },
-    { id: 3, name: 'Предмет 3' },
-    { id: 4, name: 'Предмет 4' }
-];
-
-// Получение всего списка взводов
-const platoons = [
-    { platoon_number: 451 },
-    { platoon_number: 452 },
-    { platoon_number: 551 },
-    { platoon_number: 552 }
-];
-
-// Получить занятие по переданному id
-const sub_class = {
-    id: 1,
-    subject: "Предмет 1",
-    platoon: "451",
-    class_date: "2022-05-13T08:35",
-    theme_number: 1,
-    theme_name: "Название темы",
-    class_number: 1,
-    class_name: "Название занятия",
-    class_type: "лекция",
-    classroom: 304
-};
+import axios from 'axios';
 
 export default {
     name: 'ClassUpdate',
+    props: ['token', 'profile'],
     data() {
         return {
-            subjects,
-            platoons,
-            sub_class
+            subjects: [],
+            platoons: [],
+            sub_class: {},
+            subject: 1,
+            platoon: 0,
+            class_date: '',
+            theme_number: 0,
+            theme_name: '',
+            class_number: 0,
+            class_name: '',
+            class_type: '',
+            classroom: 0
         }
-    }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        if (this.profile.teacher_role === 0) {
+            await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.profile.id + '/subjects/', { headers })
+                .then(response => this.subjects = response.data);
+        } else {
+            await axios.get('http://127.0.0.1:8000/api/v1/subjects/', { headers })
+                .then(response => this.subjects = response.data);
+        }
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/', { headers })
+            .then(response => this.platoons = response.data);
+
+        await axios.get('http://127.0.0.1:8000/api/v1/classes/' + this.$route.params.id + '/', { headers })
+            .then(response => {
+                this.sub_class = response.data;
+                this.subject = this.sub_class.subject;
+                this.platoon = this.sub_class.platoon;
+                this.class_date = this.sub_class.class_date.substring(0, 16);
+                this.theme_number = this.sub_class.theme_number;
+                this.theme_name = this.sub_class.theme_name;
+                this.class_number = this.sub_class.class_number;
+                this.class_name = this.sub_class.class_name;
+                this.class_type = this.sub_class.class_type;
+                this.classroom = this.sub_class.classroom;
+            });
+
+
+    },
+    methods: {
+        changeDate(date) {
+            this.class_date = date;
+            console.log(date);
+        },
+        async onClassUpdateSubmit() {
+            const data = {
+                subject: this.subject,
+                platoon: this.platoon,
+                class_date: this.class_date,
+                theme_number: this.theme_number,
+                theme_name: this.theme_name,
+                class_number: this.class_number,
+                class_name: this.class_name,
+                class_type: this.class_type,
+                classroom: this.classroom,
+            }
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+
+            await axios.put('http://127.0.0.1:8000/api/v1/classes/' + this.$route.params.id + '/', data, { headers })
+                .then(response => this.$router.push('/classes'));
+        },
+        async onClassDeleteSubmit() {
+             const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+
+            await axios.delete('http://127.0.0.1:8000/api/v1/classes/' + this.$route.params.id + '/', { headers })
+                .then(response => this.$router.push('/classes'));   
+        }
+    },
 }
 </script>
 

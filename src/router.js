@@ -11,6 +11,10 @@ export default new VueRouter({
       component: () => import("@/views/Home"),
     },
     {
+      path: '/login',
+      component: () => import('@/views/Login')
+    },
+    {
       path: "/platoons",
       component: () => import("@/views/platoons/PlatoonList"),
     },

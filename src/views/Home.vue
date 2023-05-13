@@ -1,7 +1,7 @@
 <template>
-   <StudentProfile v-if="local_profile.type==='student'" 
-   v-bind:profile="local_profile.profile"/>
-   <TeacherProfile v-else v-bind:profile="local_profile.profile"/>
+   <StudentProfile v-if="is_student" 
+   v-bind:profile="profile"/>
+   <TeacherProfile v-else v-bind:profile="profile"/>
 </template>
 
 <script>
@@ -21,13 +21,17 @@ const local_profile = {
 
 export default {
     name: 'Home',
+    props: ['is_student', 'profile'],
+    mounted() {
+        console.log(this.is_student);
+        console.log(this.profile);
+    },
     components: {
         TeacherProfile,
         StudentProfile
     },
     data() {
         return {
-            local_profile
         }
     },
 }

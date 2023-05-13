@@ -1,40 +1,81 @@
 <template>
-  <div id="app">
-    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-    <div class="header">
-      <h3>Военный учебный центр при ВГУ</h3>
-      <form action="" method="post">
-        <button class="exit_btn" type="submit">Выйти</button>
-      </form>
+    <div id="app">
+        <div v-if="this.token != null">
+            <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+            <div class="header">
+                <h3>Военный учебный центр при ВГУ</h3>
+                <form action="" method="post">
+                    <button class="exit_btn" type="submit">Выйти</button>
+                </form>
+            </div>
+            <div class="navigation">
+                <ul>
+                    <li><router-link to="/">МОЙ ПРОФИЛЬ</router-link></li>
+                    <li><router-link to="/platoons">СПИСОК ВЗВОДОВ</router-link></li>
+                    <li v-if="is_student"><router-link to="/timetable">РАСПИСАНИЕ</router-link></li>
+                    <li v-else><router-link to="/classes">МОИ ЗАНЯТИЯ</router-link></li>
+                    <li><router-link to="/subjects">СПИСОК ПРЕДМЕТОВ</router-link></li>
+                    <li><router-link to="/journal">ОЦЕНКИ</router-link></li>
+                    <li><router-link to="/teachers">ПРЕПОДАВАТЕЛИ</router-link></li>
+                </ul>
+            </div>
+        </div>
+        <router-view :is_student="this.is_student" :profile="this.profile" />
     </div>
-    <div class="navigation">
-      <ul>
-        <li><router-link to="/">МОЙ ПРОФИЛЬ</router-link></li>
-        <li><router-link to="/platoons">СПИСОК ВЗВОДОВ</router-link></li>
-        <li  v-if="is_student"><router-link to="/timetable">РАСПИСАНИЕ</router-link></li>
-        <li v-else><router-link to="/classes">МОИ ЗАНЯТИЯ</router-link></li>
-        <li><router-link to="/subjects">СПИСОК ПРЕДМЕТОВ</router-link></li>
-        <li><router-link to="/journal">ОЦЕНКИ</router-link></li>
-        <li><router-link to="/teachers">ПРЕПОДАВАТЕЛИ</router-link></li>
-      </ul>
-    </div>
-    <router-view />
-  </div>
 </template>
 
 <script>
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
-const is_student = true
+let is_student = true;
+let profile = null;
+var token = null
 
 export default {
-  name: 'App',
-  components: {
-  },
-  data() {
-    return {
-        is_student
+    name: 'App',
+    beforeCreate() {
+        if (token === null) {
+            this.$router.push('/login');
+            this.$on('login', (token, type) => {
+                this.token = token;
+                this.is_student = type == 'Студент';
+                this.getProfile();
+            })
+        }
+    },
+    
+    components: {
+    },
+    data() {
+        return {
+            is_student,
+            token,
+            profile
+        }
+    },
+    methods: {
+        getProfile() {
+            let id = null;
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+                'X-CSRFToken': Cookies.get('csrftoken')
+            };
+            axios.get('http://127.0.0.1:8000/api/v1/auth/users/me/', { headers })
+                .then(response => id = response.data.id);
+            console.log('mounted');
+            console.log(id);
+            if (!is_student) {
+                axios.get('http://127.0.0.1:8000/api/v1/teachers/' + id + '/teacher_profile/')
+                    .then(response => this.profile = response.data);
+            } else {
+                axios.get('http://127.0.0.1:8000/api/v1/students/' + id + '/student_profile/')
+                    .then(response => this.profile = response.data);
+            }
+        }
     }
-  },
 }
 </script>
 
@@ -42,7 +83,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap");
 
 body {
-    background-color: #959595;
+    background-color: #ccc;
     justify-content: center;
     font-family: "IBM Plex Sans", sans-serif;
 }
@@ -56,8 +97,6 @@ body {
     color: aliceblue;
     background-color: red;
     padding: 15px;
-    width: 70%;
-    border: 2px solid black;
     border-radius: 20px;
     margin-bottom: 10px;
 }
@@ -69,9 +108,7 @@ body {
 .vuz_login_form {
     color: aliceblue;
     background-color: #4d8bc3;
-    width: 50%;
     padding: 5px;
-    border: 2px solid black;
     border-radius: 20px;
 }
 

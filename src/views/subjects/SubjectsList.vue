@@ -4,56 +4,49 @@
             <h3 style="text-align: center">МОИ ПРЕДМЕТЫ</h3>
         </div>
         <ul>
-            <Subject v-for="s in subjects" v-bind:subject="s" />
+            <Subject v-for="s in subjects" v-bind:subject="s" 
+            v-bind:profile="profile"
+            v-bind:token="token"/>
         </ul>
-        <!-- TODO: Сделать проверку на начальников -->
-        <router-link class="mark_edit_btn" to="/subjects/create">Создать</router-link>
+        <router-link class="mark_edit_btn" 
+        v-if="!is_student && profile.teacher_role === 1"
+        v-bind:token="token"
+        to="/subjects/create">Создать</router-link>
     </div>
 </template>
 
 
 <script>
 import Subject from "@/views/subjects/Subject.vue";
-const subjects = [
-    {
-        id: 1,
-        teacher: 1,
-        name: 'Предмет 1',
-        hours_count: 30,
-        form: 'Экзамен'
-    },
-    {
-        id: 2,
-        teacher: 1,
-        name: 'Предмет 2',
-        hours_count: 31,
-        form: 'Экзамен'
-    },
-    {
-        id: 3,
-        teacher: 1,
-        name: 'Предмет 3',
-        hours_count: 32,
-        form: 'Зачет'
-    },
-    {
-        id: 4,
-        teacher: 1,
-        name: 'Предмет 4',
-        hours_count: 33,
-        form: 'Зачет'
-    }
-]
+import axios from 'axios';
+
+
 export default {
     name: 'SubjectsList',
+    props: ['is_student', 'token', 'profile'],
     components: {
         Subject
     },
     data() {
         return {
-            subjects
+            subjects: []
         }
-    }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        if (this.profile.teacher_role === 0) {
+            await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.profile.id + '/subjects/', { headers })
+                .then(response => this.subjects = response.data);
+        } else {
+            await axios.get('http://127.0.0.1:8000/api/v1/subjects/', { headers })
+                .then(response => this.subjects = response.data);
+        }
+    },
 }
 </script>
 
@@ -89,6 +82,7 @@ export default {
     margin: 5px;
 
 }
+
 .mark_edit_btn {
     background-color: #26a269;
     border: 1px solid #cccccc;
@@ -108,5 +102,5 @@ export default {
     padding: 1px 6px;
     vertical-align: middle;
     text-decoration: none;
-  }
+}
 </style>

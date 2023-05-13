@@ -2,27 +2,26 @@
     <div class="platoon_box">
         <div class="platoon_box_item">
             <h4>Редактирование предмета</h4>
-            <form action="" method="post">
+            <form @submit.prevent="onSubjectUpdateSubmit">
                 <label for="name">1. Введите название предмета: </label>
-                <input style="margin-bottom: 5px" type="text" name="name" id="name" :value="subject.name" />
+                <input style="margin-bottom: 5px" type="text" v-model="name" />
                 <br />
-                <label for="teachers">2. Выберите куратора взвода: </label>
+                <label for="teachers">2. Выберите преподавателя: </label>
                 <select style="margin-bottom: 5px" name="teachers" id="teacher">
-                    <option v-for="teacher in teachers" 
-                    :value="teacher.id">{{teacher.surname}} 
-                    {{teacher.name}}
-                    {{teacher.patronymic}}</option>
+                    <option v-for="teacher in teachers" :value="teacher.id">{{ teacher.surname }}
+                        {{ teacher.name }}
+                        {{ teacher.patronymic }}</option>
                 </select>
                 <br />
                 <label for="hours">3. Введите количество часов: </label>
-                <input style="margin-bottom: 5px" type="text" id="hours" :value="subject.hours_count" />
+                <input style="margin-bottom: 5px" type="text" v-model="hours_count" />
                 <br />
                 <label for="form">4. Выберите форму отчетности: </label>
-                <p><input type="radio" name="form" checked id="экзамен" />Экзамен</p>
-                <p><input type="radio" name="form" id="зачет" />Зачет</p>
+                <p><input type="radio" v-model="form" checked value="экзамен" />Экзамен</p>
+                <p><input type="radio" v-model="form" value="зачет" />Зачет</p>
                 <button class="exit_btn" type="submit">Добавить</button>
             </form>
-            <form action="" method="post">
+            <form @submit.prevent="onSubjectDeleteSubmit">
                 <button class="delete_btn" type="submit">Удалить</button>
             </form>
         </div>
@@ -31,50 +30,70 @@
 
 
 <script>
+import axios from 'axios';
 
-// Подтянуть предмет по id
-const subject = {
-    id: 1,
-    teacher: 1,
-    name: 'Предмет 1',
-    hours_count: 30,
-    form: 'Экзамен'
-}
-
-const teachers = [
-    {
-        id: 1,
-        surname: 'Фамилия',
-        name: 'Имя',
-        patronymic: 'Отчество'
-    },
-    {
-        id: 2,
-        surname: 'Фамилия',
-        name: 'Имя',
-        patronymic: 'Отчество'
-    },
-    {
-        id: 3,
-        surname: 'Фамилия',
-        name: 'Имя',
-        patronymic: 'Отчество'
-    },
-    {
-        id: 4,
-        surname: 'Фамилия',
-        name: 'Имя',
-        patronymic: 'Отчество'
-    },
-]
 export default {
     name: 'SubjectUpdate',
+    props: ['token'],
     data() {
         return {
-            subject,
-            teachers
+            subject: {},
+            teachers: [],
+            name: '',
+            teacher: 0,
+            hours_count: 0,
+            form: ''
         }
-    }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/teachers/', { headers })
+            .then(response => this.teachers = response.data);
+
+        await axios.get('http://127.0.0.1:8000/api/v1/subjects/' + this.$route.params.id + '/', { headers })
+            .then(response => {
+                this.subject = response.data;
+                this.name = this.subject.name;
+                this.teacher = this.subject.teacher;
+                this.hours_count = this.subject.hours_count;
+                this.form = this.subject.form;
+            });
+    },
+    methods: {
+        async onSubjectUpdateSubmit() {
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+
+            const data = {
+                name: this.name,
+                teacher: this.teacher,
+                hours_count: this.hours_count,
+                form: this.form
+            }
+            console.log(data);
+            console.log(headers);
+            await axios.put('http://127.0.0.1:8000/api/v1/subjects/' + this.$route.params.id + '/', data, { headers })
+                .then(response => this.$router.push('/subjects'));
+        },
+        async onSubjectDeleteSubmit() {
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+
+            await axios.delete('http://127.0.0.1:8000/api/v1/subjects/' + this.$route.params.id + '/', { headers })
+                .then(response => this.$router.push('/subjects'));
+        }
+    },
 }
 </script>
 
@@ -98,5 +117,5 @@ export default {
     padding: 1px 6px;
     vertical-align: middle;
     text-decoration: none;
-  }
+}
 </style>

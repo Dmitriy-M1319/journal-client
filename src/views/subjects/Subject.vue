@@ -4,9 +4,11 @@
             <h4>{{ subject.name }}</h4>
             <p>Количество часов: {{ subject.hours_count }}</p>
             <p>Форма отчетности: {{ subject.form }}</p>
-            <!-- Сделать проверку на то, начальники или нет -->
             <div style="float: left;">
-                <router-link class="exit_btn" :to="'/subjects/' + subject.id">Редактировать</router-link>
+                <router-link class="exit_btn" 
+                v-if="!is_student && profile.teacher_role === 1"
+                :to="'/subjects/' + subject.id"
+                v-bind:token="token">Редактировать</router-link>
             </div>
         </div>
     </li>
@@ -18,7 +20,7 @@ import router from '@/router';
 
 export default {
     name: "Subject",
-    props: ["subject"],
+    props: ["subject", 'profile', 'token'],
     components: { router }
 }
 </script>

@@ -4,8 +4,8 @@
             <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
             <div class="header">
                 <h3>Военный учебный центр при ВГУ</h3>
-                <form action="" method="post">
-                    <button class="exit_btn" type="submit">Выйти</button>
+                <form @submit="logout">
+                    <button class="exit_btn">Выйти</button>
                 </form>
             </div>
             <div class="navigation">
@@ -28,9 +28,11 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-let is_student = true;
-let profile = null;
+var is_student = true;
+var profile = null;
 var token = null
+
+
 
 export default {
     name: 'App',
@@ -39,12 +41,12 @@ export default {
             this.$router.push('/login');
             this.$on('login', (token, type) => {
                 this.token = token;
-                this.is_student = type == 'Студент';
+                this.is_student = type === 'Студент';
                 this.getProfile();
             })
         }
     },
-    
+
     components: {
     },
     data() {
@@ -56,24 +58,34 @@ export default {
     },
     methods: {
         getProfile() {
-            let id = null;
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
                 'Authorization': 'Token ' + this.token,
                 'X-CSRFToken': Cookies.get('csrftoken')
             };
-            axios.get('http://127.0.0.1:8000/api/v1/auth/users/me/', { headers })
-                .then(response => id = response.data.id);
-            console.log('mounted');
-            console.log(id);
-            if (!is_student) {
-                axios.get('http://127.0.0.1:8000/api/v1/teachers/' + id + '/teacher_profile/')
+            if (!this.is_student) {
+                axios.get('http://127.0.0.1:8000/api/v1/teachers/teacher_profile/', { headers })
                     .then(response => this.profile = response.data);
             } else {
-                axios.get('http://127.0.0.1:8000/api/v1/students/' + id + '/student_profile/')
+                axios.get('http://127.0.0.1:8000/api/v1/students/student_profile/', { headers })
                     .then(response => this.profile = response.data);
             }
+        },
+        logout() {
+            const headers = {
+                'accept': "application/json",
+                'Authorization': 'Token ' + this.token,
+                'X-CSRFToken': Cookies.get('csrftoken')
+            };
+
+            const data = {}
+
+            axios.post('http://127.0.0.1:8000/auth/token/logout/', data, { headers })
+                .then(response => console.log(response));
+            this.token = null;
+            this.profile = null;
+            this.$router.push('/login');
         }
     }
 }

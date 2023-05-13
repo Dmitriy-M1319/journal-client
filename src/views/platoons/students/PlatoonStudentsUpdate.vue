@@ -19,37 +19,12 @@
 import PlatoonStudentUpdate from './PlatoonStudentUpdate.vue';
 export default {
     name: 'PlatoonStudentsUpdate',
+    props: ['students'],
     components: {
         PlatoonStudentUpdate
     },
     data() {
         return {
-            students: [
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                },
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                },
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                },
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                }
-            ]
         }
     }
 }

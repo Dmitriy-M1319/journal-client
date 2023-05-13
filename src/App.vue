@@ -20,7 +20,7 @@
                 </ul>
             </div>
         </div>
-        <router-view :is_student="this.is_student" :profile="this.profile" />
+        <router-view :is_student="this.is_student" :profile="this.profile" :token="this.token"/>
     </div>
 </template>
 

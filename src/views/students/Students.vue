@@ -11,9 +11,7 @@
                         <td>ФИО</td>
                         <td>Должность</td>
                     </tr>
-                    <Student v-for="(student, index) in students"
-                    v-bind:student="student"
-                    v-bind:index="index"/>
+                    <Student v-for="(student, index) in students" v-bind:student="student" v-bind:index="index" />
                 </table>
             </div>
         </div>
@@ -22,39 +20,28 @@
 
 <script>
 import Student from './Student.vue';
+import axios from 'axios';
+
+var students = {};
+
 export default {
     name: 'Students',
+    mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+        };
+
+        axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/students/', { headers })
+            .then(response => this.students = response.data);
+
+    },
     components: {
         Student
     },
     data() {
         return {
-            students: [
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                },
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                },
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                },
-                {
-                    surname: 'Сазонова',
-                    name: 'Иванна',
-                    patronymic: 'Сергеевна',
-                    military_post: 'студент'
-                }
-            ]
+            students
         }
     }
 }
@@ -65,10 +52,12 @@ export default {
     margin: 0 auto;
     /* width: 100%; */
 }
+
 .center {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    justify-content: center;
 }
+
 .platoon_box {
     background-color: #4d8bc3;
     padding: 15px;
@@ -105,14 +94,15 @@ export default {
 }
 
 .platoon_box_item table {
-  vertical-align: center;
-  text-align: center;
-  border: 1px solid #000;
-  table-layout: fixed;
-  margin: 8px;
-  border-radius: 5px;
+    vertical-align: center;
+    text-align: center;
+    border: 1px solid #000;
+    table-layout: fixed;
+    margin: 8px;
+    border-radius: 5px;
 }
+
 .platoon_box_item table tr td {
-  border: 1px solid #000;
+    border: 1px solid #000;
 }
 </style>

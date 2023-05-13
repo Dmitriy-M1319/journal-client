@@ -2,9 +2,12 @@
     <div>
         <div class="platoon_box">
             <ul>
-                <Platoon v-for="pl in platoons"
-                :key="pl.number"
-                v-bind:platoon="pl" />
+                <Platoon v-for="pl in this.platoons"
+                :key="pl.platoon_number"
+                v-bind:platoon="pl" 
+                v-bind:is_student="is_student"
+                v-bind:profile="profile"
+                v-bind:token="token"/>
             </ul>
         </div>
     </div>
@@ -12,65 +15,40 @@
 
 <script>
 import Platoon from './Platoon.vue';
+import axios from 'axios';
+
+var platoons = {};
+
 export default {
     name: 'Platoons',
+    props: ['is_student', 'profile', 'token'],
+    mounted() {
+        const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+        axios.get('http://127.0.0.1:8000/api/v1/platoons/', {headers})
+        .then(response => {
+            platoons = response.data;
+            console.log(platoons);
+            for(var pl of platoons) {
+                axios.get('http://127.0.0.1:8000/api/v1/platoons/' + pl.platoon_number + '/tutor/', {headers})
+                .then(response => pl.tutor = response.data);
+            }
+            console.log(platoons);
+            this.platoons = platoons;
+        })
+        .catch(error => console.log(error));
+    },
     components: {
         Platoon
     },
     data() {
         return {
-            platoons: [
-                {
-                    number: 451,
-                    count: 15,
-                    com: {
-                        surname: 'Фамилия',
-                        name: 'Имя',
-                        patronymic: 'Отчество'
-                    },
-                    tutor: {
-                        surname: 'Фамилия',
-                        name: 'Имя',
-                        patronymic: 'Отчество',
-                        military_rank: 'звание'
-                    },
-                    year: 2020
-                },
-                {
-                    number: 452,
-                    count: 15,
-                    com: {
-                        surname: 'Фамилия',
-                        name: 'Имя',
-                        patronymic: 'Отчество'
-                    },
-                    tutor: {
-                        surname: 'Фамилия',
-                        name: 'Имя',
-                        patronymic: 'Отчество',
-                        military_rank: 'звание'
-                    },
-                    year: 2020
-                },
-                {
-                    number: 551,
-                    count: 15,
-                    com: {
-                        surname: 'Фамилия',
-                        name: 'Имя',
-                        patronymic: 'Отчество'
-                    },
-                    tutor: {
-                        surname: 'Фамилия',
-                        name: 'Имя',
-                        patronymic: 'Отчество',
-                        military_rank: 'звание'
-                    },
-                    year: 2020
-                },
-            ]
+            platoons
         }
-    }
+    },
 }
 </script>
 

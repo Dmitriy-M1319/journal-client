@@ -5,24 +5,30 @@
                 <h4>Редактирование {{ $route.params.number }} взвода</h4>
             </div>
             <div class="platoon_box_item">
-                <form action="" method="post">
+                <form @submit.prevent="onPlatoonUpdateFormSubmit">
                     <label for="number">1. Введите номер взвода: </label>
-                    <input type="text" name="number" id="number" :value="$route.params.number" />
+                    <input type="text" v-model="this.number" />
                     <br />
                     <label for="tutors">2. Выберите куратора взвода: </label>
-                    <select name="tutors" id="tutor">
-                        <option value="tutor1">Фамилия Имя Отчество</option>
-                        <option value="tutor2">Фамилия Имя Отчество</option>
-                        <option value="tutor3">Фамилия Имя Отчество</option>
-                        <option value="tutor4">Фамилия Имя Отчество</option>
+                    <select v-model="tutor">
+                        <option v-for="teacher in this.teachers" v-bind:value="teacher.id">
+                            {{ teacher.surname }} {{ teacher.name }} {{ teacher.patronymic }}
+                        </option>
                     </select>
                     <br />
-                    <label for="year">3. Введите год набора: </label>
-                    <input type="text" name="year" id="year" value="2020" />
-                    <button class="exit_btn" type="submit">Обновить</button>
+                    <label for="tutors">3. Выберите направление и курс: </label>
+                    <select v-model="course">
+                        <option v-for="c in this.courses" v-bind:value="c.id">
+                            {{ c.direction }}, курс {{ c.course }}
+                        </option>
+                    </select>
+                    <br />
+                    <label for="year">4. Введите год набора: </label>
+                    <input type="text" v-model="year" />
+                    <input class="exit_btn" type="submit" value="Обновить"/>
                 </form>
             </div>
-            <PlatoonStudentsUpdate />
+            <PlatoonStudentsUpdate v-bind:students="platoon_students"/>
             <router-link class="mark-edit-btn mark-edit-btn-long"
                 :to="'/platoons/' + $route.params.number + '/students/create'">
                 Добавить нового студента
@@ -33,10 +39,86 @@
 
 <script>
 import PlatoonStudentsUpdate from './students/PlatoonStudentsUpdate.vue';
+import axios from 'axios';
+
+
 export default {
     name: 'PlatoonUpdate',
+    props: ['token'],
+
     components: {
         PlatoonStudentsUpdate
+    },
+    data() {
+        return {
+            edited_platoon: {},
+            platoon_students: [],
+            courses: [],
+            teachers: [],
+            tutor: '',
+            course: 0,
+            number: '0',
+            year: 0
+        }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', { headers })
+            .then(response => {
+                console.log(response.data);
+                this.edited_platoon = response.data
+                console.log(this.edited_platoon);
+            });
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/students/', { headers })
+            .then(response => {
+                this.platoon_students = response.data;
+            });
+
+        await axios.get('http://127.0.0.1:8000/api/v1/teachers/', { headers })
+            .then(response => {
+                for (var teacher of response.data) {
+                    this.teachers.push({
+                        id: teacher.id,
+                        surname: teacher.surname,
+                        name: teacher.name,
+                        patronymic: teacher.patronymic
+                    });
+                }
+            });
+
+        await axios.get('http://127.0.0.1:8000/api/v1/directions/', { headers })
+            .then(response => this.courses = response.data);
+
+        this.number = this.edited_platoon.platoon_number;
+        this.year = this.edited_platoon.year;
+
+        console.log(this.number);
+
+    },
+    methods: {
+        async onPlatoonUpdateFormSubmit() {
+            const data = {
+                platoon_number: this.number,
+                tutor: this.tutor,
+                year: this.year,
+                course: this.course,
+                status: 'учится'
+            };
+
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+            await axios.put('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', data, { headers })
+            .then(response => this.$router.push('/platoons'));
+        }
     }
 }
 </script>

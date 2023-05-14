@@ -4,28 +4,35 @@
             <h4>Редактирование студента</h4>
         </div>
         <div class="platoon_box_item">
-            <form action="" method="post">
+            <form @submit.prevent="onStudentUpdateSubmit">
                 <label for="surname">1. Введите фамилию: </label>
-                <input type="text" id="surname" :value="student.surname" />
+                <input type="text" v-model="surname" />
                 <br />
                 <label for="name">2. Введите имя: </label>
-                <input type="text" id="name" :value="student.name" />
+                <input type="text" v-model="name" />
                 <br />
                 <label for="patronymic">3. Введите отчество (если есть): </label>
-                <input type="text" id="patronymic" :value="student.patronymic" />
+                <input type="text" v-model="patronymic" />
                 <br />
                 <label for="post">4. Выберите воинскую должность: </label>
                 <div style="margin-bottom: 5px">
-                    <input type="radio" checked id="post" value="student" />Студент
+                    <input type="radio" checked v-model="military_post" value="студент" />Студент
                     <br />
-                    <input type="radio" id="post" value="commander" />Командир взвода
+                    <input type="radio" v-model="military_post" value="командир взвода" />Командир взвода
                 </div>
-                <label for="department">5. Введите название факультета в вузе:
+                <label for="platoon">5. Выберите взвод: </label>
+                <select v-model="platoon">
+                    <option v-for="pl in platoons" :value="pl.platoon_number">
+                        {{ pl.platoon_number }} взвод
+                    </option>
+                </select>
+                <br>
+                <label for="department">6. Введите название факультета в вузе:
                 </label>
-                <input type="text" name="department" id="department" :value="student.department" />
+                <input type="text" v-model="department" />
                 <br />
-                <label for="group">6. Введите номер группы в вузе: </label>
-                <input type="text" name="group" id="group" :value="student.group" />
+                <label for="group">7. Введите номер группы в вузе: </label>
+                <input type="text" v-model="group_number" />
                 <input class="exit_btn" type="submit" value="Обновить" />
             </form>
         </div>
@@ -34,21 +41,67 @@
 
 
 <script>
-const student = {
-    id: 1,
-    surname: 'Сазонова',
-    name: 'Иванна',
-    patronymic: 'Сергеевна',
-    military_post: 'студент',
-    department: 'ФКН',
-    group: '6'
-}
+import axios from 'axios';
 
 export default {
     name: 'StudentUpdate',
     data() {
         return {
-            student
+            student: {},
+            platoons: [],
+            surname: '',
+            name: '',
+            patronymic: '',
+            military_post: '',
+            platoon: 1,
+            military_post: '',
+            department: '',
+            group_number: 0
+        }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/students/' + this.$route.params.id + '/', { headers })
+            .then(response => {
+                this.student = response.data;
+                this.surname = this.student.surname;
+                this.name = this.student.name;
+                this.patronymic = this.student.patronymic;
+                this.military_post = this.student.military_post;
+                this.platoon = this.student.platoon;
+                this.military_post = this.student.military_post;
+                this.department = this.student.department;
+                this.group_number = this.student.group_number;
+            });
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/', { headers })
+            .then(response => this.platoons = response.data);
+    },
+    methods: {
+        async onStudentUpdateSubmit() {
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+            };
+
+            const data = {
+                user: this.student.user,
+                surname: this.surname,
+                name: this.name,
+                patronymic: this.patronymic,
+                military_post: this.military_post,
+                platoon: this.platoon,
+                military_post: this.military_post,
+                department: this.department,
+                group_number: this.group_number,
+            }
+
+            await axios.put('http://127.0.0.1:8000/api/v1/students/' + this.$route.params.id + '/', data, { headers })
+                .then(response => this.$router.push('/platoons/' + this.platoon + '/'));
         }
     },
 }

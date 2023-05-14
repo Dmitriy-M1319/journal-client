@@ -4,29 +4,34 @@
             <h4>Создание нового студента</h4>
         </div>
         <div class="platoon_box_item">
-            <form action="" method="post">
+            <form @submit.prevent="onStudentCreateSubmit">
                 <label for="surname">1. Введите фамилию: </label>
-                <input type="text" id="surname" />
+                <input type="text" v-model="surname" />
                 <br />
                 <label for="name">2. Введите имя: </label>
-                <input type="text" id="name" />
+                <input type="text" v-model="name" />
                 <br />
                 <label for="patronymic">3. Введите отчество (если есть): </label>
-                <input type="text" id="patronymic" />
+                <input type="text" v-model="patronymic" />
                 <br />
                 <label for="post">4. Выберите воинскую должность: </label>
                 <div style="margin-bottom: 5px">
-                    <input type="radio" checked id="post" value="student" />Студент
+                    <input type="radio" checked v-model="military_post" value="студент" />Студент
                     <br />
-                    <input type="radio" id="post" value="commander" />Командир взвода
+                    <input type="radio" v-model="military_post" value="командир взвода" />Командир взвода
                 </div>
                 <label for="department">5. Введите название факультета в вузе:
                 </label>
-                <input type="text" name="department" id="department" />
+                <input type="text" v-model="department" />
                 <br />
                 <label for="group">6. Введите номер группы в вузе: </label>
-                <input type="text" name="group" id="group" />
-                <input class="exit_btn" type="submit" value="Создать" />
+                <input type="text" v-model="group_number" />
+                <br>
+                <label for="rank">7. Выберите логин студента: </label>
+                <select v-model="user">
+                    <option v-for="u in users" :value="u.id">{{ u.username }}</option>
+                </select>
+                <input class="exit_btn" type="submit" value="Добавить" />
             </form>
         </div>
     </div>
@@ -34,10 +39,66 @@
 
 
 <script>
+import axios from 'axios';
 
-// Взвод будет получаться из url
 export default {
-    name: 'StudentCreate'
+    name: 'StudentCreate',
+    props: ['token'],
+    data() {
+        return {
+            users: [],
+            platoon: {},
+            user: 0,
+            surname: '',
+            name: '',
+            patronymic: '',
+            military_post: '',
+            platoon: 1,
+            military_post: '',
+            department: '',
+            group_number: 0
+        }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', { headers })
+            .then(response => {
+                this.platoon = response.data;
+            });
+
+        await axios.get('http://127.0.0.1:8000/api/v1/teachers/logins/', { headers })
+            .then(response => {
+                this.users = response.data;
+            });
+    },
+    methods: {
+        async onStudentCreateSubmit() {
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+            };
+
+            const data = {
+                user: this.user,
+                surname: this.surname,
+                name: this.name,
+                patronymic: this.patronymic,
+                military_post: this.military_post,
+                platoon: this.platoon.platoon_number,
+                military_post: this.military_post,
+                department: this.department,
+                group_number: this.group_number,
+            }
+
+            await axios.post('http://127.0.0.1:8000/api/v1/students/', data, { headers })
+                .then(response => this.$router.push('/platoons/' + this.platoon.platoon_number + '/'));
+        }
+    },
 }
 </script>
 

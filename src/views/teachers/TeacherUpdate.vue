@@ -4,29 +4,33 @@
             <h4>Редактирование преподавателя</h4>
         </div>
         <div class="platoon_box_item">
-            <form action="" method="post">
+            <form @submit.prevent="onTeacherUpdateSubmit">
                 <label for="surname">1. Введите фамилию: </label>
-                <input type="text" id="surname" :value="teacher.surname" />
+                <input type="text" v-model="surname" />
                 <br />
                 <label for="name">2. Введите имя: </label>
-                <input type="text" name="name" id="name" :value="teacher.name" />
+                <input type="text" v-model="name" />
                 <br />
                 <label for="patronymic">3. Введите отчество (если есть): </label>
-                <input type="text" name="patronymic" id="patronymic" :value="teacher.patronymic" />
+                <input type="text" v-model="patronymic" />
                 <br />
                 <label for="rank">4. Выберите воинское звание: </label>
-                <select name="rank" id="rank">
+                <select v-model="military_rank">
                     <option v-for="r in ranks" :value="r">{{ r }}</option>
                 </select>
                 <br />
                 <label for="post">5. Введите воискую должность: </label>
-                <input type="text" name="post" id="post" :value="teacher.military_post" />
+                <input type="text" v-model="military_post" />
                 <br />
                 <label for="cycle">6. Введите название цикла подготовки: </label>
-                <input type="text" name="cycle" id="cycle" :value="teacher.cycle" />
+                <input type="text" v-model="cycle" />
+                <br>
+                <label for="role">7. Выберите права преподавателя: </label>
+                <p><input type="radio" v-model="teacher_role" checked value="0" />Обычный преподаватель</p>
+                <p><input type="radio" v-model="teacher_role" value="1" />Преподаватель с правами администратора</p>
                 <input class="exit_btn" type="submit" value="Обновить" />
             </form>
-            <form action="" method="post">
+            <form @submit.prevent="onTeacherDeleteSubmit">
                 <button class="delete_btn" type="submit">Уволить</button>
             </form>
         </div>
@@ -35,6 +39,8 @@
 
 
 <script>
+import axios from 'axios';
+
 const ranks = [
     'лейтенант',
     'старший лейтенант',
@@ -44,23 +50,75 @@ const ranks = [
     'полковник'
 ];
 
-const teacher = {
-    id: 1,
-    surname: 'Фамилия',
-    name: 'Имя',
-    patronymic: 'Отчество',
-    military_rank: 'капитан',
-    military_post: 'преподаватель',
-    cycle: 'цикл 1',
-};
 
 export default {
     name: 'TeacherUpdate',
+    props: ['token'],
     data() {
         return {
             ranks,
-            teacher
+            teacher: {},
+            surname: '',
+            name: '',
+            patronymic: '',
+            military_post: '',
+            military_rank: '',
+            teacher_role: '',
+            cycle: ''
         }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.$route.params.id + '/', { headers })
+            .then(response => {
+                this.teacher = response.data;
+                this.surname = this.teacher.surname;
+                this.name = this.teacher.name;
+                this.patronymic = this.teacher.patronymic;
+                this.military_post = this.teacher.military_post;
+                this.military_rank = this.teacher.military_rank;
+                this.teacher_role = this.teacher.teacher_role;
+                this.cycle = this.teacher.cycle;
+            });
+    },
+    methods: {
+        async onTeacherUpdateSubmit() {
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+
+            const data = {
+                user: this.teacher.user,
+                surname: this.surname,
+                name: this.name,
+                patronymic: this.patronymic,
+                military_post: this.military_post,
+                military_rank: this.military_rank,
+                teacher_role: this.teacher_role,
+                cycle: this.cycle
+            }
+
+
+            await axios.put('http://127.0.0.1:8000/api/v1/teachers/' + this.$route.params.id + '/', data, { headers })
+                .then(response => this.$router.push('/teachers'));
+        },
+        async onTeacherDeleteSubmit() {
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + this.token,
+            };
+
+            await axios.delete('http://127.0.0.1:8000/api/v1/teachers/' + this.$route.params.id + '/', { headers })
+                .then(response => this.$router.push('/teachers'));
+        },
     },
 }
 </script>

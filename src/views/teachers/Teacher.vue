@@ -8,7 +8,10 @@
             <div style="display: flex">
                 <router-link class="exit_btn"
                 :to="'/teachers/' + teacher.id + '/subjects'">Предметы</router-link>
-                <router-link class="mark_edit_btn" :to="'/teachers/' + teacher.id">Редактировать</router-link>
+                <router-link class="mark_edit_btn" 
+                v-if="!is_student && profile.teacher_role === 1"
+                v-bind:token="token"
+                :to="'/teachers/' + teacher.id">Редактировать</router-link>
             </div>
         </div>
     </li>
@@ -18,7 +21,7 @@
 <script>
 export default {
     name: 'Teacher',
-    props: ['teacher']
+    props: ['profile', 'is_student', 'teacher', 'token']
 }
 </script>
 

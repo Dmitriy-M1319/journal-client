@@ -2,7 +2,7 @@
     <div class="platoon_box">
         <div class="platoon_box_item">
             <h4>{{ $route.params.number }} взвод</h4>
-            <h4>Оценки по предмету <i>Предмет {{ $route.params.id}}</i></h4>
+            <h4>Оценки по предмету <i>{{ subject.name }}</i></h4>
         </div>
         <div class="platoon_box_item">
             <div class="scroll_block">
@@ -10,190 +10,69 @@
                     <tr>
                         <td style="width: 10%">№ по списку</td>
                         <td>ФИО студента</td>
-                        <td v-for="d in dates" class="mark-ceil">{{ splitDate(d.date)[0] }}.
-                            <br />{{ splitDate(d.date)[1] }}</td>
+                        <td v-for="c in classes" class="mark-ceil">{{ splitDate(c.class_date)[2] }}.
+                            <br />{{ splitDate(c.class_date)[1] }}
+                        </td>
                     </tr>
                     <JournalStudentRow v-for="sm in journal_table" v-bind:student_marks="sm" />
                 </table>
             </div>
         </div>
-        <a class="mark_edit_btn" style="height: 45px" href="">
+        <JournalAddColumn v-bind:platoon="$route.params.number" v-bind:subject="$route.params.id" />
+        <button class="mark_edit_btn" style="height: 45px" @click="$modal.show('journal-add-column')">
             Добавить столбец
-        </a>
+        </button>
     </div>
 </template>
 
 <script>
 import JournalStudentRow from './JournalStudentRow.vue';
-const dates = [
-    {date: '20.10'},
-    {date: '20.10'},
-    {date: '20.10'},
-    {date: '20.10'},
-    {date: '20.10'},
-    {date: '20.10'},
-    {date: '20.10'},
-    {date: '20.10'}
-];
-const journal_table = [
-    {
-        id: 1,
-        student: {
-            id: 1,
-            surname: 'Колесников',
-            name: 'Андрей',
-            platoon: 451,
-            patronymic: 'Иванович',
-            military_post: 'студент',
-            department: 'ФКН',
-            group: '6'
-        },
-        marks: [
-            {
-                id: 1,
-                attendance: 'б'
-            },
-            {
-                id: 2,
-                attendance: 'б'
-            },
-            {
-                id: 3,
-                attendance: 'б'
-            },
-            {
-                id: 4,
-                attendance: 'н'
-            },
-            {
-                id: 5,
-                mark: 2
-            },
-            {
-                id: 6,
-                mark: 3
-            },
-            {
-                id: 7,
-                mark: 4
-            },
-            {
-                id: 7,
-                mark: 4
-            }
-        ]
-    },
-    {
-        id: 2,
-        student: {
-            id: 1,
-            surname: 'Колесников',
-            name: 'Андрей',
-            platoon: 451,
-            patronymic: 'Иванович',
-            military_post: 'студент',
-            department: 'ФКН',
-            group: '6'
-        },
-        marks: [
-            {
-                id: 1,
-                attendance: 'б'
-            },
-            {
-                id: 2,
-                attendance: 'б'
-            },
-            {
-                id: 3,
-                attendance: 'б'
-            },
-            {
-                id: 4,
-                attendance: 'н'
-            },
-            {
-                id: 5,
-                mark: 2
-            },
-            {
-                id: 6,
-                mark: 3
-            },
-            {
-                id: 7,
-                mark: 4
-            },
-            {
-                id: 7,
-                mark: 4
-            }
-        ]
-    },
-    {
-        id: 1,
-        student: {
-            id: 1,
-            surname: 'Колесников',
-            name: 'Андрей',
-            platoon: 451,
-            patronymic: 'Иванович',
-            military_post: 'студент',
-            department: 'ФКН',
-            group: '6'
-        },
-        marks: [
-            {
-                id: 1,
-                attendance: 'б'
-            },
-            {
-                id: 2,
-                attendance: 'б'
-            },
-            {
-                id: 3,
-                attendance: 'б'
-            },
-            {
-                id: 4,
-                attendance: 'н'
-            },
-            {
-                id: 5,
-                mark: 2
-            },
-            {
-                id: 6,
-                mark: 3
-            },
-            {
-                id: 7,
-                mark: 4
-            },
-            {
-                id: 7,
-                mark: 4
-            }
-        ]
-    },
-]
+import JournalAddColumn from './JournalAddColumn.vue';
+import axios from 'axios';
 
 export default {
     name: 'Journal',
     components: {
-        JournalStudentRow
+        JournalStudentRow,
+        JournalAddColumn
     },
     data() {
         return {
-            journal_table,
-            dates
+            journal_table: [],
+            classes: [],
+            subject: {},
+            dates: [],
+            show: false,
         }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' +
+            this.$route.params.number + '/journal/?subj_id=' + this.$route.params.id, { headers })
+            .then(response => {
+                this.journal_table = response.data;
+            });
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' +
+            this.$route.params.number + '/classes/?subj_id=' + this.$route.params.id, { headers })
+            .then(response => {
+                this.classes = response.data;
+            });
+        await axios.get('http://127.0.0.1:8000/api/v1/subjects/' +
+            this.$route.params.id +'/', { headers })
+            .then(response => {
+                this.subject = response.data;
+            });
     },
     methods: {
         splitDate(date) {
-            return date.split('.');
-        }
+            let date_time = date.split('T')
+            let new_date = date_time[0].split('-');
+            return new_date;
+        },
     }
 }
 </script>
@@ -271,11 +150,11 @@ export default {
     padding: 1px 6px;
     vertical-align: middle;
     text-decoration: none;
-  }
+}
 
 
 .scroll_block {
-    overflow-x: scroll;
+    overflow-x: auto;
     width: 1980px;
 }
 

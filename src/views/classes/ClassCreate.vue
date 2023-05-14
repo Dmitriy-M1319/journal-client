@@ -77,7 +77,7 @@ export default {
             class_number: 0,
             class_name: '',
             class_type: '',
-            classroom: 0
+            classroom: ''
         }
     },
     async mounted() {

@@ -10,7 +10,7 @@
                 <br>
                 <label for="platoons">Выберите взвод:</label>
                 <select id="platoons" v-model="platoon">
-                    <option v-for="p in platoons" v-bind:value="p">{{ p }} взвод</option>
+                    <option v-for="p in platoons" v-bind:value="p.platoon_number">{{ p.platoon_number }} взвод</option>
                 </select>
                 <br>
                 <button type="submit">Открыть</button>
@@ -21,24 +21,7 @@
 
 
 <script>
-const subjects = [
-    {
-        id: 1,
-        name: 'Предмет 1'
-    },
-    {
-        id: 2,
-        name: 'Предмет 2'
-    },
-    {
-        id: 3,
-        name: 'Предмет 3'
-    }
-];
-
-const platoons = [
-    451, 452, 551, 552
-];
+import axios from 'axios';
 
 export default {
     name: 'JournalPreview',
@@ -46,9 +29,21 @@ export default {
         return {
             subject: 0,
             platoon: 0,
-            subjects,
-            platoons
+            subjects: [],
+            platoons: []
         }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/')
+        .then(response => this.platoons = response.data);
+
+        await axios.get('http://127.0.0.1:8000/api/v1/subjects/')
+        .then(response => this.subjects = response.data);
     },
     methods: {
         onSubmit() {

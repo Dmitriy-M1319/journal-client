@@ -44,7 +44,9 @@ export default {
         };
 
         axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.platoon.platoon_number + '/commander/', {headers})
-        .then(response => this.commander = response.data);
+        .then(response => this.commander = response.data).catch(
+            error => this.commander = {surname: '', name: '', patronymic: ''}
+        );
 
         axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.platoon.platoon_number + '/count/', {headers})
         .then(response => this.count = response.data.count);

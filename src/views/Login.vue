@@ -60,7 +60,8 @@ export default {
             };
 
             axios.post('http://127.0.0.1:8000/auth/token/login/', data, {headers})
-            .then(response => this.$parent.$emit('login', response.data.auth_token, this.person_type));
+            .then(response => this.$parent.$emit('login', response.data.auth_token, this.person_type))
+            .catch(error => this.$router.push('/login'));
             this.$router.push('/');
 
         }

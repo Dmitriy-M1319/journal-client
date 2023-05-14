@@ -1,11 +1,12 @@
 <template>
     <div class="platoon_box">
         <div class="platoon_box_item">
-            <h4>Расписание занятий 451 взвода</h4>
+            <h4>Расписание занятий {{ profile.platoon }} взвода</h4>
         </div>
         <div class="platoon_box_item">
-           <TimetableDay v-for="day in timetable_data" 
-           v-bind:timetable_day="day" />
+            <TimetableDay v-for="day in timetable_data" 
+            v-bind:token="token"
+            v-bind:timetable_day="day" />
         </div>
     </div>
 </template>
@@ -13,85 +14,29 @@
 
 <script>
 import TimetableDay from './TimetableDay.vue';
-const timetable_data = [
-    {
-        date: '13.05.2022', classes: [
-            {
-                id: 1,
-                subject: {
-                    name: "Предмет 1",
-                    teacher: 'подполковник Иванов А.А.'
-                },
-                platoon: "451",
-                time: "8.35",
-                theme_number: 1,
-                theme_name: "Название темы",
-                class_number: 1,
-                class_name: "Название занятия",
-                class_type: "лекция",
-                classroom: 304
-            },
-            {
-                id: 2,
-                subject: {
-                    name: "Предмет 1",
-                    teacher: 'подполковник Иванов А.А.'
-                },
-                platoon: "451",
-                time: "8.35",
-                theme_number: 1,
-                theme_name: "Название темы",
-                class_number: 1,
-                class_name: "Название занятия",
-                class_type: "лекция",
-                classroom: 304
-            },
-        ]
-    },
-    {
-        date: '16.05.2022', classes: [
-            {
-                id: 3,
-                subject: {
-                    name: "Предмет 1",
-                    teacher: 'подполковник Иванов А.А.'
-                },
-                platoon: "451",
-                time: "8.35",
-                theme_number: 1,
-                theme_name: "Название темы",
-                class_number: 1,
-                class_name: "Название занятия",
-                class_type: "лекция",
-                classroom: 304
-            },
-            {
-                id: 4,
-                subject: {
-                    name: "Предмет 1",
-                    teacher: 'подполковник Иванов А.А.'
-                },
-                platoon: "451",
-                time: "8.35",
-                theme_number: 1,
-                theme_name: "Название темы",
-                class_number: 1,
-                class_name: "Название занятия",
-                class_type: "лекция",
-                classroom: 304
-            },
-        ]
-    }
-]
+import axios from 'axios';
+
+
 export default {
     name: 'Timetable',
+    props: ['token', 'profile'],
     components: {
         TimetableDay
     },
     data() {
         return {
-            timetable_data
+            timetable_data: []
         }
+    },
+    async mounted() {
+        const headers = {
+            'accept': "application/json",
+            "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
+        };
+
+        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.profile.platoon + '/timetable/', { headers })
+            .then(response => this.timetable_data = response.data);
     },
 }
 </script>
@@ -139,8 +84,15 @@ export default {
     table-layout: fixed;
     margin: 8px;
     border-radius: 5px;
+    width: 100%;
+}
+
+.platoon_box_item table tr{
+    border: 1px solid #000;
+    width: 100%;
 }
 
 .platoon_box_item table tr td {
     border: 1px solid #000;
-}</style>
+}
+</style>

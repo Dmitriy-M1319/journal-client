@@ -23,12 +23,19 @@
                         </option>
                     </select>
                     <br />
-                    <label for="year">4. Введите год набора: </label>
+                    <label for="tutors">4. Выберите день прихода: </label>
+                    <select v-model="study_day">
+                        <option v-for="d in this.days" v-bind:value="d.id">
+                            {{ d.day }}
+                        </option>
+                    </select>
+                    <br />
+                    <label for="year">5. Введите год набора: </label>
                     <input type="text" v-model="year" />
-                    <input class="exit_btn" type="submit" value="Обновить"/>
+                    <input class="exit_btn" type="submit" value="Обновить" />
                 </form>
             </div>
-            <PlatoonStudentsUpdate v-bind:students="platoon_students"/>
+            <PlatoonStudentsUpdate v-bind:students="platoon_students" />
             <router-link class="mark-edit-btn mark-edit-btn-long"
                 :to="'/platoons/' + $route.params.number + '/students/create'">
                 Добавить нового студента
@@ -55,8 +62,16 @@ export default {
             platoon_students: [],
             courses: [],
             teachers: [],
+            days: [
+                {id: 0, day: 'Понедельник'},
+                {id: 1, day: 'Вторник'},
+                {id: 2, day: 'Среда'},
+                {id: 3, day: 'Четверг'},
+                {id: 4, day: 'Пятница'}
+            ],
             tutor: '',
             course: 0,
+            study_day: 0,
             number: '0',
             year: 0
         }
@@ -97,6 +112,7 @@ export default {
 
         this.number = this.edited_platoon.platoon_number;
         this.year = this.edited_platoon.year;
+        this.study_day = this.edited_platoon.study_day;
 
         console.log(this.number);
 
@@ -108,6 +124,7 @@ export default {
                 tutor: this.tutor,
                 year: this.year,
                 course: this.course,
+                study_day: this.study_day,
                 status: 'учится'
             };
 
@@ -117,7 +134,7 @@ export default {
                 'Authorization': 'Token ' + this.token,
             };
             await axios.put('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', data, { headers })
-            .then(response => this.$router.push('/platoons'));
+                .then(response => this.$router.push('/platoons'));
         }
     }
 }

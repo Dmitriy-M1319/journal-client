@@ -69,7 +69,7 @@ export default new VueRouter({
     },
     {
       path: "/teachers/:id/subjects",
-      component: () => import("@/views/subjects/SubjectsList"),
+      component: () => import("@/views/teachers/subjects/TeacherSubjects"),
     },
     {
       path: "/timetable",

@@ -19,9 +19,6 @@
             </div>
         </div>
         <JournalAddColumn v-bind:platoon="$route.params.number" v-bind:subject="$route.params.id" />
-        <button class="mark_edit_btn" style="height: 45px" @click="$modal.show('journal-add-column')">
-            Добавить столбец
-        </button>
     </div>
 </template>
 

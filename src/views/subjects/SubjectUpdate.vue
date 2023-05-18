@@ -19,7 +19,7 @@
                 <label for="form">4. Выберите форму отчетности: </label>
                 <p><input type="radio" v-model="form" checked value="экзамен" />Экзамен</p>
                 <p><input type="radio" v-model="form" value="зачет" />Зачет</p>
-                <button class="exit_btn" type="submit">Добавить</button>
+                <button class="exit_btn" type="submit">Редактировать</button>
             </form>
             <form @submit.prevent="onSubjectDeleteSubmit">
                 <button class="delete_btn" type="submit">Удалить</button>
@@ -107,6 +107,26 @@ export default {
     color: white;
     display: block;
     width: 100px;
+    margin: 20px auto;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    height: 25px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    padding: 1px 6px;
+    vertical-align: middle;
+    text-decoration: none;
+}
+.exit_btn {
+    background-color: #4d8bc3;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    border-radius: 4px;
+    color: white;
+    display: block;
+    width: 120px;
     margin: 20px auto;
     font-size: 14px;
     text-align: center;

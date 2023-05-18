@@ -6,10 +6,10 @@
             {{ student.patronymic }}</td>
         <td>{{ student.military_post }}</td>
         <td>
-            <router-link class="mark_edit_btn" :to="'/students/' + student.id">Обновить</router-link>
+            <router-link class="mark_edit_btn" :to="'/students/' + student.id">Редактировать</router-link>
             <form @submit.prevent="onStudentDeleteSubmit">
                 <button class="delete_btn btn-no-margin" type="submit">
-                    Отчислить
+                    Удалить запись
                 </button>
             </form>
         </td>
@@ -51,7 +51,7 @@ tr td {
     border-radius: 4px;
     color: white;
     display: block;
-    width: 100px;
+    width: 120px;
     /* margin: 20px auto; */
     font-size: 14px;
     text-align: center;

@@ -32,7 +32,7 @@
                     <br />
                     <label for="year">5. Введите год набора: </label>
                     <input type="text" v-model="year" />
-                    <input class="exit_btn" type="submit" value="Обновить" />
+                    <input class="exit_btn" type="submit" value="Редактировать" />
                 </form>
             </div>
             <PlatoonStudentsUpdate v-bind:students="platoon_students" />
@@ -184,7 +184,7 @@ export default {
     border-radius: 4px;
     color: white;
     display: block;
-    width: 100px;
+    width: 120px;
     margin: 20px auto;
     font-size: 14px;
     text-align: center;

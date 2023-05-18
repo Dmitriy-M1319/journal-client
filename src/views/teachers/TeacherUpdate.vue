@@ -28,10 +28,10 @@
                 <label for="role">7. Выберите права преподавателя: </label>
                 <p><input type="radio" v-model="teacher_role" checked value="0" />Обычный преподаватель</p>
                 <p><input type="radio" v-model="teacher_role" value="1" />Преподаватель с правами администратора</p>
-                <input class="exit_btn" type="submit" value="Обновить" />
+                <input class="exit_btn" type="submit" value="Редактировать" />
             </form>
             <form @submit.prevent="onTeacherDeleteSubmit">
-                <button class="delete_btn" type="submit">Уволить</button>
+                <button class="delete_btn" type="submit">Удалить</button>
             </form>
         </div>
     </div>
@@ -124,6 +124,27 @@ export default {
 </script>
 
 <style>
+.exit_btn {
+    background-color: #4d8bc3;
+    border: 1px solid #cccccc;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+    border-radius: 4px;
+    color: white;
+    display: block;
+    width: 120px;
+    margin: 20px auto;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 600;
+    height: 25px;
+    line-height: 20px;
+    margin-bottom: 10px;
+    padding: 1px 6px;
+    vertical-align: middle;
+    text-decoration: none;
+}
+
 .platoon_box_item form input {
     margin-bottom: 5px;
 }

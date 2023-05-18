@@ -7,11 +7,21 @@
             <div class="platoon_box_item">
                 <table class="center_div">
                     <tr>
-                        <td>Номер</td>
+                        <td style="width: 65px;">Номер</td>
                         <td>ФИО</td>
                         <td>Должность</td>
+                        <td>Год рождения</td>
+                        <td>Приказ о зачислении</td>
+                        <td>Приказ об отчислении</td>
+                        <td>Семейное положение</td>
+                        <td>Адрес, номер телефона</td>
+                        <td>Общественная нагрузка</td>
+                        <td>Факультет</td>
+                        <td>Спортивный разряд</td>
                     </tr>
-                    <Student v-for="(student, index) in students" v-bind:student="student" v-bind:index="index" />
+                    <Student v-for="(student, index) in students" v-bind:student="student" 
+                    v-bind:index="index"
+                    v-bind:platoon="platoon" />
                 </table>
             </div>
         </div>
@@ -35,13 +45,17 @@ export default {
         axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/students/', { headers })
             .then(response => this.students = response.data);
 
+        axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', { headers })
+            .then(response => this.platoon = response.data);
+
     },
     components: {
         Student
     },
     data() {
         return {
-            students
+            students,
+            platoon: {}
         }
     }
 }
@@ -96,6 +110,8 @@ export default {
 .platoon_box_item table {
     vertical-align: center;
     text-align: center;
+    width: 2000px;
+    overflow-x: scroll;
     border: 1px solid #000;
     table-layout: fixed;
     margin: 8px;

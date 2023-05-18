@@ -32,6 +32,9 @@
                     <br />
                     <label for="year">5. Введите год набора: </label>
                     <input type="text" v-model="year" />
+                    <br />
+                    <label for="year">6. Введите приказ о зачислении: </label>
+                    <input type="text" v-model="enrollment" />
                     <input class="exit_btn" type="submit" value="Редактировать" />
                 </form>
             </div>
@@ -73,7 +76,8 @@ export default {
             course: 0,
             study_day: 0,
             number: '0',
-            year: 0
+            year: 0,
+            enrollment: ''
         }
     },
     async mounted() {
@@ -113,6 +117,7 @@ export default {
         this.number = this.edited_platoon.platoon_number;
         this.year = this.edited_platoon.year;
         this.study_day = this.edited_platoon.study_day;
+        this.enrollment = this.edited_platoon.order_of_enrollment;
 
         console.log(this.number);
 
@@ -125,6 +130,7 @@ export default {
                 year: this.year,
                 course: this.course,
                 study_day: this.study_day,
+                order_of_enrollment: enrollment,
                 status: 'учится'
             };
 

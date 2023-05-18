@@ -31,6 +31,27 @@
                 <select v-model="user">
                     <option v-for="u in users" :value="u.id">{{ u.username }}</option>
                 </select>
+                <br />
+                <label for="birth_year">8. Введите год рождения: </label>
+                <input type="text" v-model="birth_year" />
+                <br />
+                <label for="order_of_expulsion">9. Введите номер и дату приказа об отчислении (при отчислении): </label>
+                <input type="text" v-model="order_of_expulsion" />
+                <br />
+                <label for="marital_status">10. Введите семейное положение: </label>
+                <input type="text" v-model="marital_status" />
+                <br />
+                <label for="address">11. Введите адрес проживания: </label>
+                <input type="text" v-model="address" />
+                <br />
+                <label for="phone_number">12. Введите номер телефона: </label>
+                <input type="text" v-model="phone_number" />
+                <br />
+                <label for="public_load">13. Введите общественную нагрузку: </label>
+                <input type="text" v-model="public_load" />
+                <br />
+                <label for="sports_category">14. Введите спортивный разряд (если есть): </label>
+                <input type="text" v-model="sports_category" />
                 <input class="exit_btn" type="submit" value="Добавить" />
             </form>
         </div>
@@ -56,7 +77,14 @@ export default {
             platoon: 1,
             military_post: '',
             department: '',
-            group_number: 0
+            group_number: 0,
+            birth_year: 0,
+            order_of_expulsion: '',
+            marital_status: '',
+            address: '',
+            phone_number: '',
+            public_load: '',
+            sports_category: ''
         }
     },
     async mounted() {
@@ -93,6 +121,13 @@ export default {
                 military_post: this.military_post,
                 department: this.department,
                 group_number: this.group_number,
+                birth_year: this.birth_year,
+                order_of_expulsion: this.order_of_expulsion,
+                marital_status: this.marital_status,
+                address: this.address,
+                phone_number: this.phone_number,
+                public_load: this.public_load,
+                sports_category: this.sports_category,
             }
 
             await axios.post('http://127.0.0.1:8000/api/v1/students/', data, { headers })

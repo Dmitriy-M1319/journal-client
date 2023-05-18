@@ -13,6 +13,7 @@
                     {{ platoon.tutor.patronymic }}
                 </p>
                 <p>Год набора: {{ platoon.year }}</p>
+                <p>Приказ о зачислении: {{ platoon.order_of_enrollment }}</p>
                 <div style="display: flex">
                     <router-link class="exit_btn" :to="'/platoons/' + platoon.platoon_number + '/students'">
                         Состав

@@ -33,6 +33,10 @@
 
                     <label for="year">5. Введите год набора: </label>
                     <input type="text" v-model="year" />
+
+                    <br />
+                    <label for="year">6. Введите приказ о зачислении: </label>
+                    <input type="text" v-model="enrollment" />
                     <input class="mark-edit-btn" type="submit" value="Создать" />
                 </form>
             </div>
@@ -67,7 +71,8 @@ export default {
             study_day: 0,
             course: 0,
             number: '0',
-            year: 0
+            year: 0,
+            enrollment: ''
         }
     },
     async mounted() {
@@ -103,6 +108,7 @@ export default {
                 year: this.year,
                 course: this.course,
                 study_day: this.study_day,
+                order_of_enrollment: this.enrollment,
                 status: 'учится'
             };
 

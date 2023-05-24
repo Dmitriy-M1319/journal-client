@@ -1,5 +1,4 @@
 <template>
-        <!-- <JournalUpdateCeil v-bind:id="mark.id" /> -->
         <JournalMarkCeil v-bind:mark="mark" @click="$modal.show('journal-update-ceil')" />
 </template>
 

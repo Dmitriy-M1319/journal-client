@@ -93,17 +93,17 @@ export default {
         };
 
         if (this.profile.teacher_role === 0) {
-            await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.profile.id + '/subjects/', { headers })
+            await axios.get(this.$url + 'teachers/' + this.profile.id + '/subjects/', { headers })
                 .then(response => this.subjects = response.data);
         } else {
-            await axios.get('http://127.0.0.1:8000/api/v1/subjects/', { headers })
+            await axios.get(this.$url + 'subjects/', { headers })
                 .then(response => this.subjects = response.data);
         }
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/', { headers })
+        await axios.get(this.$url + 'platoons/', { headers })
             .then(response => this.platoons = response.data);
 
-        await axios.get('http://127.0.0.1:8000/api/v1/classes/' + this.$route.params.id + '/', { headers })
+        await axios.get(this.$url + 'classes/' + this.$route.params.id + '/', { headers })
             .then(response => {
                 this.sub_class = response.data;
                 this.subject = this.sub_class.subject;
@@ -142,7 +142,7 @@ export default {
                 'Authorization': 'Token ' + this.token,
             };
 
-            await axios.put('http://127.0.0.1:8000/api/v1/classes/' + this.$route.params.id + '/', data, { headers })
+            await axios.put(this.$url + 'classes/' + this.$route.params.id + '/', data, { headers })
                 .then(response => this.$router.push('/classes'));
         },
         async onClassDeleteSubmit() {
@@ -152,7 +152,7 @@ export default {
                 'Authorization': 'Token ' + this.token,
             };
 
-            await axios.delete('http://127.0.0.1:8000/api/v1/classes/' + this.$route.params.id + '/', { headers })
+            await axios.delete(this.$url + 'classes/' + this.$route.params.id + '/', { headers })
                 .then(response => this.$router.push('/classes'));   
         }
     },

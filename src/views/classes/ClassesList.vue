@@ -34,7 +34,7 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios('http://127.0.0.1:8000/api/v1/teachers/' + this.profile.id + '/timetable/', { headers })
+        await axios(this.$url + 'teachers/' + this.profile.id + '/timetable/', { headers })
             .then(response => this.all_classes = response.data);
     }
 }

@@ -3,7 +3,8 @@ import App from './App.vue'
 import router from './router'
 import VueJSModal from 'vue-js-modal'
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
+Vue.prototype.$serverUrl = "http://127.0.0.1:8000/";
 
 Vue.use(VueJSModal, {
   dialog: true,

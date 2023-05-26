@@ -65,10 +65,10 @@ export default {
                 'X-CSRFToken': Cookies.get('csrftoken')
             };
             if (!this.is_student) {
-                axios.get('http://127.0.0.1:8000/api/v1/teachers/teacher_profile/', { headers })
+                axios.get(this.$url +  'teachers/teacher_profile/', { headers })
                     .then(response => this.profile = response.data);
             } else {
-                axios.get('http://127.0.0.1:8000/api/v1/students/student_profile/', { headers })
+                axios.get(this.$url + 'students/student_profile/', { headers })
                     .then(response => this.profile = response.data);
             }
         },
@@ -81,7 +81,7 @@ export default {
 
             const data = {}
 
-            axios.post('http://127.0.0.1:8000/auth/token/logout/', data, { headers })
+            axios.post(this.$url + 'auth/token/logout/', data, { headers })
                 .then(response => console.log(response));
             this.token = null;
             this.profile = null;

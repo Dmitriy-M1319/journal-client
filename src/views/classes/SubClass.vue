@@ -35,7 +35,7 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/subjects/' + this.sub_class.subject + '/', { headers })
+        await axios.get(this.$url + 'subjects/' + this.sub_class.subject + '/', { headers })
             .then(response => this.subject = response.data);
     },
     methods: {

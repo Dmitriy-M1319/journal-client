@@ -1,7 +1,6 @@
 <template>
     <td @click="onClick">
-        <JournalUpdateCeil v-if="showModal" v-bind:local_mark="mark" 
-        v-on:on-ceil-update="onCeilUpdate"/>
+        <JournalUpdateCeil v-if="showModal" v-bind:local_mark="mark" v-on:on-ceil-update="onCeilUpdate" />
         <div v-if="mark.mark && mark.mark === 2" class="mark-ceil mark-fail">{{ mark.mark }}</div>
         <div v-else-if="mark.mark && mark.mark === 3" class="mark-ceil mark-satisfactory">{{ mark.mark }}</div>
         <div v-else-if="mark.mark && mark.mark === 4" class="mark-ceil mark-good">{{ mark.mark }}</div>
@@ -17,11 +16,13 @@
 
 <script>
 import JournalUpdateCeil from './JournalUpdateCeil.vue';
+import JournalContextMenu from "./JournalContextMenu.vue";
 
 export default {
     name: 'JournalMarkCeil',
     components: {
-        JournalUpdateCeil
+        JournalUpdateCeil,
+        JournalContextMenu
     },
     props: ['mark'],
     data() {
@@ -37,12 +38,17 @@ export default {
         },
         onCeilUpdate(mark) {
             this.mark = mark;
+        },
+        onContextMenuClick(text) {
+            alert("Clicked: " + text);
         }
     }
 }
 </script>
 
 <style>
+@import '~vue-context/dist/css/vue-context.css';
+
 .mark-ceil {
     width: 30px;
 }

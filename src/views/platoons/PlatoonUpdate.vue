@@ -87,19 +87,19 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', { headers })
+        await axios.get(this.$url + 'platoons/' + this.$route.params.number + '/', { headers })
             .then(response => {
                 console.log(response.data);
                 this.edited_platoon = response.data
                 console.log(this.edited_platoon);
             });
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/students/', { headers })
+        await axios.get(this.$url + 'platoons/' + this.$route.params.number + '/students/', { headers })
             .then(response => {
                 this.platoon_students = response.data;
             });
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/', { headers })
+        await axios.get(this.$url + 'teachers/', { headers })
             .then(response => {
                 for (var teacher of response.data) {
                     this.teachers.push({
@@ -111,7 +111,7 @@ export default {
                 }
             });
 
-        await axios.get('http://127.0.0.1:8000/api/v1/directions/', { headers })
+        await axios.get(this.$url + 'directions/', { headers })
             .then(response => this.courses = response.data);
 
         this.number = this.edited_platoon.platoon_number;
@@ -139,7 +139,7 @@ export default {
                 "Content-Type": "application/json",
                 'Authorization': 'Token ' + this.token,
             };
-            await axios.put('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', data, { headers })
+            await axios.put(this.$url + 'platoons/' + this.$route.params.number + '/', data, { headers })
                 .then(response => this.$router.push('/platoons'));
         }
     }

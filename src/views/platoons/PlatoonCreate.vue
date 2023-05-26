@@ -82,7 +82,7 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/', { headers })
+        await axios.get(this.$url + 'teachers/', { headers })
             .then(response => {
                 for (var teacher of response.data) {
                     this.teachers.push({
@@ -94,7 +94,7 @@ export default {
                 }
             });
 
-        await axios.get('http://127.0.0.1:8000/api/v1/directions/', { headers })
+        await axios.get(this.$url + 'directions/', { headers })
             .then(response => this.courses = response.data);
 
         console.log(this.number);
@@ -117,7 +117,7 @@ export default {
                 "Content-Type": "application/json",
                 'Authorization': 'Token ' + this.token,
             };
-            await axios.post('http://127.0.0.1:8000/api/v1/platoons/', data, { headers })
+            await axios.post(this.$url + 'platoons/', data, { headers })
                 .then(response => this.$router.push('/platoons'));
         }
     }

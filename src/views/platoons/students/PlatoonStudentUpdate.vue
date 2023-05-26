@@ -31,7 +31,7 @@ export default {
 
             this.index = this.student.platoon;
 
-            await axios.delete('http://127.0.0.1:8000/api/v1/students/' + this.student.id + '/', { headers })
+            await axios.delete(this.$url + 'students/' + this.student.id + '/', { headers })
                 .then(response => this.$router.push('/platoon/' + this.index + '/'));
         }
     }

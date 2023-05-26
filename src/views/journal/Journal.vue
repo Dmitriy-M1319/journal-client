@@ -48,17 +48,17 @@ export default {
             "Content-Type": "application/json",
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' +
+        await axios.get(this.$url + 'platoons/' +
             this.$route.params.number + '/journal/?subj_id=' + this.$route.params.id, { headers })
             .then(response => {
                 this.journal_table = response.data;
             });
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' +
+        await axios.get(this.$url + 'platoons/' +
             this.$route.params.number + '/classes/?subj_id=' + this.$route.params.id, { headers })
             .then(response => {
                 this.classes = response.data;
             });
-        await axios.get('http://127.0.0.1:8000/api/v1/subjects/' +
+        await axios.get(this.$url + 'subjects/' +
             this.$route.params.id +'/', { headers })
             .then(response => {
                 this.subject = response.data;

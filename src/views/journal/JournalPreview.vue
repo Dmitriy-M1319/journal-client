@@ -39,10 +39,10 @@ export default {
             "Content-Type": "application/json",
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/')
+        await axios.get(this.$url + 'platoons/')
         .then(response => this.platoons = response.data);
 
-        await axios.get('http://127.0.0.1:8000/api/v1/subjects/')
+        await axios.get(this.$url + 'subjects/')
         .then(response => this.subjects = response.data);
     },
     methods: {

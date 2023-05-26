@@ -39,7 +39,7 @@ export default {
                 "Content-Type": "application/json",
             };
 
-            await axios.post('http://127.0.0.1:8000/api/v1/classes/' + this.class_id + '/create_column/', { headers })
+            await axios.post(this.$url + 'classes/' + this.class_id + '/create_column/', { headers })
                 .then(response => this.$router.push('/journal/subject/' + this.subject + '/platoon/' + this.platoon + '/'))
         }
     },
@@ -49,7 +49,7 @@ export default {
             "Content-Type": "application/json",
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.platoon + '/classes' + '?subj_id=' + this.subject, { headers })
+        await axios.get(this.$url + 'platoons/' + this.platoon + '/classes' + '?subj_id=' + this.subject, { headers })
             .then(response => this.classes = response.data)
     },
 }

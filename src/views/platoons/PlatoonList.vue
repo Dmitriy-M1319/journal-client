@@ -28,12 +28,12 @@ export default {
             "Content-Type": "application/json",
             'Authorization': 'Token ' + this.token,
         };
-        axios.get('http://127.0.0.1:8000/api/v1/platoons/', { headers })
+        axios.get(this.$url + 'platoons/', { headers })
             .then(response => {
                 platoons = response.data;
                 console.log(platoons);
                 for (var pl of platoons) {
-                    axios.get('http://127.0.0.1:8000/api/v1/platoons/' + pl.platoon_number + '/tutor/', { headers })
+                    axios.get(this.$url + 'platoons/' + pl.platoon_number + '/tutor/', { headers })
                         .then(response => pl.tutor = response.data);
                 }
                 console.log(platoons);

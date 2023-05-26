@@ -67,7 +67,7 @@ export default {
                 attendance: this.attendance,
                 mark: this.mark
             };
-            await axios.put('http://127.0.0.1:8000/api/v1/ceils/' + this.local_mark.id + '/', data, { headers })
+            await axios.put(this.$url + 'ceils/' + this.local_mark.id + '/', data, { headers })
                 .then(response => this.$emit('on-ceil-update', response.data));
             this.$modal.hide("journal-update-ceil")
         }
@@ -79,7 +79,7 @@ export default {
             "Content-Type": "application/json",
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/ceils/' + this.local_mark.id + '/', { headers })
+        await axios.get(this.$url + 'ceils/' + this.local_mark.id + '/', { headers })
             .then(response => {
                 this.edited_mark = response.data;
                 this.attendance = this.edited_mark.attendance;

@@ -74,7 +74,7 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.$route.params.id + '/', { headers })
+        await axios.get(this.$url + 'teachers/' + this.$route.params.id + '/', { headers })
             .then(response => {
                 this.teacher = response.data;
                 this.surname = this.teacher.surname;
@@ -106,7 +106,7 @@ export default {
             }
 
 
-            await axios.put('http://127.0.0.1:8000/api/v1/teachers/' + this.$route.params.id + '/', data, { headers })
+            await axios.put(this.$url + 'teachers/' + this.$route.params.id + '/', data, { headers })
                 .then(response => this.$router.push('/teachers'));
         },
         async onTeacherDeleteSubmit() {
@@ -116,7 +116,7 @@ export default {
                 'Authorization': 'Token ' + this.token,
             };
 
-            await axios.delete('http://127.0.0.1:8000/api/v1/teachers/' + this.$route.params.id + '/', { headers })
+            await axios.delete(this.$url + 'teachers/' + this.$route.params.id + '/', { headers })
                 .then(response => this.$router.push('/teachers'));
         },
     },

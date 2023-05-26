@@ -89,6 +89,7 @@ export default new VueRouter({
     },
     {
       path: "/journal/subject/:id/platoon/:number",
+      name: "platoon-journal",
       component: () => import("@/views/journal/Journal"),
     },
   ],

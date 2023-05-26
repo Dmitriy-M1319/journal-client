@@ -12,6 +12,8 @@
     "core-js": "^3.8.3",
     "js-cookie": "^3.0.5",
     "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "url": "^0.11.0",
     "vue": "^2.6.14",
     "vue-context": "^6.0.0",
     "vue-context-menu": "^2.0.6",

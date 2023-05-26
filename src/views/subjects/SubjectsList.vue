@@ -40,10 +40,10 @@ export default {
         };
 
         if (this.profile.teacher_role === 0) {
-            await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.profile.id + '/subjects/', { headers })
+            await axios.get(this.$url + 'teachers/' + this.profile.id + '/subjects/', { headers })
                 .then(response => this.subjects = response.data);
         } else {
-            await axios.get('http://127.0.0.1:8000/api/v1/subjects/', { headers })
+            await axios.get(this.$url + 'subjects/', { headers })
                 .then(response => this.subjects = response.data);
         }
     },

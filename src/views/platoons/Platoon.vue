@@ -15,7 +15,7 @@
                 <p>Год набора: {{ platoon.year }}</p>
                 <p>Приказ о зачислении: {{ platoon.order_of_enrollment }}</p>
                 <div style="display: flex">
-                    <router-link class="exit_btn" :to="'/platoons/' + platoon.platoon_number + '/students'">
+                    <router-link class="exit_btn" :to="'/platoons/' + platoon.platoon_number + '/students'" v-bind:token="token">
                         Состав
                     </router-link>
                     <router-link v-if="!is_student && profile.teacher_role === 1" class="mark_edit_btn" :to="'/platoons/' + platoon.platoon_number"
@@ -42,6 +42,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
         };
 
         axios.get(this.$url + 'platoons/' + this.platoon.platoon_number + '/commander/', {headers})

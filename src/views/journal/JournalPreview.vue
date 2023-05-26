@@ -25,6 +25,7 @@ import axios from 'axios';
 
 export default {
     name: 'JournalPreview',
+    props: ['token'],
     data() {
         return {
             subject: 0,
@@ -37,17 +38,19 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get(this.$url + 'platoons/')
+        await axios.get(this.$url + 'platoons/', {headers})
         .then(response => this.platoons = response.data);
 
-        await axios.get(this.$url + 'subjects/')
+        await axios.get(this.$url + 'subjects/',  {headers})
         .then(response => this.subjects = response.data);
     },
     methods: {
         onSubmit() {
-            this.$router.push('/journal/subject/' + this.subject + '/platoon/' + this.platoon);
+            //this.$router.push('/journal/subject/' + this.subject + '/platoon/' + this.platoon, params: {'token': this.token});
+            this.$router.push({name: 'platoon-journal', params: {id: this.subject, number: this.platoon}, query: {token: this.token}})
         }
     },
 }

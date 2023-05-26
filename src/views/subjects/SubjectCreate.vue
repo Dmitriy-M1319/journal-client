@@ -57,13 +57,13 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/', { headers })
+        await axios.get(this.$url + 'teachers/', { headers })
             .then(response => {
                 this.teachers = response.data;
                 console.log(this.teachers);
             });
 
-        await axios.get('http://127.0.0.1:8000/api/v1/directions/', { headers })
+        await axios.get(this.$url + 'directions/', { headers })
             .then(response => this.directions = response.data);
 
     },
@@ -82,7 +82,7 @@ export default {
                 direction: this.direction,
                 form: this.form
             }
-            await axios.post('http://127.0.0.1:8000/api/v1/subjects/', data, { headers })
+            await axios.post(this.$url + 'subjects/', data, { headers })
                 .then(response => this.$router.push('/subjects'));
         }
     },

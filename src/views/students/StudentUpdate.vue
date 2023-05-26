@@ -93,7 +93,7 @@ export default {
             "Content-Type": "application/json",
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/students/' + this.$route.params.id + '/', { headers })
+        await axios.get(this.$url + 'students/' + this.$route.params.id + '/', { headers })
             .then(response => {
                 this.student = response.data;
                 this.surname = this.student.surname;
@@ -113,7 +113,7 @@ export default {
                 this.sports_category = this.student.sports_category;
             });
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/', { headers })
+        await axios.get(this.$url + 'platoons/', { headers })
             .then(response => this.platoons = response.data);
     },
     methods: {
@@ -142,7 +142,7 @@ export default {
                 sports_category: this.sports_category,
             }
 
-            await axios.put('http://127.0.0.1:8000/api/v1/students/' + this.$route.params.id + '/', data, { headers })
+            await axios.put(this.$url + 'students/' + this.$route.params.id + '/', data, { headers })
                 .then(response => this.$router.push('/platoons/' + this.platoon + '/'));
         }
     },

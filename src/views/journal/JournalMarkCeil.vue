@@ -16,13 +16,11 @@
 
 <script>
 import JournalUpdateCeil from './JournalUpdateCeil.vue';
-import JournalContextMenu from "./JournalContextMenu.vue";
 
 export default {
     name: 'JournalMarkCeil',
     components: {
         JournalUpdateCeil,
-        JournalContextMenu
     },
     props: ['mark'],
     data() {
@@ -47,7 +45,6 @@ export default {
 </script>
 
 <style>
-@import '~vue-context/dist/css/vue-context.css';
 
 .mark-ceil {
     width: 30px;

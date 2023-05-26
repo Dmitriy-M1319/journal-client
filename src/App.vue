@@ -26,7 +26,6 @@
 
 <script>
 import axios from 'axios';
-import Cookies from 'js-cookie';
 
 var is_student = true;
 var profile = null;
@@ -62,7 +61,6 @@ export default {
                 'accept': "application/json",
                 "Content-Type": "application/json",
                 'Authorization': 'Token ' + this.token,
-                'X-CSRFToken': Cookies.get('csrftoken')
             };
             if (!this.is_student) {
                 axios.get(this.$url +  'teachers/teacher_profile/', { headers })
@@ -76,7 +74,6 @@ export default {
             const headers = {
                 'accept': "application/json",
                 'Authorization': 'Token ' + this.token,
-                'X-CSRFToken': Cookies.get('csrftoken')
             };
 
             const data = {}

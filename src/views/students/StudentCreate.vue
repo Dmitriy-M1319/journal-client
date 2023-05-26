@@ -94,12 +94,12 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', { headers })
+        await axios.get(this.$url + 'platoons/' + this.$route.params.number + '/', { headers })
             .then(response => {
                 this.platoon = response.data;
             });
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/logins/', { headers })
+        await axios.get(this.$url + 'teachers/logins/', { headers })
             .then(response => {
                 this.users = response.data;
             });
@@ -130,7 +130,7 @@ export default {
                 sports_category: this.sports_category,
             }
 
-            await axios.post('http://127.0.0.1:8000/api/v1/students/', data, { headers })
+            await axios.post(this.$url + 'students/', data, { headers })
                 .then(response => this.$router.push('/platoons/' + this.platoon.platoon_number + '/'));
         }
     },

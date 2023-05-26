@@ -78,7 +78,7 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/logins/', { headers })
+        await axios.get(this.$url + 'teachers/logins/', { headers })
             .then(response => {
                 this.users = response.data;
             });
@@ -103,7 +103,7 @@ export default {
             }
 
 
-            await axios.post('http://127.0.0.1:8000/api/v1/teachers/', data, { headers })
+            await axios.post(this.$url + 'teachers/', data, { headers })
                 .then(response => this.$router.push('/teachers'));
         },
     },

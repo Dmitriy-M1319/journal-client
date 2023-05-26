@@ -29,6 +29,7 @@ import axios from 'axios';
 
 export default {
     name: 'Journal',
+    props: ['token'],
     components: {
         JournalStudentRow,
         JournalAddColumn
@@ -46,7 +47,10 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.$route.query.token,
         };
+
+        console.log(this.$route.query.token);
 
         await axios.get(this.$url + 'platoons/' +
             this.$route.params.number + '/journal/?subj_id=' + this.$route.params.id, { headers })

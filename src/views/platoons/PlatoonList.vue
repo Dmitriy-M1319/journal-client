@@ -28,6 +28,7 @@ export default {
             "Content-Type": "application/json",
             'Authorization': 'Token ' + this.token,
         };
+        console.log(this.token);
         axios.get(this.$url + 'platoons/', { headers })
             .then(response => {
                 platoons = response.data;

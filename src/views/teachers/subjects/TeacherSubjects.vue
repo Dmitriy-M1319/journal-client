@@ -34,7 +34,7 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.$route.params.id + '/subjects/', { headers })
+        await axios.get(this.$url + 'teachers/' + this.$route.params.id + '/subjects/', { headers })
             .then(response => this.subjects = response.data);
     },
 }

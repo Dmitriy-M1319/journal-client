@@ -34,10 +34,10 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/subjects/' + this.timetable_class.subject + '/', { headers })
+        await axios.get(this.$url + 'subjects/' + this.timetable_class.subject + '/', { headers })
             .then(response => this.subject = response.data);
 
-        await axios.get('http://127.0.0.1:8000/api/v1/teachers/' + this.subject.teacher + '/', { headers })
+        await axios.get(this.$url + 'teachers/' + this.subject.teacher + '/', { headers })
             .then(response => this.teacher = response.data);
     },
     methods: {

@@ -35,7 +35,7 @@ export default {
             'Authorization': 'Token ' + this.token,
         };
 
-        await axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.profile.platoon + '/timetable/', { headers })
+        await axios.get(this.$url + 'platoons/' + this.profile.platoon + '/timetable/', { headers })
             .then(response => this.timetable_data = response.data);
     },
 }

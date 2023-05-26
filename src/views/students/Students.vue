@@ -36,16 +36,18 @@ var students = {};
 
 export default {
     name: 'Students',
+    props: ['token'],
     mounted() {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
+            'Authorization': 'Token ' + this.token,
         };
 
-        axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/students/', { headers })
+        axios.get(this.$url + 'platoons/' + this.$route.params.number + '/students/', { headers })
             .then(response => this.students = response.data);
 
-        axios.get('http://127.0.0.1:8000/api/v1/platoons/' + this.$route.params.number + '/', { headers })
+        axios.get(this.$url + 'platoons/' + this.$route.params.number + '/', { headers })
             .then(response => this.platoon = response.data);
 
     },

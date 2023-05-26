@@ -1,7 +1,7 @@
 <template>
    <StudentProfile v-if="is_student" 
    v-bind:profile="profile"/>
-   <TeacherProfile v-else v-bind:profile="profile"/>
+   <TeacherProfile v-else v-bind:profile="profile_local"/>
 </template>
 
 <script>
@@ -23,8 +23,7 @@ export default {
     name: 'Home',
     props: ['is_student', 'profile'],
     mounted() {
-        console.log(this.is_student);
-        console.log(this.profile);
+        this.profile_local = JSON.parse(localStorage.getItem('profile'));
     },
     components: {
         TeacherProfile,
@@ -32,6 +31,7 @@ export default {
     },
     data() {
         return {
+            profile_local: {}
         }
     },
 }

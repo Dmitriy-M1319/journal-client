@@ -89,7 +89,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         if (this.profile.teacher_role === 0) {
@@ -139,7 +139,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             await axios.put(this.$url + 'classes/' + this.$route.params.id + '/', data, { headers })
@@ -149,7 +149,7 @@ export default {
              const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             await axios.delete(this.$url + 'classes/' + this.$route.params.id + '/', { headers })

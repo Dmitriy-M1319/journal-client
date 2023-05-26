@@ -1,7 +1,6 @@
 <template>
     <div id="app">
-        <div v-if="this.token != null">
-            <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+        <div v-if="this.is_token">
             <div class="header">
                 <h3>Военный учебный центр при ВГУ</h3>
                 <form @submit="logout">
@@ -12,7 +11,7 @@
                 <ul>
                     <li><router-link to="/">МОЙ ПРОФИЛЬ</router-link></li>
                     <li><router-link to="/platoons">СПИСОК ВЗВОДОВ</router-link></li>
-                    <li v-if="is_student"><router-link to="/timetable">РАСПИСАНИЕ</router-link></li>
+                    <li v-if="!is_student"><router-link to="/timetable">РАСПИСАНИЕ</router-link></li>
                     <li v-else><router-link to="/classes">МОИ ЗАНЯТИЯ</router-link></li>
                     <li><router-link to="/subjects">СПИСОК ПРЕДМЕТОВ</router-link></li>
                     <li><router-link to="/journal">ОЦЕНКИ</router-link></li>
@@ -20,68 +19,71 @@
                 </ul>
             </div>
         </div>
-        <router-view :is_student="this.is_student" :profile="this.profile" :token="this.token"/>
+        <router-view :is_student="!this.is_student" :profile="this.profile"/>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 
-var is_student = true;
-var profile = null;
-var token = null
-
-
 
 export default {
     name: 'App',
-    beforeCreate() {
-        if (token === null) {
+    created() {
+        if (!localStorage.getItem('token')) {
             this.$router.push('/login');
-            this.$on('login', (token, type) => {
-                this.token = token;
-                this.is_student = type === 'Студент';
-                this.getProfile();
-            })
+            this.$on('login');
         }
     },
-
     components: {
     },
     data() {
         return {
-            is_student,
-            token,
-            profile
+            is_student: false,
+            profile: {},
+            is_token: false,
+        }
+    },
+    mounted() {
+        if (localStorage.getItem('profile')) {
+           this.is_token = true;
+           this.profile = JSON.parse(localStorage.getItem('profile'));
+        } else {
+            if(localStorage.getItem('token')){ 
+                this.getProfile();
+            }
         }
     },
     methods: {
-        getProfile() {
+        async getProfile() {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
-            if (!this.is_student) {
-                axios.get(this.$url +  'teachers/teacher_profile/', { headers })
-                    .then(response => this.profile = response.data);
+            this.is_student = !(!(localStorage.is_student));
+            if (this.is_student) {
+                await axios.get(this.$url +  'teachers/teacher_profile/', { headers })
+                    .then(response => localStorage.setItem('profile', JSON.stringify(response.data)));
             } else {
-                axios.get(this.$url + 'students/student_profile/', { headers })
-                    .then(response => this.profile = response.data);
+                await axios.get(this.$url + 'students/student_profile/', { headers })
+                    .then(response => localStorage.setItem('profile', JSON.stringify(response.data)));
             }
+
+            this.profile = JSON.parse(localStorage.getItem('profile'));
+            console.log(this.profile);
+            this.is_token = true;
         },
         logout() {
             const headers = {
                 'accept': "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             const data = {}
-
-            axios.post(this.$url + 'auth/token/logout/', data, { headers })
-                .then(response => console.log(response));
-            this.token = null;
-            this.profile = null;
+            const response = axios.post(this.$url + 'auth/token/logout/', data, { headers });
+            localStorage.clear();
+            this.is_token = false;
             this.$router.push('/login');
         }
     }

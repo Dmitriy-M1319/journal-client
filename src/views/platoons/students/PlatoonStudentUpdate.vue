@@ -27,6 +27,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             this.index = this.student.platoon;

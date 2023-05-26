@@ -91,6 +91,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         await axios.get(this.$url + 'students/' + this.$route.params.id + '/', { headers })
@@ -121,6 +122,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             const data = {

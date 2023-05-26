@@ -38,7 +38,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         await axios.get(this.$url + 'platoons/', {headers})
@@ -49,8 +49,8 @@ export default {
     },
     methods: {
         onSubmit() {
-            //this.$router.push('/journal/subject/' + this.subject + '/platoon/' + this.platoon, params: {'token': this.token});
-            this.$router.push({name: 'platoon-journal', params: {id: this.subject, number: this.platoon}, query: {token: this.token}})
+            this.$router.push('/journal/subject/' + this.subject + '/platoon/' + this.platoon);
+            //this.$router.push({name: 'platoon-journal', params: {id: this.subject, number: this.platoon}, query: {token: this.token}})
         }
     },
 }

@@ -79,7 +79,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         await axios.get(this.$url + 'teachers/', { headers })
@@ -115,7 +115,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage .token,
             };
             await axios.post(this.$url + 'platoons/', data, { headers })
                 .then(response => this.$router.push('/platoons'));

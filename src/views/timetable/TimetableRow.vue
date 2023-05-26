@@ -31,7 +31,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         await axios.get(this.$url + 'subjects/' + this.timetable_class.subject + '/', { headers })

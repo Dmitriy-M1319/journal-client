@@ -69,7 +69,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             const data = {
@@ -87,7 +87,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             await axios.delete(this.$url + 'subjects/' + this.$route.params.id + '/', { headers })

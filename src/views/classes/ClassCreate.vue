@@ -84,7 +84,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         if (this.profile.teacher_role === 0) {
@@ -119,7 +119,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + this.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             await axios.post(this.$url + 'classes/', data, { headers })

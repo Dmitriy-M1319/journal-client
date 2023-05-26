@@ -37,6 +37,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             await axios.post(this.$url + 'classes/' + this.class_id + '/create_column/', { headers })
@@ -47,7 +48,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         await axios.get(this.$url + 'platoons/' + this.platoon + '/classes' + '?subj_id=' + this.subject, { headers })

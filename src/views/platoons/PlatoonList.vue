@@ -26,7 +26,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
         console.log(this.token);
         axios.get(this.$url + 'platoons/', { headers })

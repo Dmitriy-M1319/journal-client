@@ -31,7 +31,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         await axios(this.$url + 'teachers/' + this.profile.id + '/timetable/', { headers })

@@ -48,7 +48,7 @@ export default {
         }
     },
     methods: {
-        onSubmit() {
+        async onSubmit() {
             const data = {
                 username: this.username,
                 password: this.password
@@ -59,9 +59,10 @@ export default {
                 'X-CSRFToken': Cookies.get('csrftoken')
             };
 
-            axios.post('http://127.0.0.1:8000/auth/token/login/', data, {headers})
-            .then(response => this.$parent.$emit('login', response.data.auth_token, this.person_type))
-            .catch(error => this.$router.push('/login'));
+            const response = await axios.post(this.$url + 'auth/token/login/', data, {headers});
+            localStorage.setItem('token', response.data.auth_token);
+            localStorage.setItem('is_student', this.person_type == 'Студент');
+            this.$parent.$emit('login');
             this.$router.push('/');
 
         }

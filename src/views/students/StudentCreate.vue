@@ -91,7 +91,7 @@ export default {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
-            'Authorization': 'Token ' + this.token,
+            'Authorization': 'Token ' + localStorage.token,
         };
 
         await axios.get(this.$url + 'platoons/' + this.$route.params.number + '/', { headers })
@@ -109,6 +109,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
+                'Authorization': 'Token ' + localStorage.token,
             };
 
             const data = {

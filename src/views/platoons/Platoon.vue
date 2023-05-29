@@ -16,10 +16,19 @@
                 </p>
                 <p>Год набора: {{ platoon.year }}</p>
                 <p>Приказ о зачислении: {{ platoon.order_of_enrollment }}</p>
-                <router-link :to="'/platoons/' + platoon.platoon_number + '/students'"
-                    class="btn btn-primary">Состав</router-link>
-                <router-link v-if="!is_student && profile.teacher_role === 1" :to="'/platoons/' + platoon.platoon_number"
-                    class="btn btn-success ml-auto">Редактировать</router-link>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-2">
+                            <router-link :to="'/platoons/' + platoon.platoon_number + '/students'"
+                                class="btn btn-primary">Состав</router-link>
+                        </div>
+                        <div class="col-2">
+                            <router-link v-if="!is_student && profile.teacher_role === 1"
+                                :to="'/platoons/' + platoon.platoon_number"
+                                class="btn btn-success ml-auto">Редактировать</router-link>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -61,5 +70,4 @@ export default {
 }
 </script>
 
-<style scoped >
-</style>
+<style scoped ></style>

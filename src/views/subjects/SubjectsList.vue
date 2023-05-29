@@ -1,17 +1,25 @@
 <template>
-    <div class="platoon_box">
-        <div class="platoon_box_item">
-            <h3 style="text-align: center">МОИ ПРЕДМЕТЫ</h3>
+    <div class="container overflow-hidden p-4">
+        <div class="row mb-1 p-1">
+            <div class="col-md-12 bg-header-color p-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-9 col-sm-7">
+                                <h4 class="fw-bold text-uppercase">Мои предметы</h4>
+                            </div>
+                            <div class="col-md-3 col-sm-5 d-flex justify-content-end">
+                                <router-link class="btn btn-success" v-if="!is_student && profile.teacher_role === 1"
+                                    v-bind:profile="profile" to="/subjects/create">+</router-link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <ul>
-            <Subject v-for="s in subjects" v-bind:subject="s" 
-            v-bind:profile="profile"
-            v-bind:token="token"/>
-        </ul>
-        <router-link class="mark_edit_btn" 
-        v-if="!is_student && profile.teacher_role === 1"
-        v-bind:token="token"
-        to="/subjects/create">Создать</router-link>
+        <div class="row gx-4">
+            <Subject v-for="s in subjects" v-bind:subject="s" v-bind:profile="profile" />
+        </div>
     </div>
 </template>
 
@@ -33,6 +41,7 @@ export default {
         }
     },
     async mounted() {
+        this.profile = JSON.parse(localStorage.getItem('profile'));
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",

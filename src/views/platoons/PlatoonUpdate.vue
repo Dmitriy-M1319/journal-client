@@ -3,7 +3,7 @@
         <div class="col-10 bg-header-color p-3">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="fw-bold text-center mb-0">Создание нового взвода</h4>
+                    <h4 class="fw-bold text-center mb-0">Редактирование взвода</h4>
                 </div>
                 <div class="card-body">
                     <form @submit.prevent="onPlatoonUpdateFormSubmit" action="">

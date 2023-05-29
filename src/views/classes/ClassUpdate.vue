@@ -45,7 +45,7 @@
                         </label>
                         <input class="form-control" type="text" v-model="classroom" />
                         <div class="row justify-content-center">
-                            <div class="col">
+                            <div class="col d-flex justify-content-end">
                                 <input class="btn btn-success" type="submit" value="Редактировать" />
                             </div>
                             <div class="col">

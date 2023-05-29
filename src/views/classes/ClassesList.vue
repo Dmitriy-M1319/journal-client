@@ -6,7 +6,7 @@
                     <h3 class="text-center">Мои занятия</h3>
                 </div>
                 <div class="card-body p-2">
-                    <div class="bg-header-color">
+                    <div>
                         <ul class="list-unstyled overflow-y-auto overflow-x-hidden" style="height: 700px;">
                             <Class v-for="classes in all_classes" v-bind:classes="classes" v-bind:token="token"
                                 v-bind:profile="profile" />

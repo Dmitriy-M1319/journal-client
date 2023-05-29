@@ -3,8 +3,8 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <h4 class="text-center">Аудитория {{ sub_class.classroom }}</h4>
+                    <div class="card-header bg-header-color">
+                        <h4 class="text-center text-white">Аудитория {{ sub_class.classroom }}</h4>
                     </div>
                     <div class="card-body">
                         <p>Предмет: {{ subject.name }}</p>

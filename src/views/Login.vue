@@ -1,34 +1,31 @@
 <template>
     <div>
-        <div class="center_div vuz_header">
-            <h2>Военный учебный центр при ВГУ</h2>
-        </div>
-        <div class="center_div vuz_login_form">
-            <h3>Вход в электронный журнал</h3>
-            <form @submit.prevent="onSubmit">
-                <div class="center">
-                    <table>
-                        <tr>
-                            <td><label for="login_field">Логин:</label></td>
-                            <td><input id="login_field" type="text" v-model="username" /></td>
-                        </tr>
-                        <tr>
-                            <td><label for="password_field">Пароль:</label></td>
-                            <td><input id="password_field" type="password" v-model="password" /></td>
-                        </tr>
-                        <tr>
-                            <td><label for="type">Тип пользователя:</label></td>
-                            <td>
-                                <select v-model="person_type">
-                                    <option>Студент</option>
-                                    <option>Преподаватель</option>
+        <div class="row justify-content-center">
+            <div class="col-4">
+                <section id="login">
+                    <div class="container">
+                        <div class="text-white">
+                            <h5 class="text-center">Вход в систему</h5>
+                            <form @submit.prevent="onSubmit">
+                                <label class="form-label" for="login">Логин:</label>
+                                <input class="form-control bg-light" id="login" type="text" v-model="username">
+                                <label class="form-label" for="password">Пароль:</label>
+                                <input class="form-control bg-light" id="password" type="password" v-model="password">
+                                <label class="form-label" for="person-type">Тип пользователя:</label>
+                                <select class="form-select" v-model="person_type">
+                                    <option selected>Преподаватель</option>
+                                    <option value="1">Студент</option>
                                 </select>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-                <input class="common_btn" type="submit" value="Войти" />
-            </form>
+                                <div class="row justify-content-center">
+                                    <div class="col-3 mt-2">
+                                        <input class="btn btn-success" type="submit" value="Войти">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
     </div>
 </template>
@@ -53,19 +50,28 @@ export default {
                 username: this.username,
                 password: this.password
             };
-            const headers = {
+            let headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
                 'X-CSRFToken': Cookies.get('csrftoken')
             };
 
-            const response = await axios.post(this.$url + 'auth/token/login/', data, {headers});
+            const response = await axios.post(this.$url + 'auth/token/login/', data, { headers });
             localStorage.setItem('token', response.data.auth_token);
             localStorage.setItem('is_student', this.person_type == 'Студент');
-            this.$parent.$emit('login');
-            this.$router.push('/');
+            let is_student = !(!(localStorage.is_student));
 
-        }
+            headers['Authorization'] = 'Token ' + localStorage.token;
+
+            if (is_student) {
+                await axios.get(this.$url + 'teachers/teacher_profile/', { headers })
+                    .then(response => localStorage.setItem('profile', JSON.stringify(response.data)));
+            } else {
+                await axios.get(this.$url + 'students/student_profile/', { headers })
+                    .then(response => localStorage.setItem('profile', JSON.stringify(response.data)));
+            }
+            this.$router.push('/');
+        },
     }
 }
 </script>
@@ -73,68 +79,45 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;200;300;400;500;600;700&display=swap");
 
-body {
-    background-color: #ccc;
-    justify-content: center;
+#app {
+    height: 100%;
+}
+
+header {
+    padding: 13px 0;
+    background-color: #0067b4;
+    color: white;
+    font-size: large;
     font-family: "IBM Plex Sans", sans-serif;
 }
 
-.center_div {
-    margin: 0 auto;
-    /* width: 100%; */
+body {
+    background-image: url('@/assets/35.jpg');
+    width: 100%;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-family: "IBM Plex Sans", sans-serif;
 }
 
-.common_btn {
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-    border-radius: 4px;
-    color: #000;
-    display: block;
-    width: 120px;
-    margin: 20px auto;
-    font-size: 14px;
-    text-align: center;
-    height: 25px;
-    line-height: 20px;
-    margin-bottom: 10px;
-    padding: 4px 6px;
-    vertical-align: middle;
-    text-decoration: none;
+.bg-header-color {
+    background-color: #0067b4;
+    border-radius: 5px;
 }
 
-.vuz_header {
-    color: aliceblue;
-    background-color: red;
-    padding: 15px;
-    border-radius: 20px;
-    margin-bottom: 10px;
+.mask {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
-.vuz_header h2 {
-    text-align: center;
+h4 {
+    margin-top: 5px;
 }
 
-.vuz_login_form {
-    color: aliceblue;
-    background-color: #4d8bc3;
-    padding: 5px;
-    border-radius: 20px;
-}
-
-.vuz_login_form h3 {
-    text-align: center;
-}
-
-.center {
-    display: flex;
-    justify-content: center;
-}
-
-.vuz_login_form input {
-    border: none;
-    border-bottom: 1px solid #cccccc;
+#login {
+    padding: 10px;
+    background-color: #0067b4;
     border-radius: 5px;
 }
 </style>

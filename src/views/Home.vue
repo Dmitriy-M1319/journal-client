@@ -1,7 +1,19 @@
 <template>
-   <StudentProfile v-if="is_student" 
-   v-bind:profile="profile"/>
-   <TeacherProfile v-else v-bind:profile="profile_local"/>
+    <!-- <StudentProfile v-if="is_student && token" v-bind:profile="profile" /> -->
+    <!-- <TeacherProfile v-else-if="token" v-bind:profile="profile_local" /> -->
+    <div class="row">
+        <div v-if="!token" class="col-12">
+            <div class="text-white text-center">
+                <h3>Добро пожаловать в "Электронный журнал для ВУЦ при ВГУ"</h3>
+                <p>Для начала работы войдите в систему</p>
+            </div>
+        </div>
+        <div v-else class="col-12">
+            <div class="text-white text-center">
+                <h3>Вы вошли в систему</h3>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -10,7 +22,7 @@ import StudentProfile from './students/StudentProfile.vue';
 
 const local_profile = {
     type: 'student',
-    profile : {
+    profile: {
         surname: 'Фамилия',
         name: 'Имя',
         patronymic: 'Отчество',
@@ -21,7 +33,7 @@ const local_profile = {
 
 export default {
     name: 'Home',
-    props: ['is_student', 'profile'],
+    props: ['is_student', 'profile', 'token'],
     mounted() {
         this.profile_local = JSON.parse(localStorage.getItem('profile'));
     },

@@ -30,7 +30,10 @@ export default new VueRouter({
       path: "/platoons/:number/students",
       component: () => import("@/views/students/Students"),
     },
-
+    {
+      path: "/platoons/:number/students/update",
+      component: () => import("@/views/platoons/students/PlatoonStudentsUpdate"),
+    },
     {
       path: "/classes",
       component: () => import("@/views/classes/ClassesList"),

@@ -1,28 +1,38 @@
 <template>
-    <div>
-        <div class="platoon_box">
-            <div class="platoon_box_item">
-                <h4>Состав {{ $route.params.number }} взвода</h4>
-            </div>
-            <div class="platoon_box_item">
-                <table class="center_div">
-                    <tr>
-                        <td style="width: 65px;">Номер</td>
-                        <td>ФИО</td>
-                        <td>Должность</td>
-                        <td>Год рождения</td>
-                        <td>Приказ о зачислении</td>
-                        <td>Приказ об отчислении</td>
-                        <td>Семейное положение</td>
-                        <td>Адрес, номер телефона</td>
-                        <td>Общественная нагрузка</td>
-                        <td>Факультет</td>
-                        <td>Спортивный разряд</td>
-                    </tr>
-                    <Student v-for="(student, index) in students" v-bind:student="student" 
-                    v-bind:index="index"
-                    v-bind:platoon="platoon" />
-                </table>
+    <div class="row justify-content-center p-3">
+        <div class="col-10 bg-header-color p-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4>Состав {{ $route.params.number }} взвода</h4>
+                </div>
+                <div class="card-body">
+                    <div class="scroll-item">
+                        <div class="table-responsive">
+                            <table class="table table-bordered border-dark">
+                                <thead>
+                                    <tr>
+                                        <td style="width: 65px;">Номер</td>
+                                        <td>ФИО</td>
+                                        <td>Должность</td>
+                                        <td>Год рождения</td>
+                                        <td>Приказ о зачислении</td>
+                                        <td>Приказ об отчислении</td>
+                                        <td>Семейное положение</td>
+                                        <td>Адрес, номер телефона</td>
+                                        <td>Общественная нагрузка</td>
+                                        <td>Факультет</td>
+                                        <td>Спортивный разряд</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <Student v-for="(student, index) in students" v-bind:student="student"
+                                        v-bind:index="index" v-bind:platoon="platoon" />
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
@@ -64,6 +74,12 @@ export default {
 </script>
 
 <style scoped>
+.scroll-item {
+    width: 1200px;
+    height: 100%;
+    overflow-y: scroll;
+}
+
 .center_div {
     margin: 0 auto;
     /* width: 100%; */

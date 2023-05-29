@@ -10,8 +10,7 @@
             <td>{{ student.order_of_expulsion }}</td>
             <td>{{ student.marital_status }}</td>
             <td>
-                <p>{{ student.address }}</p>
-                <p>{{ student.phone_number }}</p>
+                <p>{{ student.address }} {{ student.phone_number }}</p>
             </td>
             <td>{{ student.public_load }}</td>
             <td>{{ student.department }}</td>

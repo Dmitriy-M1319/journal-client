@@ -1,45 +1,47 @@
 <template>
-    <div>
-        <div class="platoon_box">
-            <div class="platoon_box_item">
-                <h4>Создание нового взвода</h4>
-            </div>
-            <div class="platoon_box_item">
-                <form @submit.prevent="onPlatoonUpdateFormSubmit">
-                    <label for="number">1. Введите номер взвода: </label>
-                    <input type="text" v-model="number" />
-                    <br />
-                    <label for="tutors">2. Выберите куратора взвода: </label>
-                    <select v-model="tutor">
-                        <option v-for="teacher in this.teachers" v-bind:value="teacher.id">
-                            {{ teacher.surname }} {{ teacher.name }} {{ teacher.patronymic }}
-                        </option>
-                    </select>
-                    <br />
-                    <label for="tutors">3. Выберите направление и курс: </label>
-                    <select v-model="course">
-                        <option v-for="c in this.courses" v-bind:value="c.id">
-                            {{ c.direction }}, курс {{ c.course }}
-                        </option>
-                    </select>
-                    <br />
-                    <label for="tutors">4. Выберите день прихода: </label>
-                    <select v-model="study_day">
-                        <option v-for="d in this.days" v-bind:value="d.id">
-                            {{ d.day }}
-                        </option>
-                    </select>
-                    <br />
+    <div class="row justify-content-center pt-4">
+        <div class="col-8 bg-header-color p-3">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold text-center mb-0">Создание нового взвода</p>
+                </div>
+                <div class="card-body">
+                    <form @submit.prevent="onPlatoonUpdateFormSubmit" action="">
+                        <label class="form-label" for="number">1. Введите номер взвода: </label>
+                        <input class="form-control" type="text" v-model="number" />
+                        <label class="form-label" for="tutors">2. Выберите куратора взвода: </label>
+                        <select class="form-select" v-model="tutor">
+                            <option v-for="teacher in this.teachers" v-bind:value="teacher.id">
+                                {{ teacher.surname }} {{ teacher.name }} {{ teacher.patronymic }}
+                            </option>
+                        </select>
+                        <label class="form-label" for="tutors">3. Выберите направление и курс: </label>
+                        <select class="form-select" v-model="course">
+                            <option v-for="c in this.courses" v-bind:value="c.id">
+                                {{ c.direction }}, курс {{ c.course }}
+                            </option>
+                        </select>
+                        <label class="form-label" for="tutors">4. Выберите день прихода: </label>
+                        <select class="form-select" v-model="study_day">
+                            <option v-for="d in this.days" v-bind:value="d.id">
+                                {{ d.day }}
+                            </option>
+                        </select>
 
-                    <label for="year">5. Введите год набора: </label>
-                    <input type="text" v-model="year" />
+                        <label class="form-label" for="year">5. Введите год набора: </label>
+                        <input class="form-control" type="text" v-model="year" />
 
-                    <br />
-                    <label for="year">6. Введите приказ о зачислении: </label>
-                    <input type="text" v-model="enrollment" />
-                    <input class="mark-edit-btn" type="submit" value="Создать" />
-                </form>
+                        <label class="form-label" for="year">6. Введите приказ о зачислении: </label>
+                        <input class="form-control" type="text" v-model="enrollment" />
+                        <div class="row justify-content-center mt-2">
+                            <div class="col-2">
+                                <input class="btn btn-success" type="submit" value="Создать" />
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -115,7 +117,7 @@ export default {
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-                'Authorization': 'Token ' + localStorage .token,
+                'Authorization': 'Token ' + localStorage.token,
             };
             await axios.post(this.$url + 'platoons/', data, { headers })
                 .then(response => this.$router.push('/platoons'));
@@ -204,5 +206,10 @@ export default {
 
 .mark-edit-btn-long {
     width: auto;
+}
+
+.bg-header-color {
+    background-color: #0067b4;
+    border-radius: 5px;
 }
 </style>

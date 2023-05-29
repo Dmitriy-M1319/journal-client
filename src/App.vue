@@ -76,7 +76,7 @@ export default {
             return localStorage.token !== undefined;
         },
         isStudent() {
-            let result = Boolean(localStorage.is_student);
+            let result = localStorage.is_student == 'true';
             return result
 
         },

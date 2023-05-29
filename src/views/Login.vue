@@ -59,11 +59,11 @@ export default {
             const response = await axios.post(this.$url + 'auth/token/login/', data, { headers });
             localStorage.setItem('token', response.data.auth_token);
             localStorage.setItem('is_student', this.person_type === 'Студент');
-            let is_student = !!localStorage.is_student;
 
             headers['Authorization'] = 'Token ' + localStorage.token;
+            let variant = localStorage.is_student != 'true';
 
-            if (!is_student) {
+            if (variant) {
                 await axios.get(this.$url + 'teachers/teacher_profile/', { headers })
                     .then(response => localStorage.setItem('profile', JSON.stringify(response.data)));
             } else {

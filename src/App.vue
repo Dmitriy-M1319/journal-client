@@ -89,8 +89,7 @@ export default {
             const data = {}
             const response = axios.post(this.$url + 'auth/token/logout/', data, { headers });
             localStorage.clear();
-            this.is_token = false;
-            this.$router.push('/login');
+            this.$forceUpdate();
         }
     }
 }

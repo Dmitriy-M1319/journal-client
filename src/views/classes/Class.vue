@@ -1,5 +1,24 @@
 <template>
-    <li class="class_day">
+  <li class="mb-3">
+    <div class="row justify-content-center">
+      <div class="col-9 p-2 border border-2 border-dark rounded">
+        <div class="container">
+          <div class="row">
+            <div class="col-2">
+              <p class="class_date">Дата занятия: {{ classes.date }}</p>
+            </div>
+            <div class="col-10">
+              <ul>
+                <SubClass v-for="sub_class in classes.classes" v-bind:sub_class="sub_class" />
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </li>
+  <!-- <li class="class_day">
         <p class="class_date">Дата занятия: {{ classes.date }}</p>
         <ul>
         <SubClass v-for="sub_class in classes.classes"
@@ -7,19 +26,19 @@
         v-bind:token="token"
         v-bind:profile="profile"/>
         </ul>
-    </li>
+    </li> -->
 </template>
 
 
 <script>
 import SubClass from './SubClass.vue';
 export default {
-    name: 'Classes',
-    components: {
-        SubClass
-    },
-    props: ['classes', 'profile', 'token'],
-    
+  name: 'Classes',
+  components: {
+    SubClass
+  },
+  props: ['classes', 'profile', 'token'],
+
 }
 </script>
 
@@ -29,10 +48,12 @@ export default {
   padding: 15px;
   border-radius: 5px;
 }
+
 .platoon_box ul {
   list-style-type: none;
   padding: 0;
 }
+
 .platoon_box_item {
   background-color: #f3f3f3;
   padding-top: 5px;
@@ -43,13 +64,16 @@ export default {
   min-width: 950px;
   overflow: auto;
 }
+
 .platoon_box_item h4 {
   text-align: center;
   margin: 5px;
 }
+
 .platoon_box_item p {
   margin: 5px;
 }
+
 .platoon_box_item a {
   margin: 1px;
 }
@@ -61,11 +85,11 @@ export default {
   padding-right: 10px;
   margin-bottom: 15px;
 }
+
 .class_date {
   background-color: #f3f3f3;
   padding-left: 5px;
   border-radius: 5px;
   max-width: 200px;
 }
-
 </style>

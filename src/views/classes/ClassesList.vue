@@ -1,13 +1,29 @@
 <template>
-    <div class="platoon_box">
-        <div class="platoon_box_item">
-            <h3 style="text-align: center">МОИ ЗАНЯТИЯ</h3>
+    <div class="row justify-content-center">
+        <div class="col-10 bg-header-color m-3 p-3">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="text-center">Мои занятия</h3>
+                </div>
+                <div class="card-body p-2">
+                    <div class="bg-header-color">
+                        <ul class="list-unstyled overflow-y-auto overflow-x-hidden" style="height: 700px;">
+                            <Class v-for="classes in all_classes" v-bind:classes="classes" v-bind:token="token"
+                                v-bind:profile="profile" />
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-center">
+                        <div class="col-2">
+                            <router-link class="btn btn-success" to="/classes/create" v-bind:token="token"
+                                v-bind:profile="profile">Создать
+                                новое</router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <ul>
-            <Class v-for="classes in all_classes" v-bind:classes="classes" v-bind:token="token" v-bind:profile="profile"/>
-        </ul>
-        <router-link class="mark_edit_btn" to="/classes/create" v-bind:token="token"
-        v-bind:profile="profile">Создать новое</router-link>
     </div>
 </template>
 
@@ -18,16 +34,17 @@ import axios from 'axios';
 
 export default {
     name: 'ClassesList',
-    props: ['profile', 'token'],
     components: {
         Class
     },
     data() {
         return {
-            all_classes: []
+            all_classes: [],
+            profile: {},
         }
     },
     async mounted() {
+        this.profile = JSON.parse(localStorage.getItem('profile'));
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
@@ -42,24 +59,4 @@ export default {
 </script>
 
 <style>
-.mark_edit_btn {
-    background-color: #26a269;
-    border: 1px solid #cccccc;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-    border-radius: 4px;
-    color: white;
-    display: block;
-    width: 100px;
-    margin: 20px auto;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    height: 25px;
-    line-height: 20px;
-    margin-bottom: 10px;
-    padding: 1px 6px;
-    vertical-align: middle;
-    text-decoration: none;
-}
 </style>

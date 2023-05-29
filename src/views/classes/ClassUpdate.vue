@@ -1,63 +1,63 @@
 <template>
-    <div class="platoon_box">
-        <div class="platoon_box_item">
-            <h4>Редактировать занятие</h4>
-        </div>
-        <div class="platoon_box_item">
-            <form @submit.prevent="onClassUpdateSubmit">
-                <label for="platoon">1. Взвод, у которого занятие: </label>
-                <select v-model="platoon">
-                    <option v-for="pl in platoons" :value="pl.platoon_number">
-                        {{ pl.platoon_number }} взвод
-                    </option>
-                </select>
-                <br />
-                <label for="subjects">2. Предмет: </label>
-                <select v-model="subject">
-                    <option v-for="sub in subjects" :value="sub.id">{{ sub.name }}</option>
-                </select>
-                <br />
-                <label for="theme_number">3. Номер темы занятия: </label>
-                <input type="text" v-model="theme_number" />
-
-                <br />
-                <label for="theme_name">4. Название темы занятия: </label>
-                <input type="text" v-model="theme_name" />
-
-                <br />
-                <label for="class_number">5. Номер занятия: </label>
-                <input type="text" v-model="class_number" />
-
-                <br />
-                <label for="class_name">6. Название занятия: </label>
-                <input type="text" v-model="class_name" />
-
-                <br />
-                <label for="class_date">7. Дата и время занятия: </label>
-                <input type="datetime-local" v-bind:value="class_date" v-on:input="changeDate($event.target.value)" />
-
-                <br />
-                <label for="class_type">8. Тип занятия: </label>
-                <p>
-                    <input type="radio" v-model="class_type" value="лекция" />Лекция
-                </p>
-                <p><input type="radio" v-model="class_type" value="семинар" />Семинар</p>
-                <p>
-                    <input type="radio" v-model="class_type" value="экзамен" />Контрольное
-                    занятие
-                </p>
-
-                <br />
-                <label for="class_date">9. Номер аудитории, в которой проводится занятие:
-                </label>
-                <input type="text" v-model="classroom" />
-                <div>
-                    <input class="exit_btn" type="submit" value="Обновить" />
+    <div class="row justify-content-center p-3">
+        <div class="col-10 bg-header-color p-3">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Создать новое занятие</h4>
                 </div>
-            </form>
-            <form @submit.prevent="onClassDeleteSubmit">
-                <button class="delete_btn" type="submit">Удалить</button>
-            </form>
+                <div class="card-body">
+                    <form @submit.prevent="onClassCreateSubmit">
+                        <label class="form-label" for="platoon">1. Взвод, у которого занятие: </label>
+                        <select class="form-select" v-model="platoon">
+                            <option v-for="pl in platoons" :value="pl.platoon_number">
+                                {{ pl.platoon_number }} взвод
+                            </option>
+                        </select>
+                        <label class="form-label" for="subjects">2. Предмет: </label>
+                        <select class="form-select" v-model="subject">
+                            <option v-for="sub in subjects" :value="sub.id">{{ sub.name }}</option>
+                        </select>
+                        <label class="form-label" for="theme_number">3. Номер темы занятия: </label>
+                        <input class="form-control" type="text" v-model="theme_number" />
+                        <label class="form-label" for="theme_name">4. Название темы занятия: </label>
+                        <input class="form-control" type="text" v-model="theme_name" />
+                        <label class="form-label" for="class_number">5. Номер занятия: </label>
+                        <input class="form-control" type="text" v-model="class_number" />
+                        <label for="class_name">6. Название занятия: </label>
+                        <input class="form-control" type="text" v-model="class_name" />
+                        <label class="form-label" for="class_date">7. Дата и время занятия: </label>
+                        <input class="form-control" type="datetime-local" v-bind:value="class_date"
+                            v-on:input="changeDate($event.target.value)" />
+                        <label class="form-label" for="class_type">8. Тип занятия: </label>
+                        <div class="form-check">
+                            <p>
+                                <input class="form-check-input" type="radio" v-model="class_type" value="лекция" />Лекция
+                            </p>
+                            <p><input class="form-check-input" type="radio" v-model="class_type" value="семинар" />Семинар
+                            </p>
+                            <p>
+                                <input class="form-check-input" type="radio" v-model="class_type"
+                                    value="экзамен" />Контрольное
+                                занятие
+                            </p>
+                        </div>
+                        <label class="form-label" for="class_date">9. Номер аудитории, в которой проводится занятие:
+                        </label>
+                        <input class="form-control" type="text" v-model="classroom" />
+                        <div class="row justify-content-center">
+                            <div class="col">
+                                <input class="btn btn-success" type="submit" value="Редактировать" />
+                            </div>
+                            <div class="col">
+                                <form @submit.prevent="onClassDeleteSubmit">
+                                    <button class="btn btn-danger" type="submit">Удалить</button>
+                                </form>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -146,14 +146,14 @@ export default {
                 .then(response => this.$router.push('/classes'));
         },
         async onClassDeleteSubmit() {
-             const headers = {
+            const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
                 'Authorization': 'Token ' + localStorage.token,
             };
 
             await axios.delete(this.$url + 'classes/' + this.$route.params.id + '/', { headers })
-                .then(response => this.$router.push('/classes'));   
+                .then(response => this.$router.push('/classes'));
         }
     },
 }

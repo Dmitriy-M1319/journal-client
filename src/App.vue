@@ -93,6 +93,7 @@ export default {
             const response = axios.post(this.$url + 'auth/token/logout/', data, { headers });
             localStorage.clear();
             this.$forceUpdate();
+            this.$router.push('/');
         }
     }
 }
@@ -134,7 +135,6 @@ body {
 
 .mask {
     width: 100%;
-    height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
 }
 

@@ -1,16 +1,16 @@
 <template>
-    <tr>
-        <td>{{ getTime(timetable_class.class_date) }}</td>
-        <td>
+    <tr class="timetable-tr">
+        <td class="timetable-td">{{ getTime(timetable_class.class_date) }}</td>
+        <td class="timetable-td">
             <p> {{ subject.name }} </p>
             <p>{{ teacher.military_rank }} {{ teacher.surname }}
                 {{ teacher.name.substring(0, 1) }}.
                 {{ teacher.patronymic.substring(0, 1) }}.
             </p>
         </td>
-        <td> Тема №{{ timetable_class.theme_number }}</td>
-        <td>Занятие №{{ timetable_class.class_number }}</td>
-        <td>{{ timetable_class.class_type }}</td>
+        <td class="timetable-td"> Тема №{{ timetable_class.theme_number }}</td>
+        <td class="timetable-td">Занятие №{{ timetable_class.class_number }}</td>
+        <td class="timetable-td">{{ timetable_class.class_type }}</td>
     </tr>
 </template>
 

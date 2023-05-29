@@ -1,38 +1,46 @@
 <template>
-    <div class="platoon_box">
-        <div class="platoon_box_item">
-            <h4>Редактирование преподавателя</h4>
-        </div>
-        <div class="platoon_box_item">
-            <form @submit.prevent="onTeacherUpdateSubmit">
-                <label for="surname">1. Введите фамилию: </label>
-                <input type="text" v-model="surname" />
-                <br />
-                <label for="name">2. Введите имя: </label>
-                <input type="text" v-model="name" />
-                <br />
-                <label for="patronymic">3. Введите отчество (если есть): </label>
-                <input type="text" v-model="patronymic" />
-                <br />
-                <label for="rank">4. Выберите воинское звание: </label>
-                <select v-model="military_rank">
-                    <option v-for="r in ranks" :value="r">{{ r }}</option>
-                </select>
-                <br />
-                <label for="post">5. Введите воискую должность: </label>
-                <input type="text" v-model="military_post" />
-                <br />
-                <label for="cycle">6. Введите название цикла подготовки: </label>
-                <input type="text" v-model="cycle" />
-                <br>
-                <label for="role">7. Выберите права преподавателя: </label>
-                <p><input type="radio" v-model="teacher_role" checked value="0" />Обычный преподаватель</p>
-                <p><input type="radio" v-model="teacher_role" value="1" />Преподаватель с правами администратора</p>
-                <input class="exit_btn" type="submit" value="Редактировать" />
-            </form>
-            <form @submit.prevent="onTeacherDeleteSubmit">
-                <button class="delete_btn" type="submit">Удалить</button>
-            </form>
+    <div class="row justify-content-center p-4">
+        <div class="col-md-8 col-sm-12 bg-header-color p-2">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Редактирование преподавателя</h4>
+                </div>
+                <div class="card-body">
+                    <form @submit.prevent="onTeacherUpdateSubmit">
+                        <label class="form-label" for="surname">1. Введите фамилию: </label>
+                        <input class="form-control" type="text" v-model="surname" />
+                        <label class="form-label" for="name">2. Введите имя: </label>
+                        <input class="form-control" type="text" v-model="name" />
+                        <label class="form-label" for="patronymic">3. Введите отчество (если есть): </label>
+                        <input class="form-control" type="text" v-model="patronymic" />
+                        <label class="form-label" for="rank">4. Выберите воинское звание: </label>
+                        <select class="form-select" v-model="military_rank">
+                            <option v-for="r in ranks" :value="r">{{ r }}</option>
+                        </select>
+                        <label class="form-label" for="post">5. Введите воискую должность: </label>
+                        <input class="form-control" type="text" v-model="military_post" />
+                        <label class="form-label" for="cycle">6. Введите название цикла подготовки: </label>
+                        <input class="form-control" type="text" v-model="cycle" />
+                        <label class="form-label" for="role">7. Выберите права преподавателя: </label>
+                        <div class="form-check">
+                            <p><input class="form-check-input" type="radio" v-model="teacher_role" checked
+                                    value="0" />Обычный преподаватель</p>
+                            <p><input class="form-check-input" type="radio" v-model="teacher_role" value="1" />Преподаватель
+                                с правами администратора</p>
+                        </div>
+                        <div class="row pt-3">
+                            <div class="col d-flex justify-content-end">
+                                <input class="btn btn-success" type="submit" value="Редактировать" />
+                            </div>
+                            <div class="col">
+                                <form @submit.prevent="onTeacherDeleteSubmit">
+                                    <button class="btn btn-danger" type="submit">Удалить</button>
+                                </form>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -124,88 +132,4 @@ export default {
 </script>
 
 <style>
-.exit_btn {
-    background-color: #4d8bc3;
-    border: 1px solid #cccccc;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-    border-radius: 4px;
-    color: white;
-    display: block;
-    width: 120px;
-    margin: 20px auto;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    height: 25px;
-    line-height: 20px;
-    margin-bottom: 10px;
-    padding: 1px 6px;
-    vertical-align: middle;
-    text-decoration: none;
-}
-
-.platoon_box_item form input {
-    margin-bottom: 5px;
-}
-
-.platoon_box_item form select {
-    margin-bottom: 5px;
-}
-
-.platoon_box {
-    background-color: #4d8bc3;
-    padding: 15px;
-    border-radius: 5px;
-}
-
-.platoon_box ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.platoon_box_item {
-    background-color: #f3f3f3;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    min-width: 950px;
-    overflow: auto;
-}
-
-.platoon_box_item h4 {
-    text-align: center;
-    margin: 5px;
-}
-
-.platoon_box_item p {
-    margin: 5px;
-}
-
-.platoon_box_item a {
-    margin: 1px;
-}
-
-.delete_btn {
-    background-color: #e01b24;
-    border: 1px solid #cccccc;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-    border-radius: 4px;
-    color: white;
-    display: block;
-    width: 100px;
-    margin: 20px auto;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    height: 25px;
-    line-height: 20px;
-    margin-bottom: 10px;
-    padding: 1px 6px;
-    vertical-align: middle;
-    text-decoration: none;
-}
 </style>

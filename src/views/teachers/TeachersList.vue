@@ -1,15 +1,27 @@
 <template>
-  <div class="platoon_box">
-    <div class="platoon_box_item">
-      <h4>Список преподавателей</h4>
+  <div class="row justify-content-center p-4">
+    <div class="col-md-8 col-sm-12 bg-header-color p-2 mb-2">
+      <div class="card">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-9 col-sm-7">
+              <h4 class="fw-bold text-uppercase">Список преподавателей</h4>
+            </div>
+            <div class="col-md-3 col-sm-5 d-flex justify-content-end">
+              <router-link class="btn btn-success" v-if="!is_student && profile.teacher_role === 1"
+                v-bind:profile="profile" to="/teachers/create">+</router-link>
+            </div>
+          </div>
+
+        </div>
+      </div>
     </div>
-    <ul>
-      <Teacher v-for="t in teachers" v-bind:teacher="t" v-bind:token="token" v-bind:profile="profile"
-        v-bind:is_student="is_student" />
-    </ul>
-    <router-link class="add-btn" v-if="!is_student && profile.teacher_role === 1" v-bind:token="token"
-      v-bind:profile="profile" v-bind:is_student="is_student" to="/teachers/create">Добавить
-      преподавателя</router-link>
+    <div class="row m-0">
+      <ul>
+        <Teacher v-for="t in teachers" v-bind:teacher="t" v-bind:token="token" v-bind:profile="profile"
+          v-bind:is_student="is_student" />
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -20,16 +32,18 @@ import axios from 'axios';
 
 export default {
   name: 'TeachersList',
-  props: ['is_student', 'profile', 'token'],
+  props: ['is_student', 'token'],
   components: {
     Teacher
   },
   data() {
     return {
-      teachers: []
+      teachers: [],
+      profile: {}
     }
   },
   async mounted() {
+    this.profile = JSON.parse(localStorage.getItem('profile'));
     const headers = {
       'accept': "application/json",
       "Content-Type": "application/json",
@@ -45,94 +59,4 @@ export default {
 </script>
 
 <style>
-.platoon_box {
-  background-color: #4d8bc3;
-  padding: 15px;
-  border-radius: 5px;
-}
-
-.platoon_box ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.platoon_box_item {
-  background-color: #f3f3f3;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  min-width: 950px;
-  overflow: auto;
-}
-
-.platoon_box_item h4 {
-  text-align: center;
-  margin: 5px;
-}
-
-.platoon_box_item p {
-  margin: 5px;
-}
-
-.platoon_box_item a {
-  margin: 1px;
-}
-
-.platoon_box {
-  background-color: #4d8bc3;
-  padding: 15px;
-  border-radius: 5px;
-}
-
-.platoon_box ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-.platoon_box_item {
-  background-color: #f3f3f3;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  border-radius: 5px;
-  margin-bottom: 15px;
-  min-width: 950px;
-  overflow: auto;
-}
-
-.platoon_box_item h4 {
-  text-align: center;
-  margin: 5px;
-}
-
-.platoon_box_item p {
-  margin: 5px;
-}
-
-.platoon_box_item a {
-  margin: 1px;
-}
-
-.add-btn {
-  background-color: #26a269;
-  border: 1px solid #cccccc;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-  transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-  border-radius: 4px;
-  color: white;
-  display: block;
-  width: 200px;
-  margin: 20px auto;
-  font-size: 14px;
-  text-align: center;
-  font-weight: 600;
-  height: 25px;
-  line-height: 20px;
-  margin-bottom: 10px;
-  padding: 1px 6px;
-  vertical-align: middle;
-  text-decoration: none;
-}
 </style>

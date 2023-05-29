@@ -14,7 +14,7 @@
                                 <label class="form-label" for="person-type">Тип пользователя:</label>
                                 <select class="form-select" v-model="person_type">
                                     <option selected>Преподаватель</option>
-                                    <option value="1">Студент</option>
+                                    <option>Студент</option>
                                 </select>
                                 <div class="row justify-content-center">
                                     <div class="col-3 mt-2">
@@ -58,12 +58,12 @@ export default {
 
             const response = await axios.post(this.$url + 'auth/token/login/', data, { headers });
             localStorage.setItem('token', response.data.auth_token);
-            localStorage.setItem('is_student', this.person_type == 'Студент');
-            let is_student = !(!(localStorage.is_student));
+            localStorage.setItem('is_student', this.person_type === 'Студент');
+            let is_student = !!localStorage.is_student;
 
             headers['Authorization'] = 'Token ' + localStorage.token;
 
-            if (is_student) {
+            if (!is_student) {
                 await axios.get(this.$url + 'teachers/teacher_profile/', { headers })
                     .then(response => localStorage.setItem('profile', JSON.stringify(response.data)));
             } else {

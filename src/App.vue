@@ -20,7 +20,7 @@
                                                 class="nav-link text-white">Список
                                                 взводов</router-link>
                                         </li>
-                                        <li v-if="!is_student" class="nav-item">
+                                        <li v-if="isStudent()" class="nav-item">
                                             <router-link :is="isToken() ? 'router-link' : 'span'" to="/timetable"
                                                 class="nav-link text-white">Расписание</router-link>
                                         </li>
@@ -52,8 +52,8 @@
                 </div>
             </div>
         </header>
-        <div class="mask d-flex align-items-center">
-            <router-view class="view" :is_student="!this.is_student" :profile="this.profile" :token="isToken()" />
+        <div :class="{'mask': true, ' d-flex align-items-center': !isToken()}">
+            <router-view class="view" :is_student="isStudent()" :profile="this.profile" :token="isToken()" />
         </div>
     </div>
 </template>
@@ -73,11 +73,14 @@ export default {
     },
     methods: {
         isToken() {
-            console.log(localStorage.token !== undefined);
             return localStorage.token !== undefined;
         },
+        isStudent() {
+            let result = Boolean(localStorage.is_student);
+            return result
+
+        },
         onLoginSubmit() {
-            console.log('login');
             this.$router.push('/login');
         },
         logout() {

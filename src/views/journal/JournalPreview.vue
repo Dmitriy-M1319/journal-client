@@ -26,12 +26,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-2 col-sm-12">
+                            <div v-if="!isStudent()" class="col-md-5 col-sm-12">
                                 <div class="row justify-content-start">
-                                    <div class="col">
+                                    <div class="col-2">
                                         <h5>Взвод: </h5>
                                     </div>
-                                    <div class="col">
+                                    <div class="col-10">
                                         <select id="platoons" v-model="platoon">
                                             <option v-for="p in platoons" v-bind:value="p.platoon_number">{{
                                                 p.platoon_number }} взвод</option>
@@ -39,7 +39,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-5 col-sm-12 d-flex justify-content-end">
+                            <div :class="{'col-md-7': isStudent(), 'col-md-2': !isStudent()}" class="col-sm-12 d-flex justify-content-end">
                                 <button class="btn btn-primary" v-on:click="onSubmit">Открыть</button>
                             </div>
                         </div>
@@ -94,6 +94,9 @@ export default {
             console.log(this.is_open);
             this.reload += 1;
             this.$forceUpdate();
+        },
+        isStudent() {
+            return localStorage.is_student == 'true';
         }
     },
 }

@@ -1,20 +1,54 @@
 <template>
-    <div class="platoon_box">
-        <div class="platoon_box_item">
-            <h4>Выбор страницы журнала:</h4>
-            <form @submit.prevent="onSubmit">
-                <label for="subjects">Выберите предмет:</label>
-                <select id="subjects" v-model="subject">
-                    <option v-for="s in subjects" v-bind:value="s.id" >{{ s.name }}</option>
-                </select>
-                <br>
-                <label for="platoons">Выберите взвод:</label>
-                <select id="platoons" v-model="platoon">
-                    <option v-for="p in platoons" v-bind:value="p.platoon_number">{{ p.platoon_number }} взвод</option>
-                </select>
-                <br>
-                <button type="submit">Открыть</button>
-            </form>
+    <div class="container">
+        <div class="row justify-content-center p-2">
+            <div class="col-12 bg-header-color p-2">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="fw-bold text-uppercase">Электронный журнал</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center p-2">
+            <div class="col-12 bg-header-color p-2">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-md-5 col-sm-12">
+                                <div class="row justify-content-start">
+                                    <div class="col">
+                                        <h5>Предмет: </h5>
+                                    </div>
+                                    <div class="col">
+                                        <select id="subjects" v-model="subject">
+                                            <option v-for="s in subjects" v-bind:value="s.id">{{ s.name }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 col-sm-12">
+                                <div class="row justify-content-start">
+                                    <div class="col">
+                                        <h5>Взвод: </h5>
+                                    </div>
+                                    <div class="col">
+                                        <select id="platoons" v-model="platoon">
+                                            <option v-for="p in platoons" v-bind:value="p.platoon_number">{{
+                                                p.platoon_number }} взвод</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-12 d-flex justify-content-end">
+                                <button class="btn btn-primary" v-on:click="onSubmit">Открыть</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <Journal v-if="is_open" :key="reload" v-bind:platoon="platoon" v-bind:subject="subject" />
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -22,16 +56,22 @@
 
 <script>
 import axios from 'axios';
+import Journal from './Journal.vue';
 
 export default {
     name: 'JournalPreview',
     props: ['token'],
+    components: {
+        Journal
+    },
     data() {
         return {
             subject: 0,
             platoon: 0,
             subjects: [],
-            platoons: []
+            platoons: [],
+            is_open: false,
+            reload: 0
         }
     },
     async mounted() {
@@ -41,53 +81,21 @@ export default {
             'Authorization': 'Token ' + localStorage.token,
         };
 
-        await axios.get(this.$url + 'platoons/', {headers})
-        .then(response => this.platoons = response.data);
+        await axios.get(this.$url + 'platoons/', { headers })
+            .then(response => this.platoons = response.data);
 
-        await axios.get(this.$url + 'subjects/',  {headers})
-        .then(response => this.subjects = response.data);
+        await axios.get(this.$url + 'subjects/', { headers })
+            .then(response => this.subjects = response.data);
     },
     methods: {
         onSubmit() {
-            this.$router.push('/journal/subject/' + this.subject + '/platoon/' + this.platoon);
-            //this.$router.push({name: 'platoon-journal', params: {id: this.subject, number: this.platoon}, query: {token: this.token}})
+            console.log('submit');
+            this.is_open = this.subject != 0 && this.platoon != 0;
+            console.log(this.is_open);
+            this.reload += 1;
+            this.$forceUpdate();
         }
     },
 }
 </script>
-<style>
-.platoon_box {
-    background-color: #4d8bc3;
-    padding: 15px;
-    border-radius: 5px;
-}
-
-.platoon_box ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.platoon_box_item {
-    background-color: #f3f3f3;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-    min-width: 950px;
-    overflow: auto;
-}
-
-.platoon_box_item h4 {
-    text-align: center;
-    margin: 5px;
-}
-
-.platoon_box_item p {
-    margin: 5px;
-}
-
-.platoon_box_item a {
-    margin: 1px;
-}
-</style>
+<style></style>

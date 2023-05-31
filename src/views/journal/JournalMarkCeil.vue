@@ -1,6 +1,5 @@
 <template>
-    <td @click="onClick">
-        <JournalUpdateCeil v-if="showModal" v-bind:local_mark="mark" v-on:on-ceil-update="onCeilUpdate" />
+    <td type="button" class="journal-item" v-on:click="onClick" v-on:on-ceil-update="onCeilUpdate">
         <div v-if="mark.mark && mark.mark === 2" class="mark-ceil mark-fail">{{ mark.mark }}</div>
         <div v-else-if="mark.mark && mark.mark === 3" class="mark-ceil mark-satisfactory">{{ mark.mark }}</div>
         <div v-else-if="mark.mark && mark.mark === 4" class="mark-ceil mark-good">{{ mark.mark }}</div>
@@ -16,13 +15,14 @@
 
 <script>
 import JournalUpdateCeil from './JournalUpdateCeil.vue';
+import axios from 'axios';
 
 export default {
     name: 'JournalMarkCeil',
     components: {
         JournalUpdateCeil,
     },
-    props: ['mark'],
+    props: ['mark', 'show'],
     data() {
         return {
             showModal: false,
@@ -30,22 +30,30 @@ export default {
     },
     methods: {
         onClick() {
-            console.log(this.mark.id);
-            this.showModal = true;
-            this.$modal.show('journal-update-ceil');
+            console.log('open-modal');
+            this.$modal.show(
+                JournalUpdateCeil,
+                { edited_mark: this.mark },
+                { clickToClose: false },
+                { 'before-close': this.onCeilUpdate }
+            )
         },
-        onCeilUpdate(mark) {
-            this.mark = mark;
+        async onCeilUpdate(event) {
+            const headers = {
+                'accept': "application/json",
+                "Content-Type": "application/json",
+                'Authorization': 'Token ' + localStorage.token,
+            };
+
+            await axios.get(this.$url + 'ceils/' + this.mark.id + '/', { headers })
+                .then(response => this.mark = response.data);
+            console.log('on update');
         },
-        onContextMenuClick(text) {
-            alert("Clicked: " + text);
-        }
     }
 }
 </script>
 
 <style>
-
 .mark-ceil {
     width: 30px;
 }

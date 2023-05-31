@@ -1,31 +1,36 @@
 <template>
-    <modal name="journal-update-ceil">
-        <div class="platoon_box">
-            <div class="platoon_box_item_custom">
-                <h4>Редактировать оценку</h4>
-            </div>
-            <div class="platoon_box_item_custom">
-                <form @submit.prevent="submitForm">
-                    <label for="rank">1. Выберите посещаемость: </label>
-                    <br>
-                    <select v-model="attendance">
-                        <option v-for="a in attendances" :value="a.att">
-                            {{ a.value }}
-                        </option>
-                    </select>
-                    <br>
-                    <label for="rank">2. Выберите оценку: </label>
-                    <br>
-                    <select v-model="mark">
-                        <option v-for="m in marks" :value="m.value">
-                            {{ m.name }}
-                        </option>
-                    </select>
-                    <button class="mark_edit_btn" type="submit">Редактировать</button>
-                </form>
+    <div class="container h-100">
+        <div class="row justify-content-center h-100">
+            <div class="col-12 bg-header-color p-2">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="fw-bold text-center">Редактировать оценку</h4>
+                    </div>
+                    <div class="card body p-2">
+                        <form @submit.prevent="submitForm">
+                            <label class="form-label" for="rank">1. Выберите посещаемость: </label>
+                            <select class="form-select" v-model="attendance">
+                                <option v-for="a in attendances" :value="a.att">
+                                    {{ a.value }}
+                                </option>
+                            </select>
+                            <label class="form-label" for="rank">2. Выберите оценку: </label>
+                            <select class="form-select" v-model="mark">
+                                <option v-for="m in marks" :value="m.value">
+                                    {{ m.name }}
+                                </option>
+                            </select>
+                            <div class="row justify-content-center mt-3">
+                                <div class="col-3">
+                                    <button class="btn btn-success" type="submit">Редактировать</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
-    </modal>
+    </div>
 </template>
 
 <script>
@@ -33,7 +38,7 @@ import axios from 'axios';
 
 export default {
     name: 'JournalUpdateCeil',
-    props: ['local_mark'],
+    props: ['edited_mark'],
     data() {
         return {
             edited_mark: {},
@@ -54,13 +59,20 @@ export default {
             mark: 0
         }
     },
+    mounted() {
+        this.mark = this.edited_mark.mark;
+        this.attendance = this.edited_mark.attendance;
+    },
     methods: {
         async submitForm() {
+            console.log(this.edited_mark);
             const headers = {
                 'accept': "application/json",
                 "Content-Type": "application/json",
-            'Authorization': 'Token ' + localStorage.token,
+                'Authorization': 'Token ' + localStorage.token,
             };
+
+            console.log(this.$parent.$parent);
 
             const data = {
                 student: this.edited_mark.student,
@@ -68,73 +80,13 @@ export default {
                 attendance: this.attendance,
                 mark: this.mark
             };
-            await axios.put(this.$url + 'ceils/' + this.local_mark.id + '/', data, { headers })
+            await axios.put(this.$url + 'ceils/' + this.edited_mark.id + '/', data, { headers })
                 .then(response => this.$emit('on-ceil-update', response.data));
-            this.$modal.hide("journal-update-ceil")
+            this.$emit('close');
         }
-    },
-    async mounted() {
-        console.log('id' + this.local_mark.id);
-        const headers = {
-            'accept': "application/json",
-            "Content-Type": "application/json",
-        };
-
-        await axios.get(this.$url + 'ceils/' + this.local_mark.id + '/', { headers })
-            .then(response => {
-                this.edited_mark = response.data;
-                this.attendance = this.edited_mark.attendance;
-                this.mark = this.edited_mark.mark;
-            });
     },
 }
 </script>
 
 <style>
-.platoon_box {
-    background-color: #4d8bc3;
-    padding: 15px;
-    border-radius: 5px;
-    height: 100%;
-}
-
-.platoon_box ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.platoon_box_item_custom {
-    background-color: #f3f3f3;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    padding-left: 5px;
-    border-radius: 5px;
-    margin-bottom: 15px;
-}
-
-.platoon_box_item_custom h4 {
-    text-align: center;
-    margin: 5px;
-}
-
-.mark_edit_btn {
-    background-color: #26a269;
-    border: 1px solid #cccccc;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
-    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
-    border-radius: 4px;
-    color: white;
-    display: block;
-    width: 130px;
-    margin: 20px auto;
-    font-size: 14px;
-    text-align: center;
-    font-weight: 600;
-    height: 25px;
-    line-height: 20px;
-    margin-bottom: 10px;
-    padding: 1px 6px;
-    vertical-align: middle;
-    text-decoration: none;
-}
 </style>

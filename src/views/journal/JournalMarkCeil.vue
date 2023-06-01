@@ -30,13 +30,15 @@ export default {
     },
     methods: {
         onClick() {
-            console.log('open-modal');
-            this.$modal.show(
-                JournalUpdateCeil,
-                { edited_mark: this.mark },
-                { clickToClose: false },
-                { 'before-close': this.onCeilUpdate }
-            )
+            if (localStorage.is_student != 'true') {
+                console.log('open-modal');
+                this.$modal.show(
+                    JournalUpdateCeil,
+                    { edited_mark: this.mark },
+                    { clickToClose: false },
+                    { 'before-close': this.onCeilUpdate }
+                )
+            }
         },
         async onCeilUpdate(event) {
             const headers = {

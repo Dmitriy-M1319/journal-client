@@ -39,13 +39,17 @@
                                     </div>
                                 </div>
                             </div>
-                            <div :class="{'col-md-7': isStudent(), 'col-md-2': !isStudent()}" class="col-sm-12 d-flex justify-content-end">
+                            <div :class="{ 'col-md-7': isStudent(), 'col-md-2': !isStudent() }"
+                                class="col-sm-12 d-flex justify-content-end">
                                 <button class="btn btn-primary" v-on:click="onSubmit">Открыть</button>
                             </div>
                         </div>
                     </div>
                     <div class="card-body">
-                        <Journal v-if="is_open" :key="reload" v-bind:platoon="platoon" v-bind:subject="subject" />
+                        <Journal v-if="is_open && !isStudent()" :key="reload" v-bind:platoon="platoon"
+                            v-bind:subject="subject" />
+                        <Journal v-else-if="is_open && isStudent()" :key="reload" v-bind:platoon="profile.platoon"
+                            v-bind:subject="subject" />
                     </div>
                 </div>
             </div>
@@ -66,6 +70,7 @@ export default {
     },
     data() {
         return {
+            profile: {},
             subject: 0,
             platoon: 0,
             subjects: [],
@@ -75,6 +80,7 @@ export default {
         }
     },
     async mounted() {
+        this.profile = JSON.parse(localStorage.getItem('profile'));
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
@@ -90,7 +96,11 @@ export default {
     methods: {
         onSubmit() {
             console.log('submit');
-            this.is_open = this.subject != 0 && this.platoon != 0;
+            if (!this.isStudent()) {
+                this.is_open = this.subject != 0 && this.platoon != 0;
+            } else {
+                this.is_open = this.subject != 0;
+            }
             console.log(this.is_open);
             this.reload += 1;
             this.$forceUpdate();

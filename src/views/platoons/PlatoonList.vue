@@ -41,12 +41,6 @@ export default {
         axios.get(this.$url + 'platoons/', { headers })
             .then(response => {
                 platoons = response.data;
-                console.log(platoons);
-                for (var pl of platoons) {
-                    axios.get(this.$url + 'platoons/' + pl.platoon_number + '/tutor/', { headers })
-                        .then(response => pl.tutor = response.data);
-                }
-                console.log(platoons);
                 this.platoons = platoons;
             })
             .catch(error => console.log(error));

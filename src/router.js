@@ -52,11 +52,13 @@ export default new VueRouter({
     },
     {
       path: "/subjects/create",
-      component: () => import("@/views/subjects/SubjectCreate"),
+      name: "subject-create",
+      component: () => import("@/views/subjects/SubjectChange"),
     },
     {
       path: "/subjects/:id",
-      component: () => import("@/views/subjects/SubjectUpdate"),
+      name: "subject-update",
+      component: () => import("@/views/subjects/SubjectChange"),
     },
     {
       path: "/teachers",

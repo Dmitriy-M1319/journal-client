@@ -6,7 +6,7 @@
                     <h4 class="fw-bold text-center mb-0">Редактирование взвода</h4>
                 </div>
                 <div class="card-body">
-                    <form @submit.prevent="onPlatoonUpdateFormSubmit" action="">
+                    <form @submit.prevent="onPlatoonUpdateFormSubmit">
                         <label class="form-label" for="number">1. Введите номер взвода: </label>
                         <input class="form-control" type="text" v-model="number" />
                         <label class="form-label" for="tutors">2. Выберите куратора взвода: </label>
@@ -139,7 +139,7 @@ export default {
                 year: this.year,
                 course: this.course,
                 study_day: this.study_day,
-                order_of_enrollment: enrollment,
+                order_of_enrollment: this.enrollment,
                 status: 'учится'
             };
 

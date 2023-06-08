@@ -6,7 +6,7 @@
                     <p class="fw-bold text-center mb-0">Создание нового студента</p>
                 </div>
                 <div class="card-body">
-                    <form @submit.prevent="onStudentUpdateSubmit">
+                    <form @submit.prevent="onStudentCreateSubmit">
                         <label class="form-label" for="surname">1. Введите фамилию: </label>
                         <input class="form-control" type="text" v-model="surname" />
                         <label class="form-label" for="name">2. Введите имя: </label>
@@ -21,36 +21,30 @@
                             <input class="form-check-input" type="radio" v-model="military_post"
                                 value="командир взвода" />Командир взвода
                         </div>
-                        <label class="form-label" for="platoon">5. Выберите взвод: </label>
-                        <select class="form-select" v-model="platoon">
-                            <option v-for="pl in platoons" :value="pl.platoon_number">
-                                {{ pl.platoon_number }} взвод
-                            </option>
-                        </select>
-                        <label class="form-label" for="department">6. Введите название факультета в вузе:
+                        <label class="form-label" for="department">5. Введите название факультета в вузе:
                         </label>
                         <input class="form-control" type="text" v-model="department" />
-                        <label class="form-label" for="rank">7. Выберите логин студента: </label>
+                        <label class="form-label" for="rank">6. Выберите логин студента: </label>
                         <select class="form-select" v-model="user">
                             <option v-for="u in users" :value="u.id">{{ u.username }}</option>
                         </select>
-                        <label class="form-label" for="group">8. Введите номер группы в вузе: </label>
+                        <label class="form-label" for="group">7. Введите номер группы в вузе: </label>
                         <input class="form-control" type="text" v-model="group_number" />
-                        <label class="form-label" for="birth_year">9. Введите год рождения: </label>
+                        <label class="form-label" for="birth_year">8. Введите год рождения: </label>
                         <input class="form-control" type="text" v-model="birth_year" />
-                        <label class="form-label" for="order_of_expulsion">10. Введите номер и дату приказа об отчислении
+                        <label class="form-label" for="order_of_expulsion">9. Введите номер и дату приказа об отчислении
                             (при отчислении):
                         </label>
                         <input class="form-control" type="text" v-model="order_of_expulsion" />
-                        <label class="form-label" for="marital_status">11. Введите семейное положение: </label>
+                        <label class="form-label" for="marital_status">10. Введите семейное положение: </label>
                         <input class="form-control" type="text" v-model="marital_status" />
-                        <label class="form-label" for="address">12. Введите адрес проживания: </label>
+                        <label class="form-label" for="address">11. Введите адрес проживания: </label>
                         <input class="form-control" type="text" v-model="address" />
-                        <label class="form-label" for="phone_number">13. Введите номер телефона: </label>
+                        <label class="form-label" for="phone_number">12. Введите номер телефона: </label>
                         <input class="form-control" type="text" v-model="phone_number" />
-                        <label class="form-label" for="public_load">14. Введите общественную нагрузку: </label>
+                        <label class="form-label" for="public_load">13. Введите общественную нагрузку: </label>
                         <input class="form-control" type="text" v-model="public_load" />
-                        <label class="form-label" for="sports_category">15. Введите спортивный разряд (если есть): </label>
+                        <label class="form-label" for="sports_category">13. Введите спортивный разряд (если есть): </label>
                         <input class="form-control" type="text" v-model="sports_category" />
                         <div class="row justify-content-center mt-2">
                             <div class="col-2">

@@ -11,32 +11,11 @@
                         <br />{{ splitDate(c.class_date)[1] }}
                     </td>
                 </tr>
-                <JournalStudentRow v-for="sm in journal_table" v-bind:student_marks="sm" />
+                <JournalStudentRow v-for="(sm, index) in journal_table" v-bind:index="index" v-bind:student_marks="sm" />
             </table>
         </div>
 
     </div>
-    <!-- <div class="platoon_box">
-        <div class="platoon_box_item">
-            <h4>{{ platoon }} взвод</h4>
-            <h4>Оценки по предмету <i>{{ subject.name }}</i></h4>
-        </div>
-        <div class="platoon_box_item">
-            <div class="scroll_block">
-                <table class="center_div scroll_table">
-                    <tr>
-                        <td style="width: 10%">№ по списку</td>
-                        <td>ФИО студента</td>
-                        <td v-for="c in classes" class="mark-ceil">{{ splitDate(c.class_date)[2] }}.
-                            <br />{{ splitDate(c.class_date)[1] }}
-                        </td>
-                    </tr>
-                    <JournalStudentRow v-for="sm in journal_table" v-bind:student_marks="sm" />
-                </table>
-            </div>
-        </div>
-        <JournalAddColumn v-bind:platoon="$route.params.number" v-bind:subject="$route.params.id" />
-    </div> -->
 </template>
 
 <script>

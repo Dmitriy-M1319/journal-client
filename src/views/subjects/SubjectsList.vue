@@ -10,7 +10,7 @@
                             </div>
                             <div class="col-md-3 col-sm-5 d-flex justify-content-end">
                                 <router-link class="btn btn-success" v-if="!is_student && profile.teacher_role === 1"
-                                    v-bind:profile="profile" to="/subjects/create">+</router-link>
+                                    :to=" { name: 'subject-create', query: { is_create: true } }">+</router-link>
                             </div>
                         </div>
                     </div>

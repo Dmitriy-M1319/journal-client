@@ -11,8 +11,10 @@
                 </div>
                 <div class="row d-flex justify-content-center">
                     <div class="col-4 pb-2">
-                        <router-link class="btn btn-primary" v-if="!is_student && profile.teacher_role === 1"
-                            :to="'/subjects/' + subject.id" v-bind:token="token">Редактировать</router-link>
+                        <!-- <router-link class="btn btn-primary" v-if="!is_student && profile.teacher_role === 1"
+                            :to="'/subjects/' + subject.id" v-bind:is_create_comp="false" v-bind:token="token">Редактировать</router-link> -->
+                    <router-link class="btn btn-primary" v-if="!is_student && profile.teacher_role === 1"
+                            :to="{ name: 'subject-update', params : {id: subject.id}, query: {is_create: false} }">Редактировать</router-link>
                     </div>
                 </div>
             </div>

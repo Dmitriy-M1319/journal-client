@@ -9,10 +9,10 @@
                     {{ this.commander.name }}
                     {{ this.commander.patronymic }}
                 </p>
-                <p>Куратор взвода: {{ platoon.tutor.military_rank }}
-                    {{ platoon.tutor.surname }}
-                    {{ platoon.tutor.name }}
-                    {{ platoon.tutor.patronymic }}
+                <p>Куратор взвода: {{ this.tutor.military_rank }}
+                    {{ this.tutor.surname }}
+                    {{ this.tutor.name }}
+                    {{ this.tutor.patronymic }}
                 </p>
                 <p>Год набора: {{ platoon.year }}</p>
                 <p>Приказ о зачислении: {{ platoon.order_of_enrollment }}</p>
@@ -43,20 +43,23 @@ var count = 0;
 export default {
     name: 'Platoon',
     props: ['platoon'],
-    mounted() {
+    async mounted() {
         const headers = {
             'accept': "application/json",
             "Content-Type": "application/json",
             'Authorization': 'Token ' + localStorage.token,
         };
 
-        axios.get(this.$url + 'platoons/' + this.platoon.platoon_number + '/commander/', { headers })
+        await axios.get(this.$url + 'platoons/' + this.platoon.platoon_number + '/commander/', { headers })
             .then(response => this.commander = response.data).catch(
                 error => this.commander = { surname: '', name: '', patronymic: '' }
             );
 
-        axios.get(this.$url + 'platoons/' + this.platoon.platoon_number + '/count/', { headers })
+        await axios.get(this.$url + 'platoons/' + this.platoon.platoon_number + '/count/', { headers })
             .then(response => this.count = response.data.count);
+
+        await axios.get(this.$url + 'platoons/' + this.platoon.platoon_number + '/tutor/', { headers })
+            .then(response => this.tutor = response.data);
     },
     data() {
         return {
@@ -64,7 +67,8 @@ export default {
             count,
             is_student: localStorage.is_student == 'true',
             profile: JSON.parse(localStorage.getItem('profile')),
-            token: localStorage.token
+            token: localStorage.token,
+            tutor: {}
         }
     },
 }

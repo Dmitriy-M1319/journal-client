@@ -28,7 +28,7 @@ export default {
   components: {
     SubClass
   },
-  props: ['classes', 'profile', 'token'],
+  props: ['classes', 'profile'],
 
 }
 </script>

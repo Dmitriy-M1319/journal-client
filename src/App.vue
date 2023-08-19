@@ -1,60 +1,63 @@
 <template>
     <div id="app">
-        <header>
-            <div class="container">
-                <div class="row">
-                    <div class="col-4 d-flex align-items-center">
-                        <h4>Военный учебный центр при ВГУ</h4>
-                    </div>
-                    <div class="col-7">
-                        <div class="navbar navbar-expand-lg">
-                            <div class="container-fluid">
-                                <div class="collapse navbar-collapse">
-                                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                        <li class="nav-item">
-                                            <router-link :is="isToken() ? 'router-link' : 'span'" to="/"
-                                                class="nav-link text-white">Главная</router-link>
-                                        </li>
-                                        <li class="nav-item">
-                                            <router-link :is="isToken() ? 'router-link' : 'span'" to="/platoons"
-                                                class="nav-link text-white">Список
-                                                взводов</router-link>
-                                        </li>
-                                        <li v-if="isStudent()" class="nav-item">
-                                            <router-link :is="isToken() ? 'router-link' : 'span'" to="/timetable"
-                                                class="nav-link text-white">Расписание</router-link>
-                                        </li>
-                                        <li v-else class="nav-item">
-                                            <router-link :is="isToken() ? 'router-link' : 'span'" to="/classes"
-                                                class="nav-link text-white">Мои занятия</router-link>
-                                        </li>
-                                        <li class="nav-item">
-                                            <router-link :is="isToken() ? 'router-link' : 'span'" to="/subjects"
-                                                class="nav-link text-white">Предметы</router-link>
-                                        </li>
-                                        <li class="nav-item">
-                                            <router-link :is="isToken() ? 'router-link' : 'span'" to="/journal"
-                                                class="nav-link text-white">Оценки</router-link>
-                                        </li>
-                                        <li class="nav-item">
-                                            <router-link :is="isToken() ? 'router-link' : 'span'" to="/teachers"
-                                                class="nav-link text-white" >Преподаватели</router-link>
-                                        </li>
-                                    </ul>
+            <header>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-4 d-flex align-items-center">
+                            <h4>Военный учебный центр при ВГУ</h4>
+                        </div>
+                        <div class="col-7">
+                            <div class="navbar navbar-expand-lg">
+                                <div class="container-fluid">
+                                    <div class="collapse navbar-collapse">
+                                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                                            <li class="nav-item">
+                                                <router-link :is="isToken() ? 'router-link' : 'span'" to="/"
+                                                    class="nav-link text-white">Главная</router-link>
+                                            </li>
+                                            <li class="nav-item">
+                                                <router-link :is="isToken() ? 'router-link' : 'span'" to="/platoons"
+                                                    class="nav-link text-white">Список
+                                                    взводов</router-link>
+                                            </li>
+                                            <li v-if="isStudent()" class="nav-item">
+                                                <router-link :is="isToken() ? 'router-link' : 'span'" to="/timetable"
+                                                    class="nav-link text-white">Расписание</router-link>
+                                            </li>
+                                            <li v-else class="nav-item">
+                                                <!-- <router-link :is="isToken() ? 'router-link' : 'span'" to="/classes" -->
+                                                <router-link :is="isToken() ? 'router-link' : 'span'" 
+                                                :to="'/teachers/' + 1 + '/classes_dates'"
+                                                    class="nav-link text-white">Мои занятия</router-link>
+                                            </li>
+                                            <li class="nav-item">
+                                                <router-link :is="isToken() ? 'router-link' : 'span'" to="/subjects"
+                                                    class="nav-link text-white">Предметы</router-link>
+                                            </li>
+                                            <li class="nav-item">
+                                                <router-link :is="isToken() ? 'router-link' : 'span'" to="/journal"
+                                                    class="nav-link text-white">Оценки</router-link>
+                                            </li>
+                                            <li class="nav-item">
+                                                <router-link :is="isToken() ? 'router-link' : 'span'" to="/teachers"
+                                                    class="nav-link text-white">Преподаватели</router-link>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-1 d-flex align-items-center">
-                        <button v-if="!isToken()" v-on:click="onLoginSubmit" class="btn btn-outline-light">Войти</button>
-                        <button v-else v-on:click="logout" class="btn btn-danger">Выйти</button>
+                        <div class="col-1 d-flex align-items-center">
+                            <button v-if="!isToken()" v-on:click="onLoginSubmit"
+                                class="btn btn-outline-light">Войти</button>
+                            <button v-else v-on:click="logout" class="btn btn-danger">Выйти</button>
+                        </div>
                     </div>
                 </div>
+            </header>
+            <div :class="{ 'mask': true, ' d-flex align-items-center': !isToken() }">
+                <router-view class="view" :is_student="isStudent()" :profile="this.profile" :token="isToken()" />
             </div>
-        </header>
-        <div :class="{'mask': true, ' d-flex align-items-center': !isToken()}">
-            <router-view class="view" :is_student="isStudent()" :profile="this.profile" :token="isToken()" />
-        </div>
     </div>
 </template>
 
@@ -76,21 +79,19 @@ export default {
             return localStorage.token !== undefined;
         },
         isStudent() {
-            let result = localStorage.is_student == 'true';
-            return result
-
+            return localStorage.is_student == 'true';
         },
         onLoginSubmit() {
             this.$router.push('/login');
         },
-        logout() {
+        async logout() {
             const headers = {
                 'accept': "application/json",
                 'Authorization': 'Token ' + localStorage.token,
             };
 
             const data = {}
-            const response = axios.post(this.$url + 'auth/token/logout/', data, { headers });
+            await axios.post(this.$url + 'auth/token/logout/', data, { headers });
             localStorage.clear();
             this.$forceUpdate();
             this.$router.push('/');
@@ -100,7 +101,6 @@ export default {
 </script>
 
 <style>
-
 #app {
     height: 100%;
     margin: 0;

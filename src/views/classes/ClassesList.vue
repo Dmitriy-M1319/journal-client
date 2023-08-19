@@ -8,15 +8,14 @@
                 <div class="card-body p-2">
                     <div>
                         <ul class="list-unstyled overflow-y-auto overflow-x-hidden" style="height: 700px;">
-                            <Class v-for="classes in all_classes" v-bind:classes="classes" v-bind:token="token"
-                                v-bind:profile="profile" />
+                            <Class v-for="classes in all_classes" v-bind:classes="classes" v-bind:profile="profile" />
                         </ul>
                     </div>
                 </div>
                 <div class="card-footer">
                     <div class="row justify-content-center">
                         <div class="col-2">
-                            <router-link class="btn btn-success" to="/classes/create" v-bind:token="token"
+                            <router-link class="btn btn-success" to="/classes/create"
                                 v-bind:profile="profile">Создать
                                 новое</router-link>
                         </div>
@@ -51,7 +50,8 @@ export default {
             'Authorization': 'Token ' + localStorage.token,
         };
 
-        await axios(this.$url + 'teachers/' + this.profile.id + '/timetable/', { headers })
+        await axios(this.$url + 'teachers/' + this.profile.id + '/timetable/?day=' + 
+        this.$route.query.date, { headers })
             .then(response => this.all_classes = response.data);
     }
 }

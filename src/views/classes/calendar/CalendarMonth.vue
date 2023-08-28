@@ -42,6 +42,10 @@ export default {
         }
     },
     mounted() {
+        // Проверка на високосный год
+        if(this.month_number == 2 && (new Date(this.year, 1, 29).getMonth() == 1)) {
+            this.months[1].len = 29;
+        }
         this.dates = this.get_calendar_on_month(this.month_number, this.year);
         this.month_name = this.months[this.month_number - 1].name;
     },

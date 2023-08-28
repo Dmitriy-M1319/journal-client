@@ -21,6 +21,7 @@
 <script>
 import JournalStudentRow from './JournalStudentRow.vue';
 import JournalAddColumn from './JournalAddColumn.vue';
+import ErrorModal from '../ErrorModal.vue';
 import axios from 'axios';
 
 export default {
@@ -51,7 +52,16 @@ export default {
             this.platoon + '/journal/?subj_id=' + this.subject, { headers })
             .then(response => {
                 this.journal_table = response.data;
+            })
+            .catch(error => {
+                this.$modal.show(
+                    ErrorModal,
+                    { detail: error.response.data.detail},
+                    { clickToClose: false, height: '180px' },
+                )
+                return;
             });
+
         await axios.get(this.$url + 'platoons/' +
             this.platoon + '/classes/?subj_id=' + this.subject, { headers })
             .then(response => {

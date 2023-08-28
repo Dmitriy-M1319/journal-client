@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </header>
-            <div :class="{ 'mask': true, ' d-flex align-items-center': !isToken() }">
+            <div :class="{ ' d-flex align-items-center': !isToken() }">
                 <router-view class="view" :is_student="isStudent()" :profile="this.profile" :token="isToken()" />
             </div>
     </div>

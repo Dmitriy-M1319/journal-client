@@ -6,9 +6,8 @@
                     <h4>Состав {{ $route.params.number }} взвода</h4>
                 </div>
                 <div class="card-body">
-                    <div class="scroll-item">
                         <div class="table-responsive">
-                            <table class="table table-bordered border-dark">
+                            <table class="table scroll-table table-bordered border-dark">
                                 <thead>
                                     <tr>
                                         <td style="width: 65px;">Номер</td>
@@ -30,8 +29,6 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-
                 </div>
             </div>
         </div>
@@ -74,10 +71,9 @@ export default {
 </script>
 
 <style scoped>
-.scroll-item {
-    width: 1200px;
+.scroll-table {
+    width: 1300px;
     height: 100%;
-    overflow-y: scroll;
 }
 
 .center_div {

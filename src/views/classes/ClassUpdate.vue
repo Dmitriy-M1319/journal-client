@@ -3,7 +3,7 @@
         <div class="col-10 bg-header-color p-3">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="text-center">Создать новое занятие</h4>
+                    <h4 class="text-center">Редактировать занятие</h4>
                 </div>
                 <div class="card-body">
                     <form @submit.prevent="onClassCreateSubmit">

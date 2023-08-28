@@ -33,27 +33,32 @@
 
                         <label class="form-label" for="year">6. Введите приказ о зачислении: </label>
                         <input class="form-control" type="text" v-model="enrollment" />
-                        <div class="row justify-content-center mt-2">
+                        <div class="row justify-content-center mt-2 mb-2">
                             <div class="col-2">
                                 <input class="btn btn-success" type="submit" value="Редактировать" />
                             </div>
                         </div>
                     </form>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col justify-content-center">
-                    <router-link class="btn btn-primary" :to="'/platoons/' + $route.params.number + '/students/create'">
-                        Добавить нового студента
-                    </router-link>
-                </div>
-                <div class="col justify-content-center">
-                    <router-link class="btn btn-primary" :to="'/platoons/' + $route.params.number + '/students/update'">
-                        Редактировать состав
-                    </router-link>
+                    <div class="card-footer">
+                        <div class="row justify-content-center">
+                            <div class="col-3">
+                                <router-link class="btn btn-primary"
+                                    :to="'/platoons/' + $route.params.number + '/students/create'">
+                                    Добавить нового студента
+                                </router-link>
+                            </div>
+                            <div class="col-3">
+                                <router-link class="btn btn-primary"
+                                    :to="'/platoons/' + $route.params.number + '/students/update'">
+                                    Редактировать состав
+                                </router-link>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 

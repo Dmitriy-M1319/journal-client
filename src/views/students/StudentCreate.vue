@@ -62,6 +62,7 @@
 
 <script>
 import axios from 'axios';
+import ErrorModal from '../ErrorModal.vue';
 
 export default {
     name: 'StudentCreate',
@@ -76,7 +77,6 @@ export default {
             patronymic: '',
             military_post: '',
             platoon: 1,
-            military_post: '',
             department: '',
             group_number: 0,
             birth_year: 0,
@@ -133,7 +133,15 @@ export default {
             }
 
             await axios.post(this.$url + 'students/', data, { headers })
-                .then(response => this.$router.push('/platoons/' + this.platoon.platoon_number + '/'));
+                .then(response => this.$router.push('/platoons/' + this.platoon.platoon_number + '/'))
+                .catch(error => {
+                this.$modal.show(
+                    ErrorModal,
+                    { detail: error.response.data.detail},
+                    { clickToClose: false, height: '180px' },
+                )
+                return;
+            });
         }
     },
 }

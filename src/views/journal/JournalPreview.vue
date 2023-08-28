@@ -95,13 +95,11 @@ export default {
     },
     methods: {
         onSubmit() {
-            console.log('submit');
             if (!this.isStudent()) {
                 this.is_open = this.subject != 0 && this.platoon != 0;
             } else {
                 this.is_open = this.subject != 0;
             }
-            console.log(this.is_open);
             this.reload += 1;
             this.$forceUpdate();
         },

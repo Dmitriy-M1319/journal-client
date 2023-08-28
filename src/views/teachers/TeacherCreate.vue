@@ -28,10 +28,8 @@
                             <p><input class="form-check-input" type="radio" v-model="teacher_role" value="1" />Преподаватель
                                 с правами администратора</p>
                         </div>
-                        <label class="form-label" for="rank">8. Выберите логин преподавателя: </label>
-                        <select class="form-select" v-model="user">
-                            <option v-for="u in users" :value="u.id">{{ u.username }}</option>
-                        </select>
+                        <label class="form-label" for="rank">8. Введите логин преподавателя: </label>
+                        <input class="form-control" type="text" v-model="user" />
                         <div class="row justify-content-center pt-3">
                             <div class="col-2">
                                 <input class="btn btn-success" type="submit" value="Добавить" />
@@ -47,6 +45,7 @@
 
 <script>
 import axios from 'axios';
+import ErrorModal from '../ErrorModal.vue';
 
 const ranks = [
     'лейтенант',
@@ -65,7 +64,7 @@ export default {
         return {
             ranks,
             users: [],
-            user: 0,
+            user: '',
             surname: '',
             name: '',
             patronymic: '',
@@ -88,31 +87,39 @@ export default {
             });
     },
     methods: {
-        async onTeacherCreateSubmit() {
-            const headers = {
-                'accept': "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Token ' + localStorage.token,
-            };
+        onTeacherCreateSubmit() {
+            this.users.forEach(local_user => {
+                if (local_user.username == this.user) {
+                    const headers = {
+                        'accept': "application/json",
+                        "Content-Type": "application/json",
+                        'Authorization': 'Token ' + localStorage.token,
+                    };
 
-            const data = {
-                user: this.user,
-                surname: this.surname,
-                name: this.name,
-                patronymic: this.patronymic,
-                military_post: this.military_post,
-                military_rank: this.military_rank,
-                teacher_role: this.teacher_role,
-                cycle: this.cycle
-            }
+                    const data = {
+                        user: local_user.id,
+                        surname: this.surname,
+                        name: this.name,
+                        patronymic: this.patronymic,
+                        military_post: this.military_post,
+                        military_rank: this.military_rank,
+                        teacher_role: this.teacher_role,
+                        cycle: this.cycle
+                    }
 
+                    axios.post(this.$url + 'teachers/', data, { headers })
+                        .then(response => this.$router.push('/teachers'));
+                }
+            });
 
-            await axios.post(this.$url + 'teachers/', data, { headers })
-                .then(response => this.$router.push('/teachers'));
+            this.$modal.show(
+                ErrorModal,
+                { detail: 'Введенный логин пользователя не зарегистрирован администратором' },
+                { clickToClose: false, height: '180px' },
+            )
         },
     },
 }
 </script>
 
-<style>
-</style>
+<style></style>

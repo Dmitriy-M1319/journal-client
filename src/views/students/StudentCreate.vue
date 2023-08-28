@@ -25,9 +25,7 @@
                         </label>
                         <input class="form-control" type="text" v-model="department" />
                         <label class="form-label" for="rank">6. Выберите логин студента: </label>
-                        <select class="form-select" v-model="user">
-                            <option v-for="u in users" :value="u.id">{{ u.username }}</option>
-                        </select>
+                        <input class="form-control" type="text" v-model="user" />
                         <label class="form-label" for="group">7. Введите номер группы в вузе: </label>
                         <input class="form-control" type="text" v-model="group_number" />
                         <label class="form-label" for="birth_year">8. Введите год рождения: </label>
@@ -71,7 +69,7 @@ export default {
         return {
             users: [],
             platoon: {},
-            user: 0,
+            user: '',
             surname: '',
             name: '',
             patronymic: '',
@@ -107,45 +105,53 @@ export default {
     },
     methods: {
         async onStudentCreateSubmit() {
-            const headers = {
-                'accept': "application/json",
-                "Content-Type": "application/json",
-                'Authorization': 'Token ' + localStorage.token,
-            };
+            this.users.forEach(local_user => {
+                if (local_user.username == this.user) {
+                    const headers = {
+                        'accept': "application/json",
+                        "Content-Type": "application/json",
+                        'Authorization': 'Token ' + localStorage.token,
+                    };
 
-            const data = {
-                user: this.user,
-                surname: this.surname,
-                name: this.name,
-                patronymic: this.patronymic,
-                military_post: this.military_post,
-                platoon: this.platoon.platoon_number,
-                military_post: this.military_post,
-                department: this.department,
-                group_number: this.group_number,
-                birth_year: this.birth_year,
-                order_of_expulsion: this.order_of_expulsion,
-                marital_status: this.marital_status,
-                address: this.address,
-                phone_number: this.phone_number,
-                public_load: this.public_load,
-                sports_category: this.sports_category,
-            }
+                    const data = {
+                        user: local_user.id,
+                        surname: this.surname,
+                        name: this.name,
+                        patronymic: this.patronymic,
+                        military_post: this.military_post,
+                        platoon: this.platoon.platoon_number,
+                        military_post: this.military_post,
+                        department: this.department,
+                        group_number: this.group_number,
+                        birth_year: this.birth_year,
+                        order_of_expulsion: this.order_of_expulsion,
+                        marital_status: this.marital_status,
+                        address: this.address,
+                        phone_number: this.phone_number,
+                        public_load: this.public_load,
+                        sports_category: this.sports_category,
+                    }
 
-            await axios.post(this.$url + 'students/', data, { headers })
-                .then(response => this.$router.push('/platoons/' + this.platoon.platoon_number + '/'))
-                .catch(error => {
-                this.$modal.show(
-                    ErrorModal,
-                    { detail: error.response.data.detail},
-                    { clickToClose: false, height: '180px' },
-                )
-                return;
+                    axios.post(this.$url + 'students/', data, { headers })
+                        .then(response => this.$router.push('/platoons/' + this.platoon.platoon_number + '/'))
+                        .catch(error => {
+                            this.$modal.show(
+                                ErrorModal,
+                                { detail: error.response.data.detail },
+                                { clickToClose: false, height: '180px' },
+                            )
+                            return;
+                        });
+                }
             });
+            this.$modal.show(
+                ErrorModal,
+                { detail: 'Введенный логин пользователя не зарегистрирован администратором' },
+                { clickToClose: false, height: '180px' },
+            );
         }
     },
 }
 </script>
 
-<style>
-</style>
+<style></style>

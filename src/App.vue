@@ -55,7 +55,7 @@
                     </div>
                 </div>
             </header>
-            <div :class="{ ' d-flex align-items-center': !isToken() }">
+            <div :class="{'mask': true, 'd-flex align-items-center': !isToken() }">
                 <router-view class="view" :is_student="isStudent()" :profile="this.profile" :token="isToken()" />
             </div>
     </div>
@@ -121,7 +121,7 @@ header {
 }
 
 body {
-    background-image: url('@/assets/35.jpg');
+    background-image: url('@/assets/background.jpg');
     width: 100%;
     height: 100vh;
     background-repeat: no-repeat;

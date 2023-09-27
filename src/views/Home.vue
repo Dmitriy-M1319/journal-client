@@ -1,7 +1,7 @@
 <template>
     <div v-if="!token" class="row">
         <div class="col-12">
-            <div class="text-white text-center">
+            <div class="text-black text-center">
                 <h3>Добро пожаловать в "Электронный журнал для ВУЦ при ВГУ"</h3>
                 <p>Для начала работы войдите в систему</p>
             </div>

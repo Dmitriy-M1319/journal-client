@@ -25,7 +25,6 @@
                                                     class="nav-link text-white">Расписание</router-link>
                                             </li>
                                             <li v-else class="nav-item">
-                                                <!-- <router-link :is="isToken() ? 'router-link' : 'span'" to="/classes" -->
                                                 <router-link :is="isToken() ? 'router-link' : 'span'" 
                                                 :to="'/teachers/' + 1 + '/classes_dates'"
                                                     class="nav-link text-white">Мои занятия</router-link>

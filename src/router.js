@@ -105,5 +105,9 @@ export default new VueRouter({
       name: "platoon-journal",
       component: () => import("@/views/journal/Journal"),
     },
+    {
+      path: "/register",
+      component: () => import("@/views/users/RegisterNewUser"),
+    },
   ],
 });

@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </header>
-            <div :class="{'mask': true, 'd-flex align-items-center': !isToken() }">
+            <div :class="{'d-flex align-items-center': !isToken() }">
                 <router-view class="view" :is_student="isStudent()" :profile="this.profile" :token="isToken()" />
             </div>
     </div>
@@ -120,10 +120,10 @@ header {
 }
 
 body {
-    background-image: url('@/assets/background.jpg');
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    -webkit-linear-gradient(left, #ff8867, #dab8c9, #9dd3ff);
     width: 100%;
     height: 100vh;
-    background-repeat: no-repeat;
     background-size: cover;
 }
 
@@ -133,8 +133,7 @@ body {
 }
 
 .mask {
-    width: 100%;
-    height: 100%;
+    background-blend-mode: multiply;
     background-color: rgba(0, 0, 0, 0.4);
 }
 

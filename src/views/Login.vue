@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div class="row justify-content-center">
-            <div class="col-4">
+        <div class="vertical_align row align-items-center justify-content-center">
+            <div class="col-4 ">
                 <section id="login">
                     <div class="container">
                         <div class="text-white">
@@ -92,10 +92,10 @@ header {
 }
 
 body {
-    background-image: url('@/assets/background.jpg');
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    -webkit-linear-gradient(left, #ff8867, #dab8c9, #9dd3ff);
     width: 100%;
     height: 100vh;
-    background-repeat: no-repeat;
     background-size: cover;
     font-family: "IBM Plex Sans", sans-serif;
 }
@@ -103,12 +103,6 @@ body {
 .bg-header-color {
     background-color: #0067b4;
     border-radius: 5px;
-}
-
-.mask {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
 }
 
 h4 {
@@ -119,5 +113,10 @@ h4 {
     padding: 10px;
     background-color: #0067b4;
     border-radius: 5px;
+}
+
+.vertical_align {
+    width: 100%;
+    height: 100vh;
 }
 </style>

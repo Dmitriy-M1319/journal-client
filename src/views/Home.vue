@@ -1,5 +1,5 @@
 <template>
-    <div v-if="!token" class="row">
+    <div v-if="!token" class="vertical_align row align-items-center">
         <div class="col-12">
             <div class="text-black text-center">
                 <h3>Добро пожаловать в "Электронный журнал для ВУЦ при ВГУ"</h3>
@@ -43,5 +43,9 @@ export default {
     min-width: 70%;
     float: left;
     margin-right: 5px;
+}
+.vertical_align {
+    width: 100%;
+    height: 100vh;
 }
 </style>

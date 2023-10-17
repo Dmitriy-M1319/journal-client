@@ -1,19 +1,11 @@
-FROM debian:latest
+FROM node:18-alpine as build-stage
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY ./ .
+RUN npm run build
 
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt update && apt install -y nodejs npm && rm -rf /var/lib/apt/lists/*
-RUN npm install -g yarn
-
-WORKDIR /client
-
-COPY package.json /client/
-RUN yarn global add @vue/cli
-RUN yarn install
-
-COPY . /client/
-WORKDIR /client
-
-EXPOSE 8080
-
-CMD ["yarn", "serve"]
+FROM nginx as production-stage
+RUN mkdir /app
+COPY --from=build-stage /app/dist /app
+COPY nginx.conf /etc/nginx/nginx.conf

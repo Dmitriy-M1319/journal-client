@@ -1,5 +1,5 @@
 <template>
-    <div class="container overflow-hidden p-4">
+    <div class="container overflow-hidden mx-auto p-4">
         <div class="row mb-1 p-1">
             <div class="col-md-12 bg-header-color p-2">
                 <div class="card">

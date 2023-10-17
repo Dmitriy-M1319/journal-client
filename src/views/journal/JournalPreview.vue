@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="container mx-auto">
         <div class="row justify-content-center p-2">
             <div class="col-12 bg-header-color p-2">
                 <div class="card">

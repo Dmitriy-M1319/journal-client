@@ -34,6 +34,7 @@
 <script>
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import ErrorModal from './ErrorModal.vue';
 
 export default {
     name: 'Login',
@@ -45,6 +46,13 @@ export default {
         }
     },
     methods: {
+        sh_error(msg) {
+            this.$modal.show(
+                ErrorModal,
+                { detail: msg },
+                { clickToClose: false, height: '180px' },
+            );
+        },
         async onSubmit() {
             const data = {
                 username: this.username,
@@ -56,7 +64,11 @@ export default {
                 'X-CSRFToken': Cookies.get('csrftoken')
             };
 
-            const response = await axios.post(this.$url + 'auth/token/login/', data, { headers });
+            const response = await axios.post(this.$url + 'auth/token/login/', data, { headers })
+                    .catch(error => this.sh_error('Неправильный логин или пароль!'));
+            if(response === undefined) {
+                this.$forceUpdate();
+            }
             localStorage.setItem('token', response.data.auth_token);
             localStorage.setItem('is_student', this.person_type === 'Студент');
 
@@ -93,7 +105,7 @@ header {
 
 body {
     background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
-    -webkit-linear-gradient(left, #ff8867, #dab8c9, #9dd3ff);
+        -webkit-linear-gradient(left, #ff8867, #dab8c9, #9dd3ff);
     width: 100%;
     height: 100vh;
     background-size: cover;

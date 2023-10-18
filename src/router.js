@@ -109,5 +109,9 @@ export default new VueRouter({
       path: "/register",
       component: () => import("@/views/users/RegisterNewUser"),
     },
+    {
+      path: "/change_password",
+      component: () => import("@/views/users/ChangeUserPassword"),
+    },
   ],
 });

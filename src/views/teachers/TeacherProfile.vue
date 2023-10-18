@@ -11,8 +11,16 @@
                     <p>Воинская должность: {{ profile.military_post }}</p>
                     <p>Цикл на кафедре: {{ profile.cycle }}</p>
                 </div>
-                <div v-if="profile.teacher_role == 1" class="card-footer">
-                    <router-link class="btn btn-primary" to="/register">Зарегистрировать пользователя</router-link>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col">
+                            <router-link v-if="profile.teacher_role == 1" class="btn btn-primary"
+                                to="/register">Зарегистрировать пользователя</router-link>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <router-link class="btn btn-success" to="/change_password">Сменить пароль</router-link>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

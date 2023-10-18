@@ -5,7 +5,7 @@ import VModal from 'vue-js-modal'
 import 'bootstrap/dist/css/bootstrap.css';
 
 Vue.config.productionTip = false;
-Vue.prototype.$url = "http://127.0.0.1:8000/";
+Vue.prototype.$url = "http://193.233.18.42/api/v1/";
 
 Vue.use(VModal)
 

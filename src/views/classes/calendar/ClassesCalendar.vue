@@ -4,7 +4,14 @@
             <div class="col-10 bg-header-color p-2">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="fw-bold text-uppercase text-center">Календарь занятий на {{ year }} год</h4>
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="fw-bold text-uppercase ">Календарь занятий на {{ year }} год</h4>
+                            </div>
+                            <div class="col d-flex justify-content-end">
+                                <router-link class="btn btn-success" to="/classes/create" v-bind:profile="profile">+</router-link>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -10,7 +10,7 @@
                             </div>
                             <div class="col-md-3 col-sm-5 d-flex justify-content-end">
                                 <router-link class="btn btn-success" v-if="!is_student && profile.teacher_role === 1"
-                                    :to=" { name: 'subject-create', query: { is_create: true } }">+</router-link>
+                                    :to="{ name: 'subject-create', query: { is_create: true } }">+</router-link>
                             </div>
                         </div>
                     </div>
@@ -19,6 +19,19 @@
         </div>
         <div class="row gx-4">
             <Subject v-for="s in subjects" v-bind:subject="s" v-bind:profile="profile" />
+        </div>
+        <div class="row mt-1 p-1">
+            <div class="col-md-12 bg-header-color p-2">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <router-link class="btn btn-secondary" :to="'/directions/'">Направления</router-link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>

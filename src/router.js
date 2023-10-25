@@ -32,7 +32,20 @@ export default new VueRouter({
     },
     {
       path: "/platoons/:number/students/update",
-      component: () => import("@/views/platoons/students/PlatoonStudentsUpdate"),
+      component: () =>
+        import("@/views/platoons/students/PlatoonStudentsUpdate"),
+    },
+    {
+      path: "/directions",
+      component: () => import("@/views/directions/DirectionList"),
+    },
+    {
+      path: "/directions/create",
+      component: () => import("@/views/directions/DirectionCreate"),
+    },
+    {
+      path: "/directions/:id",
+      component: () => import("@/views/directions/DirectionUpdate"),
     },
     {
       path: "/classes",
